@@ -1,4 +1,3 @@
-import hero from '@/assets/bookwise-hero.png'
 import githubLogo from '@/assets/github-logo.svg'
 import googleLogo from '@/assets/google-logo.svg'
 import rocketLogo from '@/assets/rocket-logo.svg'
