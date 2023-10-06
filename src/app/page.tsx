@@ -1,8 +1,10 @@
+'use client'
+
 import githubLogo from '@/assets/github-logo.svg'
 import googleLogo from '@/assets/google-logo.svg'
 import rocketLogo from '@/assets/rocket-logo.svg'
 import Image from 'next/image'
-
+import { signIn } from 'next-auth/react'
 import '@/styles/app/page.css'
 
 export default function Home() {
@@ -14,7 +16,7 @@ export default function Home() {
           <p>Faça seu login ou acesse como visitante.</p>
         </header>
         <ul>
-          <li>
+          <li onClick={() => signIn('google')}>
             <Image
               src={googleLogo}
               width={24}
@@ -23,7 +25,7 @@ export default function Home() {
             />
             Entrar com Google
           </li>
-          <li>
+          <li onClick={() => signIn('github')}>
             <Image
               src={githubLogo}
               width={24}
