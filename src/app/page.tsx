@@ -6,8 +6,17 @@ import rocketLogo from '@/assets/rocket-logo.svg'
 import Image from 'next/image'
 import { signIn } from 'next-auth/react'
 import '@/styles/app/page.css'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const router = useRouter()
+
+  function handleSignIn(provider?: 'google' | 'github') {
+    if (provider) signIn(provider, { callbackUrl: '/home' })
+
+    router.push('/home')
+  }
+
   return (
     <main>
       <div className="loginMenu">
@@ -16,7 +25,7 @@ export default function Home() {
           <p>Faça seu login ou acesse como visitante.</p>
         </header>
         <ul>
-          <li onClick={() => signIn('google')}>
+          <li onClick={() => handleSignIn('google')}>
             <Image
               src={googleLogo}
               width={24}
@@ -25,7 +34,7 @@ export default function Home() {
             />
             Entrar com Google
           </li>
-          <li onClick={() => signIn('github')}>
+          <li onClick={() => handleSignIn('github')}>
             <Image
               src={githubLogo}
               width={24}
@@ -34,7 +43,7 @@ export default function Home() {
             />
             Entrar com GitHub
           </li>
-          <li>
+          <li onClick={() => handleSignIn()}>
             <Image
               src={rocketLogo}
               width={24}
