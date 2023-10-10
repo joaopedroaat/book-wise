@@ -7,9 +7,14 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    backgroundImage: {
+      'bookwise-cover': "url('/book-wise-cover.svg')",
+    },
     colors: {
       white: '#FFFFFF',
       black: '#000000',
+
+      transparent: 'transparent',
 
       green: {
         100: '#50B2C0',
@@ -33,8 +38,9 @@ const config: Config = {
         800: '#0E1116',
       },
 
-      'gradient-vertical': `linear-gradient(180deg, #7FD1CC 0%, #9694F5 100%)`,
-      'gradient-horizontal': `linear-gradient(90deg, #7FD1CC 0%, #9694F5 100%)`,
+      red: {
+        100: '#F75A68',
+      },
     },
   },
   plugins: [],

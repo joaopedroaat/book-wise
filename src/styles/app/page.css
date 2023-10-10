@@ -1,23 +1,27 @@
-main {
-  @apply w-full h-screen flex flex-col justify-center items-center
+.container {
+  @apply w-full h-screen p-5 grid grid-cols-5
 }
 
-.loginMenu {
+aside {
+  @apply col-span-2 w-full flex items-center justify-center rounded-lg h-full bg-cover bg-bookwise-cover
+}
+
+main {
+  @apply col-span-3 flex flex-col justify-center items-center
+}
+
+.login-menu {
   @apply w-96
 }
 
-.loginMenu > header {
+.login-menu > header {
   @apply mb-10
 }
 
-.loginMenu > header > h1 {
-  @apply text-2xl text-gray-100 leading-3
-}
-
-.loginMenu ul {
+.login-menu > ul {
   @apply list-none flex flex-col gap-5 p-0
 }
 
-.loginMenu ul > li {
+.login-menu > ul > li {
   @apply bg-gray-600 flex items-center gap-5 py-5 px-6 rounded-lg cursor-pointer hover:bg-gray-500 font-bold
 }
