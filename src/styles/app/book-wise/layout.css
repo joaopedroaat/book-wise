@@ -1,0 +1,54 @@
+/* Container */
+.bookwise-layout-container {
+  @apply w-full h-screen p-5 grid grid-cols-12
+}
+
+/* Container - Aside */
+.bookwise-layout-container > aside {
+  @apply col-span-2 p-7 rounded-xl bg-gray-700 flex flex-col items-center
+}
+
+/* Container - Aside - Header */
+.bookwise-layout-container > aside > header {
+  @apply mb-16
+}
+
+/* Container - Aside - Main */
+.bookwise-layout-container > aside > main > nav {
+  @apply flex flex-col gap-4
+}
+
+.bookwise-layout-container > aside > main > nav > a {
+  @apply flex items-center gap-3 text-lg font-bold text-gray-400 no-underline
+}
+
+/* Container - Aside - Footer */
+.bookwise-layout-container > aside > footer {
+  @apply mt-auto
+}
+
+.bookwise-layout-container > aside > footer > .authenticated-options {
+  @apply flex items-center gap-3
+}
+
+.bookwise-layout-container > aside > footer > .authenticated-options > a {
+  @apply text-gray-200 no-underline flex items-center gap-3
+}
+
+.bookwise-layout-container > aside > footer > .authenticated-options > a > img {
+  @apply rounded-full
+}
+
+.bookwise-layout-container > aside > footer > .authenticated-options > button {
+  @apply bg-transparent border-none text-red-100 cursor-pointer
+}
+
+.bookwise-layout-container > aside > footer > .unauthenticated-options {
+  @apply bg-white
+}
+
+
+/* Container - Main */
+.bookwise-layout-container > main {
+  @apply col-span-10 px-24 py-14
+}

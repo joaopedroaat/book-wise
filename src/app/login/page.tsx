@@ -9,13 +9,13 @@ import '@/styles/app/login/page.css'
 import { useRouter } from 'next/navigation'
 import bookWiseLogo from '@/assets/book-wise-logo.svg'
 
-export default function Home() {
+export default function Login() {
   const router = useRouter()
 
   function handleSignIn(provider?: 'google' | 'github') {
-    if (provider) signIn(provider, { callbackUrl: '/home' })
+    if (provider) signIn(provider, { callbackUrl: '/book-wise/home' })
 
-    router.push('/home')
+    router.push('/book-wise/home')
   }
 
   return (

@@ -1,3 +1,3 @@
 export default function Home() {
-  return <p>Hello from Home</p>
+  return <h1>Hello from Home!</h1>
 }
