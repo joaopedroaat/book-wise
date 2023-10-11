@@ -5,7 +5,7 @@ import googleLogo from '@/assets/google-logo.svg'
 import rocketLogo from '@/assets/rocket-logo.svg'
 import Image from 'next/image'
 import { signIn } from 'next-auth/react'
-import '@/styles/app/page.css'
+import '@/styles/app/login/page.css'
 import { useRouter } from 'next/navigation'
 import bookWiseLogo from '@/assets/book-wise-logo.svg'
 
