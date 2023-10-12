@@ -7,5 +7,5 @@
 }
 
 .navigation-menu-container > a.active {
-  @apply text-gray-200 after:content-[''] after:block after:absolute after:w-1 after:h-6 after:-left-4 after:bg-green-200
+  @apply text-gray-200 after:content-[''] after:block after:absolute after:w-1 after:h-6 after:-left-4 after:bg-green-200 after:rounded-lg
 }
