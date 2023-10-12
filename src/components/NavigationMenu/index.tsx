@@ -1,5 +1,6 @@
 'use client'
 
+import bookWiseLogo from '@/assets/book-wise-logo.svg'
 import {
   Binoculars,
   ChartLineUp,
@@ -7,12 +8,13 @@ import {
   SignOut,
   User,
 } from '@phosphor-icons/react'
+import { Session } from 'next-auth'
+import { signOut } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import './styles.css'
-import { Session } from 'next-auth'
-import bookWiseLogo from '@/assets/book-wise-logo.svg'
-import Image from 'next/image'
 
 interface NavigationMenuProps {
   session: Session | null
@@ -25,8 +27,14 @@ export function NavigationMenu({ session }: NavigationMenuProps) {
 
   const isAuthenticated = !!session?.user
 
+  const pathName = usePathname()
+
   function handleChangePage(page: Pages) {
     if (currentPage !== page) setCurrentPage(page)
+  }
+
+  function handleLogout() {
+    signOut({ callbackUrl: pathName })
   }
 
   return (
@@ -83,7 +91,7 @@ export function NavigationMenu({ session }: NavigationMenuProps) {
               />
               <span>{session.user?.name}</span>
             </Link>
-            <button>
+            <button onClick={handleLogout}>
               <SignOut size={24} />
             </button>
           </div>
