@@ -1,52 +1,11 @@
-/* Container */
 .navigation-menu-container {
-  @apply w-full h-full p-7 rounded-xl bg-gray-700 flex flex-col items-center
-}
-
-/* Container - Header */
-.navigation-menu-container > header {
-  @apply mb-16
-}
-
-
-/* Container - Main */
-.navigation-menu-container > main > nav {
   @apply flex flex-col gap-4
 }
 
-.navigation-menu-container > main > nav > a {
+.navigation-menu-container > a {
   @apply flex items-center gap-3 text-lg font-bold text-gray-400 no-underline hover:text-gray-300 relative
 }
 
-.navigation-menu-container > main > nav > a.active {
+.navigation-menu-container > a.active {
   @apply text-gray-200 after:content-[''] after:block after:absolute after:w-1 after:h-6 after:-left-4 after:bg-green-200
-}
-
-/* Container - Footer */
-.navigation-menu-container > footer {
-  @apply mt-auto text-base
-}
-
-.navigation-menu-container > footer > .authenticated-options {
-  @apply flex items-center gap-3
-}
-
-.navigation-menu-container > footer > .authenticated-options > a {
-  @apply text-gray-200 no-underline flex items-center gap-3
-}
-
-.navigation-menu-container > footer > .authenticated-options > a > img {
-  @apply rounded-full
-}
-
-.navigation-menu-container > footer > .authenticated-options > button {
-  @apply bg-transparent border-none text-red-100 cursor-pointer
-}
-
-.navigation-menu-container > footer > .unauthenticated-options {
-  @apply bg-transparent border-none flex items-center gap-3 text-gray-200 font-bold cursor-pointer text-base
-}
-
-.navigation-menu-container > footer > .unauthenticated-options > svg {
-  @apply text-green-100
 }
