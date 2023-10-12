@@ -1,0 +1,15 @@
+.profile-container {
+  @apply flex items-center gap-3
+}
+
+.profile-container > a {
+  @apply text-gray-200 no-underline flex items-center gap-3
+}
+
+.profile-container > a > img {
+  @apply rounded-full
+}
+
+.profile-container > button {
+  @apply bg-transparent border-none text-red-100 cursor-pointer
+}

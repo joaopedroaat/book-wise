@@ -1,10 +1,10 @@
 import { BookWiseIcon } from '@/components/BookWiseIcon'
 import { NavigationMenu } from '@/components/NavigationMenu'
+import { SessionSwitcher } from '@/components/SessionSwitcher'
 import { getServerSession } from 'next-auth'
+import Link from 'next/link'
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import './layout.css'
-import { AuthenticationFooter } from '@/components/AuthenticationFooter'
-import Link from 'next/link'
 
 export default async function HomeLayout({
   children,
@@ -26,7 +26,7 @@ export default async function HomeLayout({
           <NavigationMenu isAuthenticated={isAuthenticated} />
         </main>
         <footer>
-          <AuthenticationFooter session={session} />
+          <SessionSwitcher session={session} />
         </footer>
       </aside>
       <main>{children}</main>
