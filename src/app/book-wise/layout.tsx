@@ -1,6 +1,6 @@
 import bookWiseLogo from '@/assets/book-wise-logo.svg'
 import { Menu } from '@/components/Menu'
-import '@/styles/app/book-wise/layout.css'
+import './layout.css'
 import { SignIn, SignOut } from '@phosphor-icons/react/dist/ssr/index'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
