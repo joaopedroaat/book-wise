@@ -72,7 +72,7 @@ export default async function HomeLayout({
           {!isAuthenticated && (
             <button className="unauthenticated-options">
               Fazer login
-              <SignIn size={32} />
+              <SignIn size={20} />
             </button>
           )}
         </footer>

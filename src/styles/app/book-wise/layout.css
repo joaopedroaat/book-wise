@@ -48,9 +48,12 @@
 }
 
 .bookwise-layout-container > aside > footer > .unauthenticated-options {
-  @apply bg-white
+  @apply bg-transparent border-none flex items-center gap-3 text-gray-200 font-bold cursor-pointer
 }
 
+.bookwise-layout-container > aside > footer > .unauthenticated-options > svg {
+  @apply text-green-100
+}
 
 /* Container - Main */
 .bookwise-layout-container > main {
