@@ -1,11 +1,7 @@
-import bookWiseLogo from '@/assets/book-wise-logo.svg'
-import { Menu } from '@/components/Menu'
-import './layout.css'
-import { SignIn, SignOut } from '@phosphor-icons/react/dist/ssr/index'
+import { NavigationMenu } from '@/components/NavigationMenu'
 import { getServerSession } from 'next-auth'
-import Image from 'next/image'
-import Link from 'next/link'
 import { authOptions } from '../api/auth/[...nextauth]/route'
+import './layout.css'
 
 export default async function HomeLayout({
   children,
@@ -13,48 +9,11 @@ export default async function HomeLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions)
-  const isAuthenticated = !!session?.user
 
   return (
     <div className="bookwise-layout-container">
       <aside>
-        <header>
-          <Link href="/book-wise/home">
-            <Image
-              src={bookWiseLogo}
-              width={128}
-              height={32}
-              alt="BookWise logo."
-            />
-          </Link>
-        </header>
-        <main>
-          <Menu isAuthenticated={isAuthenticated} />
-        </main>
-        <footer>
-          {isAuthenticated && (
-            <div className="authenticated-options">
-              <Link href="/book-wise/profile">
-                <Image
-                  src={session.user?.image || ''}
-                  width={32}
-                  height={32}
-                  alt={`${session.user?.name} profile picture.`}
-                />
-                <span>{session.user?.name}</span>
-              </Link>
-              <button>
-                <SignOut size={24} />
-              </button>
-            </div>
-          )}
-          {!isAuthenticated && (
-            <button className="unauthenticated-options">
-              Fazer login
-              <SignIn size={24} />
-            </button>
-          )}
-        </footer>
+        <NavigationMenu session={session} />
       </aside>
       <main>{children}</main>
     </div>
