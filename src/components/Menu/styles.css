@@ -1,0 +1,11 @@
+nav {
+  @apply flex flex-col gap-4
+}
+
+nav > a {
+  @apply flex items-center gap-3 text-lg font-bold text-gray-400 no-underline
+}
+
+nav > a.active {
+  @apply text-gray-200
+}

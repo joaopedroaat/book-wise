@@ -13,19 +13,6 @@
   @apply mb-16
 }
 
-/* Container - Aside - Main */
-.bookwise-layout-container > aside > main > nav {
-  @apply flex flex-col gap-4
-}
-
-.bookwise-layout-container > aside > main > nav > a {
-  @apply flex items-center gap-3 text-lg font-bold text-gray-400 no-underline
-}
-
-.bookwise-layout-container > aside > main > nav > a.active {
-  @apply text-gray-200
-}
-
 /* Container - Aside - Footer */
 .bookwise-layout-container > aside > footer {
   @apply mt-auto

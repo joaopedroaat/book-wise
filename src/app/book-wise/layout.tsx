@@ -1,12 +1,7 @@
 import bookWiseLogo from '@/assets/book-wise-logo.svg'
+import { Menu } from '@/components/Menu'
 import '@/styles/app/book-wise/layout.css'
-import {
-  Binoculars,
-  ChartLineUp,
-  SignIn,
-  SignOut,
-  User,
-} from '@phosphor-icons/react/dist/ssr/index'
+import { SignIn, SignOut } from '@phosphor-icons/react/dist/ssr/index'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,7 +13,6 @@ export default async function HomeLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions)
-
   const isAuthenticated = !!session?.user
 
   return (
@@ -35,22 +29,7 @@ export default async function HomeLayout({
           </Link>
         </header>
         <main>
-          <nav>
-            <Link href="/book-wise/home">
-              <ChartLineUp size={24} />
-              Início
-            </Link>
-            <Link href="/book-wise/explore">
-              <Binoculars size={24} />
-              Explorar
-            </Link>
-            {isAuthenticated && (
-              <Link href="/book-wise/profile">
-                <User size={24} />
-                Perfil
-              </Link>
-            )}
-          </nav>
+          <Menu isAuthenticated={isAuthenticated} />
         </main>
         <footer>
           {isAuthenticated && (
