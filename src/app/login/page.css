@@ -12,19 +12,3 @@
 .login-page-container > main {
   @apply col-span-full md:col-span-3 flex flex-col justify-center items-center
 }
-
-.login-page-container > main > section {
-  @apply w-96
-}
-
-.login-page-container > main > section > header {
-  @apply mb-10
-}
-
-.login-page-container > main > section > main > ul {
-  @apply list-none flex flex-col gap-5 p-0
-}
-
-.login-page-container > main > section > main > ul > li {
-  @apply bg-gray-600 flex items-center gap-5 py-5 px-6 rounded-lg cursor-pointer hover:bg-gray-500 font-bold
-}

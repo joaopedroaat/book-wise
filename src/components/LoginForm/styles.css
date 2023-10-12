@@ -1,0 +1,18 @@
+/* Container */
+.login-form-container {
+  @apply w-96
+}
+
+/* Container - Header */
+.login-form-container > header {
+  @apply mb-10
+}
+
+/* Container - Main */
+.login-form-container > main > ul {
+  @apply list-none flex flex-col gap-5 p-0
+}
+
+.login-form-container > main > ul > li {
+  @apply bg-gray-600 flex items-center gap-5 py-5 px-6 rounded-lg cursor-pointer hover:bg-gray-500 font-bold
+}
