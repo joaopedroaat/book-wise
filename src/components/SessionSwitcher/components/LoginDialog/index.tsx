@@ -5,8 +5,13 @@ import * as Dialog from '@radix-ui/react-dialog'
 import './styles.css'
 import { GoogleIcon } from '../../../GoogleIcon'
 import { GithubIcon } from '../../../GithubIcon'
+import { signIn } from 'next-auth/react'
 
 export function LoginDialog() {
+  function handleLogin(provider: 'google' | 'github') {
+    signIn(provider)
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger className="dialog-trigger">
@@ -22,11 +27,11 @@ export function LoginDialog() {
           <header>Faça login para deixar sua avaliação</header>
           <main>
             <ul>
-              <li>
+              <li onClick={() => handleLogin('google')}>
                 <GoogleIcon />
                 Entrar com Google
               </li>
-              <li>
+              <li onClick={() => handleLogin('github')}>
                 <GithubIcon />
                 Entrar com Github
               </li>
