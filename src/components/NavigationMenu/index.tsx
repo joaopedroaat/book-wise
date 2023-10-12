@@ -2,28 +2,22 @@
 
 import { Binoculars, ChartLineUp, User } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import './styles.css'
 
 interface NavigationMenuProps {
   isAuthenticated: boolean
 }
 
-type Pages = 'home' | 'explore' | 'profile'
-
 export function NavigationMenu({ isAuthenticated }: NavigationMenuProps) {
-  const [currentPage, setCurrentPage] = useState<Pages>('home')
-
-  function handleChangePage(page: Pages) {
-    if (currentPage !== page) setCurrentPage(page)
-  }
+  const currentPath = usePathname()
+  const currentPage = currentPath.split('/').pop()
 
   return (
     <nav className="navigation-menu-container">
       <Link
         href="/book-wise/home"
         className={currentPage === 'home' ? 'active' : ''}
-        onClick={() => handleChangePage('home')}
       >
         <ChartLineUp size={24} />
         Início
@@ -31,7 +25,6 @@ export function NavigationMenu({ isAuthenticated }: NavigationMenuProps) {
       <Link
         href="/book-wise/explore"
         className={currentPage === 'explore' ? 'active' : ''}
-        onClick={() => handleChangePage('explore')}
       >
         <Binoculars size={24} />
         Explorar
@@ -40,7 +33,6 @@ export function NavigationMenu({ isAuthenticated }: NavigationMenuProps) {
         <Link
           href="/book-wise/profile"
           className={currentPage === 'profile' ? 'active' : ''}
-          onClick={() => handleChangePage('profile')}
         >
           <User size={24} />
           Perfil
