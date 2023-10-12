@@ -1,15 +1,16 @@
+import bookWiseLogo from '@/assets/book-wise-logo.svg'
+import '@/styles/app/book-wise/layout.css'
 import {
   Binoculars,
   ChartLineUp,
   SignIn,
   SignOut,
+  User,
 } from '@phosphor-icons/react/dist/ssr/index'
-import bookWiseLogo from '@/assets/book-wise-logo.svg'
-import '@/styles/app/book-wise/layout.css'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
-import { authOptions } from '../api/auth/[...nextauth]/route'
 import Link from 'next/link'
+import { authOptions } from '../api/auth/[...nextauth]/route'
 
 export default async function HomeLayout({
   children,
@@ -43,6 +44,12 @@ export default async function HomeLayout({
               <Binoculars size={24} />
               Explorar
             </Link>
+            {isAuthenticated && (
+              <Link href="/book-wise/profile">
+                <User size={24} />
+                Perfil
+              </Link>
+            )}
           </nav>
         </main>
         <footer>
