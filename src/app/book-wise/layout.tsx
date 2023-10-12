@@ -44,14 +44,14 @@ export default async function HomeLayout({
                 <span>{session.user?.name}</span>
               </Link>
               <button>
-                <SignOut size={20} />
+                <SignOut size={24} />
               </button>
             </div>
           )}
           {!isAuthenticated && (
             <button className="unauthenticated-options">
               Fazer login
-              <SignIn size={20} />
+              <SignIn size={24} />
             </button>
           )}
         </footer>

@@ -15,7 +15,7 @@
 
 /* Container - Aside - Footer */
 .bookwise-layout-container > aside > footer {
-  @apply mt-auto
+  @apply mt-auto text-base
 }
 
 .bookwise-layout-container > aside > footer > .authenticated-options {
@@ -35,7 +35,7 @@
 }
 
 .bookwise-layout-container > aside > footer > .unauthenticated-options {
-  @apply bg-transparent border-none flex items-center gap-3 text-gray-200 font-bold cursor-pointer
+  @apply bg-transparent border-none flex items-center gap-3 text-gray-200 font-bold cursor-pointer text-base
 }
 
 .bookwise-layout-container > aside > footer > .unauthenticated-options > svg {
