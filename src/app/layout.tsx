@@ -1,3 +1,4 @@
+import { ReactQueryProvider } from '@/providers/ReactQueryProvider'
 import '@/styles/global.css'
 import type { Metadata } from 'next'
 import { Nunito_Sans } from 'next/font/google'
@@ -16,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   )
 }

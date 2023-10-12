@@ -9,5 +9,5 @@ export async function GET(request: Request) {
     take: 10,
   })
 
-  return Response.json(ratings)
+  return Response.json({ ratings })
 }
