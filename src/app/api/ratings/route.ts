@@ -13,6 +13,9 @@ export async function GET(request: Request) {
       user: includeUsers,
       book: includeBooks,
     },
+    orderBy: {
+      created_at: 'desc',
+    },
   })
 
   return Response.json({ ratings })
