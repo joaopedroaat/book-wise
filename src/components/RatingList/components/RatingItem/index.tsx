@@ -5,10 +5,5 @@ interface RatingItemProps {
 }
 
 export function RatingItem({ rating }: RatingItemProps) {
-  return (
-    <li className="rating-card-container">
-      <header>{rating.user_id}</header>
-      <main>{rating.description}</main>
-    </li>
-  )
+  return <li className="rating-card-container">{JSON.stringify(rating)}</li>
 }

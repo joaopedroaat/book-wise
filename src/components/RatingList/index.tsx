@@ -5,7 +5,11 @@ import { RatingItem } from './components/RatingItem'
 export function RatingList() {
   const { data: ratings } = useQuery({
     queryKey: ['ratings'],
-    queryFn: async () => await BookWiseService.getRatings(1),
+    queryFn: async () =>
+      await BookWiseService.getRatings({
+        includeUsers: true,
+        includeBooks: true,
+      }),
   })
 
   return (
