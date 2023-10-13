@@ -27,6 +27,8 @@ export interface Rating {
   created_at: string
   book?: Book
   user?: User
+  book_id?: string
+  user_id?: string
 }
 
 export class BookWiseService {
@@ -45,5 +47,12 @@ export class BookWiseService {
     const ratings = data.ratings as Rating[]
 
     return ratings
+  }
+
+  static async getUser(id: string): Promise<User | null> {
+    const { data } = await this.bookwiseApi.get(`users/${id}`)
+    const user = data.user as User
+
+    return user
   }
 }
