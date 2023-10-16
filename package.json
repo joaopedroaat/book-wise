@@ -24,7 +24,8 @@
     "next-auth": "^4.23.2",
     "react": "^18",
     "react-dom": "^18",
-    "react-query": "^3.39.3"
+    "react-query": "^3.39.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",

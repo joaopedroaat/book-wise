@@ -1,6 +1,6 @@
 'use client'
 
-import { RatingList } from '@/components/RatingList'
+import { RatingList } from '@/components/RecentRatingsList'
 import { ChartLineUp } from '@phosphor-icons/react'
 
 export default function Home() {

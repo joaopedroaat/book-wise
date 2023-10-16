@@ -1,0 +1,23 @@
+.recent-rating-item-container {
+  @apply bg-gray-700 p-6 rounded-lg flex flex-col gap-8 
+}
+
+.recent-rating-item-container > header {
+  @apply flex justify-between items-center
+}
+
+.recent-rating-item-container > header > .profile {
+  @apply flex items-center gap-4 no-underline text-gray-100
+}
+
+.recent-rating-item-container > header > .profile > img {
+  @apply rounded-full
+}
+
+.recent-rating-item-container > header > .profile > div {
+  @apply flex flex-col gap-0
+}
+
+.recent-rating-item-container > header > .profile > div > small {
+  @apply text-gray-400
+}
