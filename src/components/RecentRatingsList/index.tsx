@@ -15,11 +15,15 @@ export function RecentRatingList() {
   )
 
   return (
-    <ul className="rating-list-container">
-      {ratings &&
-        ratings.map((rating) => (
-          <RecentRatingItem key={rating.id} rating={rating} />
-        ))}
-    </ul>
+    <section className="rating-list-container">
+      <h1>Avaliações mais recentes</h1>
+      <ul>
+        {ratings &&
+          ratings.map((rating) => (
+            <RecentRatingItem key={rating.id} rating={rating} />
+          ))}
+      </ul>
+      s
+    </section>
   )
 }

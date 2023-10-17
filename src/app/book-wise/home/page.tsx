@@ -6,10 +6,10 @@ export default function Home() {
   return (
     <div className="home-container">
       <main>
-        <header>
+        <h1>
           <ChartLineUp size={32} />
           Início
-        </header>
+        </h1>
         <RecentRatingList />
       </main>
       <aside />
