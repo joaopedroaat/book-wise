@@ -1,50 +1,25 @@
-import { getApplicationUrl } from '@/utils/getApplicationUrl'
-import axios from 'axios'
-
-export interface User {
-  id: string
-  name: string | null
-  email: string | null
-  emailVerified: Date | null
-  image: string | null
-  created_at: string
-}
-
-export interface Book {
-  id: string
-  name: string
-  author: string
-  summary: string
-  cover_url: string
-  total_pages: number
-  created_at: string
-}
-
-export interface Rating {
-  id: string
-  rate: number
-  description: string
-  created_at: string
-  book?: Book
-  user?: User
-  book_id?: string
-  user_id?: string
-}
+import { localApi } from '@/lib/axios'
+import { Rating } from './interfaces/models/Rating'
+import { RatingWithBook } from './interfaces/models/RatingWithBook'
+import { RatingWithBookAndUser } from './interfaces/models/RatingWithBookAndUser'
+import { RatingWithUser } from './interfaces/models/RatingWithUser'
+import { User } from './interfaces/models/User'
+import { RatingResponse } from './interfaces/responses/RatingResponse'
 
 export class BookWiseService {
-  private static bookwiseApi = axios.create({
-    baseURL: getApplicationUrl() + '/api',
-  })
+  private static bookwiseApi = localApi
 
   static async getRatings({
     page = 1,
     includeUsers = false,
     includeBooks = false,
-  } = {}): Promise<Rating[]> {
-    const { data } = await this.bookwiseApi.get('ratings', {
+  } = {}): Promise<
+    Rating[] | RatingWithBook[] | RatingWithUser[] | RatingWithBookAndUser[]
+  > {
+    const { data } = await this.bookwiseApi.get<RatingResponse>('ratings', {
       params: { page, includeUsers, includeBooks },
     })
-    const ratings = data.ratings as Rating[]
+    const ratings = data.ratings
 
     return ratings
   }
