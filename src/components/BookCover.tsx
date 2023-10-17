@@ -1,17 +1,26 @@
+import { Book } from '@/services/BookWiseService'
 import Image from 'next/image'
 
 interface BookCoverProps {
-  coverUrl: string
+  book: Book
+  className?: string
   width?: number
   height?: number
-  alt: string
 }
 
 export function BookCover({
-  coverUrl,
+  book,
+  className,
   width = 108,
   height = 152,
-  alt,
 }: BookCoverProps) {
-  return <Image src={coverUrl} width={width} height={height} alt={alt} />
+  return (
+    <Image
+      className={className}
+      src={book.cover_url}
+      width={width}
+      height={height}
+      alt={`Capa do livro ${book.name}`}
+    />
+  )
 }

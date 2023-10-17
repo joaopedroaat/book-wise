@@ -4,17 +4,18 @@ import './styles.css'
 
 interface StarRatingProps {
   rating: number
+  size?: number
 }
 
-export function StarRating({ rating }: StarRatingProps) {
+export function StarRating({ rating, size = 20 }: StarRatingProps) {
   return (
     <ul className="star-rating-container">
       {new Array(5).fill(null).map((_, index) => (
         <li key={uuidv4()}>
           {index + 1 <= Math.floor(rating) ? (
-            <Star size={20} weight="fill" />
+            <Star size={size} weight="fill" />
           ) : (
-            <Star size={20} />
+            <Star size={size} />
           )}
         </li>
       ))}

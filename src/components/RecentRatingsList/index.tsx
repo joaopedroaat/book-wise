@@ -15,7 +15,7 @@ export function RecentRatingList() {
   )
 
   return (
-    <section className="rating-list-container">
+    <section className="recent-rating-list-container">
       <h1>Avaliações mais recentes</h1>
       <ul>
         {ratings &&

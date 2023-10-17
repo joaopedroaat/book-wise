@@ -1,27 +1,30 @@
+/* Container */
 .recent-rating-item-container {
   @apply bg-gray-700 p-6 rounded-lg flex flex-col gap-8 max-h-72 
 }
 
+/* Container - Header */
 .recent-rating-item-container > header {
-  @apply flex justify-between items-center
+  @apply flex justify-between items-start
 }
 
-.recent-rating-item-container > header > .profile {
-  @apply flex items-center gap-4 no-underline text-gray-100
+.recent-rating-item-container > header > .rating-info {
+  @apply flex items-center gap-4
 }
 
-.recent-rating-item-container > header > .profile > img {
-  @apply rounded-full
-}
-
-.recent-rating-item-container > header > .profile > div {
+.recent-rating-item-container > header > .rating-info > div {
   @apply flex flex-col gap-0
 }
 
-.recent-rating-item-container > header > .profile > div > small {
+.recent-rating-item-container > header > .rating-info > div > a {
+  @apply text-gray-100 no-underline
+}
+
+.recent-rating-item-container > header > .rating-info > div > small {
   @apply text-gray-400
 }
 
+/* Container - Main */
 .recent-rating-item-container > main {
   @apply flex gap-5 overflow-hidden
 }
