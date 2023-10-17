@@ -1,5 +1,5 @@
 .recent-rating-item-container {
-  @apply bg-gray-700 p-6 rounded-lg flex flex-col gap-8 
+  @apply bg-gray-700 p-6 rounded-lg flex flex-col gap-8 max-h-72 
 }
 
 .recent-rating-item-container > header {
@@ -20,4 +20,24 @@
 
 .recent-rating-item-container > header > .profile > div > small {
   @apply text-gray-400
+}
+
+.recent-rating-item-container > main {
+  @apply flex gap-5 overflow-hidden
+}
+
+.recent-rating-item-container > main > .book-details {
+  @apply flex flex-col gap-5
+}
+
+.recent-rating-item-container > main > .book-details > header > h1 {
+  @apply text-xl
+}
+
+.recent-rating-item-container > main > .book-details > header > small {
+  @apply text-gray-400
+}
+
+.recent-rating-item-container > main > .book-details > main {
+  @apply text-gray-300
 }

@@ -1,8 +1,11 @@
+'use client'
+
 import { BookWiseService } from '@/services/BookWiseService'
 import { useQuery } from 'react-query'
 import { RecentRatingItem } from './components/RecentRatingItem'
+import './styles.css'
 
-export function RatingList() {
+export function RecentRatingList() {
   const { data: ratings } = useQuery('ratings', () =>
     BookWiseService.getRatings({
       includeBooks: true,

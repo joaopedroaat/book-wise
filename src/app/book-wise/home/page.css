@@ -1,0 +1,11 @@
+.home-container {
+  @apply flex gap-16
+}
+
+.home-container > main {
+  @apply basis-2/3
+}
+
+.home-container > aside {
+  @apply bg-black flex-grow
+}
