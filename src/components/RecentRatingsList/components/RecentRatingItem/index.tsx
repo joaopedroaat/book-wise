@@ -4,6 +4,7 @@ import { StarRating } from '@/components/StarRating'
 import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
 import Link from 'next/link'
 import './styles.css'
+import { calculateDateDistance } from '@/utils/calculateDateDistance'
 
 interface RatingItemProps {
   rating: RatingWithBookAndUser
@@ -19,7 +20,7 @@ export function RecentRatingItem({ rating }: RatingItemProps) {
             <Link href={`/book-wise/profile/${rating.user.id}`}>
               {rating.user.name}
             </Link>
-            <small>{rating.created_at}</small>
+            <small>{calculateDateDistance(new Date(rating.created_at))}</small>
           </div>
         </div>
         <StarRating rating={rating.rate} size={16} />
