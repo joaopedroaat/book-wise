@@ -6,7 +6,6 @@ import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import './styles.css'
 
 interface ProfileProps {
   session: Session
@@ -20,9 +19,13 @@ export function Profile({ session }: ProfileProps) {
   }
 
   return (
-    <div className="profile-container">
-      <Link href="/book-wise/profile">
+    <div className="flex items-center gap-3">
+      <Link
+        className="text-gray-200 no-underline flex items-center gap-3"
+        href="/book-wise/profile"
+      >
         <Image
+          className="rounded-full"
           src={session.user?.image || ''}
           width={32}
           height={32}
@@ -30,7 +33,10 @@ export function Profile({ session }: ProfileProps) {
         />
         <span>{session.user?.name}</span>
       </Link>
-      <button onClick={handleLogout}>
+      <button
+        className="bg-transparent border-none text-red-100 cursor-pointer"
+        onClick={handleLogout}
+      >
         <SignOut size={24} />
       </button>
     </div>

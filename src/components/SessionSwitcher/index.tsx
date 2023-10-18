@@ -1,8 +1,8 @@
 'use client'
 
 import { Session } from 'next-auth'
-import { LoginDialog } from './components/LoginDialog'
 import { Profile } from './components/Profile'
+import { LoginDialog } from './components/LoginDialog'
 
 interface SessionSwitcherProps {
   session: Session | null
