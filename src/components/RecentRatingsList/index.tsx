@@ -1,19 +1,12 @@
-'use client'
-
 import { BookWiseService } from '@/services/BookWiseService'
-import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
-import { useQuery } from 'react-query'
 import { RecentRatingItem } from './components/RecentRatingItem'
+import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
 
-export function RecentRatingList() {
-  const { data: ratings } = useQuery('ratings', () => {
-    const result = BookWiseService.getRatings({
-      includeBooks: true,
-      includeUsers: true,
-      page: 1,
-    }) as unknown
-
-    return result as RatingWithBookAndUser[]
+export async function RecentRatingList() {
+  const ratings = await BookWiseService.getRatings({
+    includeBooks: true,
+    includeUsers: true,
+    page: 1,
   })
 
   return (
@@ -22,7 +15,10 @@ export function RecentRatingList() {
       <ul className="list-none flex flex-col gap-3">
         {ratings &&
           ratings.map((rating) => (
-            <RecentRatingItem key={rating.id} rating={rating} />
+            <RecentRatingItem
+              key={rating.id}
+              rating={rating as RatingWithBookAndUser}
+            />
           ))}
       </ul>
     </section>
