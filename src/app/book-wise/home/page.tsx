@@ -9,9 +9,11 @@ export default function Home() {
         <ChartLineUp className="text-green-100" size={32} />
         Início
       </h1>
-      <main className="w-full flex gap-16">
-        <RecentRatingList />
-        <aside className="flex-grow">
+      <main className="grid grid-cols-4 gap-16">
+        <div className="col-span-4 2xl:col-span-3">
+          <RecentRatingList />
+        </div>
+        <aside className="col-span-1 hidden 2xl:block">
           <PopularBooksList />
         </aside>
       </main>

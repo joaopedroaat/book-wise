@@ -8,7 +8,7 @@ interface PopularBookItemProps {
 
 export function PopularBookItem({ book }: PopularBookItemProps) {
   return (
-    <li className="flex gap-5 bg-gray-700 rounded-lg p-5">
+    <li className="flex gap-4 bg-gray-700 p-5 rounded-lg">
       <aside>
         <BookCover book={book} width={64} height={94} />
       </aside>

@@ -34,7 +34,7 @@ export function RecentRatingItem({ rating }: RatingItemProps) {
         <div>
           <h1 className="text-xl">{rating.book.name}</h1>
           <small className="text-gray-400">{rating.book.author}</small>
-          <p className="mt-5">{rating.description}</p>
+          <p className="mt-5 text-gray-300">{rating.description}</p>
         </div>
       </main>
     </li>
