@@ -25,7 +25,6 @@ export function RecentRatingList() {
             <RecentRatingItem key={rating.id} rating={rating} />
           ))}
       </ul>
-      s
     </section>
   )
 }

@@ -15,7 +15,7 @@ export function RecentRatingItem({ rating }: RatingItemProps) {
       <header className="flex justify-between items-start">
         <div className="flex items-center gap-4">
           <ProfilePicture user={rating.user} />
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col">
             <Link
               className="text-gray-100 no-underline"
               href={`/book-wise/profile/${rating.user.id}`}
@@ -31,14 +31,10 @@ export function RecentRatingItem({ rating }: RatingItemProps) {
       </header>
       <main className="flex gap-5 overflow-hidden">
         <BookCover book={rating.book} />
-        <div className="flex flex-col gap-5">
-          <header>
-            <h1 className="text-xl">{rating.book.name}</h1>
-            <small className="text-gray-400">{rating.book.author}</small>
-          </header>
-          <main className="text-gray-300">
-            <p>{rating.description}</p>
-          </main>
+        <div>
+          <h1 className="text-xl">{rating.book.name}</h1>
+          <small className="text-gray-400">{rating.book.author}</small>
+          <p className="mt-5">{rating.description}</p>
         </div>
       </main>
     </li>

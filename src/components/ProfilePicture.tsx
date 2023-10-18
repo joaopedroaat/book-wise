@@ -15,7 +15,7 @@ export function ProfilePicture({
   height = 40,
 }: ProfilePictureProps) {
   return (
-    <Link href={`/boolwise/profile/${user.id}`}>
+    <Link href={`/book-wise/profile/${user.id}`}>
       <Image
         className="rounded-full"
         src={user?.image || defaultProfilePicture}
