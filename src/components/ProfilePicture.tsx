@@ -1,8 +1,7 @@
-import { User } from '@/services/BookWiseService'
 import Image from 'next/image'
 import Link from 'next/link'
 import defaultProfilePicture from '@/assets/user.svg'
-import './styles.css'
+import { User } from '@/services/interfaces/models/User'
 
 interface ProfilePictureProps {
   user: User
@@ -16,11 +15,9 @@ export function ProfilePicture({
   height = 40,
 }: ProfilePictureProps) {
   return (
-    <Link
-      className="profile-picture-container"
-      href={`/boolwise/profile/${user.id}`}
-    >
+    <Link href={`/boolwise/profile/${user.id}`}>
       <Image
+        className="rounded-full"
         src={user?.image || defaultProfilePicture}
         width={width}
         height={height}

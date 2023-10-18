@@ -1,10 +1,10 @@
 import { BookCover } from '@/components/BookCover'
-import { ProfilePicture } from '@/components/ProfilePicture'
 import { StarRating } from '@/components/StarRating'
 import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
 import Link from 'next/link'
 import './styles.css'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
+import { ProfilePicture } from '@/components/ProfilePicture'
 
 interface RatingItemProps {
   rating: RatingWithBookAndUser
