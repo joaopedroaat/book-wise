@@ -8,7 +8,7 @@ interface NavigationMenuProps {
   isAuthenticated: boolean
 }
 
-export function NavigationMenu({ isAuthenticated }: NavigationMenuProps) {
+export function NavLinks({ isAuthenticated }: NavigationMenuProps) {
   const currentPath = usePathname()
   const currentPage = currentPath.split('/').pop()
 

@@ -1,9 +1,9 @@
 'use client'
 
+import { GithubIcon } from '@/components/GithubIcon'
+import { GoogleIcon } from '@/components/GoogleIcon'
 import { SignIn, X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { GoogleIcon } from '../../GoogleIcon'
-import { GithubIcon } from '../../GithubIcon'
 import { signIn } from 'next-auth/react'
 
 export function LoginDialog() {
