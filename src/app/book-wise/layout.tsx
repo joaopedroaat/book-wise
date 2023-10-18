@@ -1,9 +1,9 @@
 import { BookWiseIcon } from '@/components/BookWiseIcon'
-import { NavigationMenu } from '@/components/NavigationMenu'
 import { SessionSwitcher } from '@/components/SessionSwitcher'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { authOptions } from '../api/auth/[...nextauth]/route'
+import { NavigationMenu } from '@/components/NavigationMenu'
 
 export default async function HomeLayout({
   children,
