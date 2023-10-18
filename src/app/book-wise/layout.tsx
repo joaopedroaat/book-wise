@@ -10,7 +10,7 @@ export default async function HomeLayout({
       <aside className="col-span-2">
         <Menu />
       </aside>
-      <main className="col-span-10 pl-16 pt-11 overflow-scroll">
+      <main className="col-span-10 px-24 pt-14 overflow-scroll">
         {children}
       </main>
     </div>

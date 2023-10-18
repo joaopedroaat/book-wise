@@ -5,6 +5,8 @@ import { RatingWithBookAndUser } from './interfaces/models/RatingWithBookAndUser
 import { RatingWithUser } from './interfaces/models/RatingWithUser'
 import { User } from './interfaces/models/User'
 import { RatingResponse } from './interfaces/responses/RatingResponse'
+import { Book } from './interfaces/models/Book'
+import { BookResponse } from './interfaces/responses/BookResponse'
 
 export class BookWiseService {
   private static bookwiseApi = localApi
@@ -29,5 +31,12 @@ export class BookWiseService {
     const user = data.user as User
 
     return user
+  }
+
+  static async getPopularBooks(): Promise<Book[]> {
+    const { data } = await this.bookwiseApi.get<BookResponse>(`books/popular`)
+    const popularBooks = data.books
+
+    return popularBooks
   }
 }

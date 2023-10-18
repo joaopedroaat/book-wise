@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const includeRatings = searchParams.get('includeRatings') === 'true'
   const includeCategories = searchParams.get('includeCategories') === 'true'
 
-  const booksPerPage = 10
+  const booksPerPage = 4
 
   const popularBooks = await prisma.book.findMany({
     skip: (page - 1) * booksPerPage,
