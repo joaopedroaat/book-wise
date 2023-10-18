@@ -4,7 +4,6 @@ import { BookWiseService } from '@/services/BookWiseService'
 import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
 import { useQuery } from 'react-query'
 import { RecentRatingItem } from './components/RecentRatingItem'
-import './styles.css'
 
 export function RecentRatingList() {
   const { data: ratings } = useQuery('ratings', () => {
@@ -18,9 +17,9 @@ export function RecentRatingList() {
   })
 
   return (
-    <section className="recent-rating-list-container">
-      <h1>Avaliações mais recentes</h1>
-      <ul>
+    <section className="flex flex-col gap-4">
+      <h1 className="text-base font-normal">Avaliações mais recentes</h1>
+      <ul className="list-none flex flex-col gap-3">
         {ratings &&
           ratings.map((rating) => (
             <RecentRatingItem key={rating.id} rating={rating} />

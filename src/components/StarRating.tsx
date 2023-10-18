@@ -8,7 +8,7 @@ interface StarRatingProps {
 
 export function StarRating({ rating, size = 20 }: StarRatingProps) {
   return (
-    <ul className="star-rating-container">
+    <ul className="flex gap-1">
       {new Array(5).fill(null).map((_, index) => (
         <li
           key={uuidv4()}
