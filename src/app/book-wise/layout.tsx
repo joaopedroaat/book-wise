@@ -4,7 +4,6 @@ import { SessionSwitcher } from '@/components/SessionSwitcher'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { authOptions } from '../api/auth/[...nextauth]/route'
-import './layout.css'
 
 export default async function HomeLayout({
   children,
@@ -15,9 +14,9 @@ export default async function HomeLayout({
   const isAuthenticated = !!session
 
   return (
-    <div className="bookwise-layout-container">
-      <aside>
-        <header>
+    <div className="w-full h-screen p-5 grid grid-cols-12">
+      <aside className="col-span-2 w-full h-full p-7 rounded-xl bg-gray-700 flex flex-col items-center">
+        <header className="mb-16">
           <Link href="/book-wise/home">
             <BookWiseIcon />
           </Link>
@@ -25,11 +24,11 @@ export default async function HomeLayout({
         <main>
           <NavigationMenu isAuthenticated={isAuthenticated} />
         </main>
-        <footer>
+        <footer className="mt-auto">
           <SessionSwitcher session={session} />
         </footer>
       </aside>
-      <main>{children}</main>
+      <main className="col-span-10 px-24 py-14">{children}</main>
     </div>
   )
 }
