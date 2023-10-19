@@ -8,6 +8,7 @@ import { RatingResponse } from './interfaces/responses/RatingResponse'
 import { Book } from './interfaces/models/Book'
 import { BookResponse } from './interfaces/responses/BookResponse'
 import { Category } from './interfaces/models/Category'
+import { CategoryResponse } from './interfaces/responses/CategoryResponse'
 
 export class BookWiseService {
   private static bookwiseApi = localApi
@@ -52,5 +53,12 @@ export class BookWiseService {
     const popularBooks = data.books
 
     return popularBooks
+  }
+
+  static async getCategories(): Promise<Category[]> {
+    const { data } = await this.bookwiseApi.get<CategoryResponse>('categories')
+    const categories = data.categories
+
+    return categories
   }
 }
