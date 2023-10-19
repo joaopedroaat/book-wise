@@ -1,4 +1,4 @@
-import { ExploreList } from '@/components/ExploreList'
+import { ExploreList } from '@/components/BookList'
 import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
 
 export default async function Explore() {
