@@ -9,6 +9,7 @@ import { Book } from './interfaces/models/Book'
 import { BookResponse } from './interfaces/responses/BookResponse'
 import { Category } from './interfaces/models/Category'
 import { CategoryResponse } from './interfaces/responses/CategoryResponse'
+import { BookWithRatings } from './interfaces/models/BookWithRatings'
 
 export class BookWiseService {
   private static bookwiseApi = localApi
@@ -37,11 +38,15 @@ export class BookWiseService {
 
   static async getBooks({
     category,
+    includeRatings = false,
   }: {
     category?: Category['name']
-  } = {}): Promise<Book[]> {
+    includeRatings?: boolean
+  } = {}): Promise<Book[] | BookWithRatings[]> {
     const { data } = await this.bookwiseApi.get<BookResponse>(
-      `books${category ? `?category=${category}` : ''}`,
+      `books?${
+        category ? `category=${category}&` : ''
+      }includeRatings=${includeRatings}`,
     )
 
     const books = data.books

@@ -6,9 +6,8 @@ export async function GET(request: Request) {
   const page = Math.max(1, Number(searchParams.get('page')))
   const category = searchParams.get('category')
   const includeRatings = searchParams.get('includeRatings') === 'true'
-  const includeCategories = searchParams.get('includeCategories') === 'true'
 
-  const booksPerPage = 10
+  const booksPerPage = 30
 
   let books: Book[] = []
 
@@ -28,7 +27,6 @@ export async function GET(request: Request) {
       : undefined,
     include: {
       ratings: includeRatings,
-      categories: includeCategories,
     },
     orderBy: {
       ratings: {

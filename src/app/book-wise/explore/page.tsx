@@ -3,19 +3,22 @@
 import { BookList } from '@/components/BookList'
 import { CategoryForm } from '@/components/CategoryForm'
 import { BookWiseService } from '@/services/BookWiseService'
-import { Book } from '@/services/interfaces/models/Book'
+import { BookWithRatings } from '@/services/interfaces/models/BookWithRatings'
 import { Category } from '@/services/interfaces/models/Category'
 import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
 import { useEffect, useState } from 'react'
 
 export default function Explore() {
   const [category, setCategory] = useState<Category['name'] | null>(null)
-  const [books, setBooks] = useState<Book[]>([])
+  const [books, setBooks] = useState<BookWithRatings[]>([])
 
   useEffect(() => {
     async function fetchBooks() {
       setBooks(
-        await BookWiseService.getBooks({ category: category || undefined }),
+        (await BookWiseService.getBooks({
+          category: category || undefined,
+          includeRatings: true,
+        })) as BookWithRatings[],
       )
     }
 

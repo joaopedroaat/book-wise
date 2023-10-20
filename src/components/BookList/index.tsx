@@ -1,8 +1,8 @@
-import { Book } from '@/services/interfaces/models/Book'
 import { BookItem } from './components/BookItem'
+import { BookWithRatings } from '@/services/interfaces/models/BookWithRatings'
 
 interface BookListProps {
-  books: Book[]
+  books: BookWithRatings[]
 }
 
 export function BookList({ books }: BookListProps) {
