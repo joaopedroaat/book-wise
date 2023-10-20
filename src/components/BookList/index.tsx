@@ -8,7 +8,7 @@ interface BookListProps {
 export function BookList({ books }: BookListProps) {
   return (
     <>
-      <ul className="flex flex-wrap gap-5 justify-start">
+      <ul className="flex flex-wrap gap-5 justify-center">
         {books.map((book) => (
           <BookItem key={book.id} book={book} />
         ))}
