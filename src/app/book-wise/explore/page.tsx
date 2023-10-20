@@ -1,14 +1,42 @@
+'use client'
+
 import { BookList } from '@/components/BookList'
+import { CategoryForm } from '@/components/CategoryForm'
+import { BookWiseService } from '@/services/BookWiseService'
+import { Book } from '@/services/interfaces/models/Book'
+import { Category } from '@/services/interfaces/models/Category'
 import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
+import { useEffect, useState } from 'react'
 
 export default function Explore() {
+  const [category, setCategory] = useState<Category['name'] | null>(null)
+  const [books, setBooks] = useState<Book[]>([])
+
+  useEffect(() => {
+    async function fetchBooks() {
+      setBooks(
+        await BookWiseService.getBooks({ category: category || undefined }),
+      )
+    }
+
+    fetchBooks()
+  }, [category])
+
+  function handleCategoryChange(category: Category['name'] | null) {
+    setCategory(category)
+  }
+
   return (
     <>
       <h1 className="flex gap-3 text-2xl font-bold mb-14">
         <Binoculars className="text-green-100" size={32} />
         Explorar
       </h1>
-      <BookList />
+      <CategoryForm
+        className="mb-12 flex items-center justify-center gap-3 flex-wrap"
+        handleCategoryChange={handleCategoryChange}
+      />
+      <BookList books={books} />
     </>
   )
 }
