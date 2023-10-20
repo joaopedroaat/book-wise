@@ -28,7 +28,7 @@ export function BookList() {
   return (
     <>
       <CategoryForm
-        className="mb-12 flex items-center gap-3"
+        className="mb-12 flex items-center justify-center gap-3 flex-wrap"
         handleCategoryChange={handleCategoryChange}
       />
       <ul className="flex flex-wrap gap-5 justify-start">
