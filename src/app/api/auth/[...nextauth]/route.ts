@@ -2,7 +2,8 @@ import NextAuth, { AuthOptions } from 'next-auth'
 
 import { prisma } from '@/lib/prisma'
 
-import { PrismaAdapter } from '@auth/prisma-adapter'
+import { BookWiseAdapter } from '@/lib/next-auth/bookWiseAdapter'
+
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 
@@ -26,7 +27,7 @@ else if (!nextauthSecret)
   throw new Error('NEXTAUTH_SECRET environment variable not provided.')
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: BookWiseAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: googleClientId,
@@ -37,6 +38,12 @@ export const authOptions: AuthOptions = {
       clientSecret: githubClientSecret,
     }),
   ],
+
+  callbacks: {
+    session({ session, user }) {
+      return { ...session, user }
+    },
+  },
 
   secret: nextauthSecret,
 }
