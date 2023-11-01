@@ -1,10 +1,10 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { GithubIcon } from './GithubIcon'
-import { GoogleIcon } from './GoogleIcon'
+import { GithubIcon } from '../../../components/GithubIcon'
+import { GoogleIcon } from '../../../components/GoogleIcon'
 import { signIn } from 'next-auth/react'
-import { GuestIcon } from './GuestIcon'
+import { GuestIcon } from '../../../components/GuestIcon'
 
 export function LoginForm() {
   const router = useRouter()

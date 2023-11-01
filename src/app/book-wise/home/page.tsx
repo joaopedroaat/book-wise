@@ -1,5 +1,5 @@
-import { PopularBooksList } from '@/components/PopularBooksList'
-import { RecentRatingList } from '@/components/RecentRatingsList'
+import { PopularBooksList } from '@/app/book-wise/home/components/PopularBooksList'
+import { RecentRatingList } from '@/app/book-wise/home/components/RecentRatingsList'
 import { ChartLineUp } from '@phosphor-icons/react/dist/ssr/ChartLineUp'
 
 export default function Home() {

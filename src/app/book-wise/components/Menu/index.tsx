@@ -2,9 +2,9 @@
 
 import { Binoculars, ChartLineUp, User } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { BookWiseIcon } from '../BookWiseIcon'
 import { usePathname } from 'next/navigation'
 import { SessionForm } from './components/SessionForm'
+import { BookWiseIcon } from '@/components/BookWiseIcon'
 
 export function Menu() {
   const currentPage = usePathname().split('/').pop()

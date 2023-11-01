@@ -1,12 +1,12 @@
 'use client'
 
-import { BookList } from '@/components/BookList'
-import { CategoryForm } from '@/components/CategoryForm'
+import { BookList } from '@/app/book-wise/explore/components/BookList'
 import { BookWiseService } from '@/services/BookWiseService'
 import { BookWithRatings } from '@/services/interfaces/models/BookWithRatings'
 import { Category } from '@/services/interfaces/models/Category'
 import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
 import { useEffect, useState } from 'react'
+import { CategoryForm } from './components/CategoryForm'
 
 export default function Explore() {
   const [category, setCategory] = useState<Category['name'] | null>(null)
