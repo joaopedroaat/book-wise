@@ -1,8 +1,8 @@
+import { Avatar } from '@/components/Avatar'
+import { BookOverlay } from '@/components/BookOverlay'
+import { StarRating } from '@/components/StarRating'
 import { BookWiseService } from '@/services/BookWiseService'
 import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
-import { BookCover } from '@/components/BookCover'
-import { Avatar } from '@/components/Avatar'
-import { StarRating } from '@/components/StarRating'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import Link from 'next/link'
 
@@ -58,7 +58,7 @@ function RecentRatingItem({
         <StarRating rating={rate} size={16} />
       </header>
       <main className="flex flex-col items-center gap-3 lg:flex-row lg:gap-5 lg:items-start">
-        <BookCover book={book} />
+        <BookOverlay book={book} />
 
         <div className="text-center lg:text-start">
           <h1 className="text-xl">{book.name}</h1>

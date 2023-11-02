@@ -1,10 +1,10 @@
 import { BookWiseService } from '@/services/BookWiseService'
 import Link from 'next/link'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
-import { BookCover } from '@/components/BookCover'
 import MarqueeText from '@/components/MarqueeText'
 import { StarRating } from '@/components/StarRating'
 import { Book } from '@/services/interfaces/models/Book'
+import { BookOverlay } from '@/components/BookOverlay'
 
 export async function PopularBooksList() {
   const popularBooks = await BookWiseService.getPopularBooks()
@@ -38,7 +38,7 @@ interface PopularBookItemProps {
 export function PopularBookItem({ book }: PopularBookItemProps) {
   return (
     <li className="flex gap-4 bg-gray-700 p-5 rounded-lg">
-      <BookCover book={book} width={64} height={94} />
+      <BookOverlay book={book} width={64} height={94} />
       <main className="flex flex-col justify-between overflow-hidden whitespace-nowrap">
         <div className="flex flex-col">
           <MarqueeText className="font-bold text-gray-100">
