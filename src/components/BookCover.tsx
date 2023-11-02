@@ -16,9 +16,11 @@ export function BookCover({ book, width = 108, height = 152 }: BookCoverProps) {
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <Image
+          className="cursor-pointer"
           src={book.cover_url}
           width={width}
           height={height}
+          title={book.name}
           alt={`Capa do livro ${book.name}`}
         />
       </Dialog.Trigger>
