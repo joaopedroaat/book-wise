@@ -1,16 +1,18 @@
 'use client'
 
 import { BookWiseService } from '@/services/BookWiseService'
-import { BookWithRatings } from '@/services/interfaces/models/BookWithRatings'
 import { Category } from '@/services/interfaces/models/Category'
 import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
 import { useEffect, useState } from 'react'
 import { CategoryForm } from './components/CategoryForm'
 import { BookList } from './components/BookList'
+import { BookWithRatingsAndCategories } from '@/services/interfaces/models/Book'
 
 export default function Explore() {
   const [category, setCategory] = useState<Category['name'] | null>(null)
-  const [books, setBooks] = useState<BookWithRatings[]>([])
+  const [books, setBooks] = useState<BookWithRatingsAndCategories[]>([])
+
+  console.log(books)
 
   useEffect(() => {
     async function fetchBooks() {
@@ -18,7 +20,8 @@ export default function Explore() {
         (await BookWiseService.getBooks({
           category: category || undefined,
           includeRatings: true,
-        })) as BookWithRatings[],
+          includeCategories: true,
+        })) as BookWithRatingsAndCategories[],
       )
     }
 

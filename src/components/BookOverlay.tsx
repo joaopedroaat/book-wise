@@ -3,12 +3,12 @@
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { BookCover } from './BookCover'
-import { Book } from '@/services/interfaces/models/Book'
+import { BookWithRatingsAndCategories } from '@/services/interfaces/models/Book'
 import { StarRating } from './StarRating'
 import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 
 interface BookOverlayProps {
-  book: Book
+  book: BookWithRatingsAndCategories
   width?: number
   height?: number
 }
@@ -33,7 +33,7 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
 }
 
 interface BookInfoProps {
-  book: Book
+  book: BookWithRatingsAndCategories
 }
 
 function BookInfo({ book }: BookInfoProps) {

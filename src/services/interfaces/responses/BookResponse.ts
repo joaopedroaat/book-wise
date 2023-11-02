@@ -1,5 +1,14 @@
-import { Book } from '../models/Book'
+import {
+  Book,
+  BookWithCategories,
+  BookWithRatings,
+  BookWithRatingsAndCategories,
+} from '../models/Book'
 
 export interface BookResponse {
-  books: Book[]
+  books:
+    | Book[]
+    | BookWithRatings[]
+    | BookWithCategories[]
+    | BookWithRatingsAndCategories[]
 }

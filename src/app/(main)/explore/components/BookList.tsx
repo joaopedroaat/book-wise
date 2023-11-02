@@ -1,9 +1,9 @@
 import { BookOverlay } from '@/components/BookOverlay'
-import { BookWithRatings } from '@/services/interfaces/models/BookWithRatings'
 import { StarRating } from '@/components/StarRating'
+import { BookWithRatingsAndCategories } from '@/services/interfaces/models/Book'
 
 interface BookListProps {
-  books: BookWithRatings[]
+  books: BookWithRatingsAndCategories[]
 }
 
 export function BookList({ books }: BookListProps) {
@@ -19,7 +19,7 @@ export function BookList({ books }: BookListProps) {
 }
 
 interface BookItemProps {
-  book: BookWithRatings
+  book: BookWithRatingsAndCategories
 }
 
 export function BookItem({ book }: BookItemProps) {

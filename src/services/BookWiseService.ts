@@ -5,11 +5,15 @@ import { RatingWithBookAndUser } from './interfaces/models/RatingWithBookAndUser
 import { RatingWithUser } from './interfaces/models/RatingWithUser'
 import { User } from './interfaces/models/User'
 import { RatingResponse } from './interfaces/responses/RatingResponse'
-import { Book } from './interfaces/models/Book'
+import {
+  Book,
+  BookWithCategories,
+  BookWithRatings,
+  BookWithRatingsAndCategories,
+} from './interfaces/models/Book'
 import { BookResponse } from './interfaces/responses/BookResponse'
 import { Category } from './interfaces/models/Category'
 import { CategoryResponse } from './interfaces/responses/CategoryResponse'
-import { BookWithRatings } from './interfaces/models/BookWithRatings'
 
 export class BookWiseService {
   private static bookwiseApi = localApi
@@ -39,14 +43,21 @@ export class BookWiseService {
   static async getBooks({
     category,
     includeRatings = false,
+    includeCategories = false,
   }: {
     category?: Category['name']
     includeRatings?: boolean
-  } = {}): Promise<Book[] | BookWithRatings[]> {
+    includeCategories?: boolean
+  } = {}): Promise<
+    | Book[]
+    | BookWithRatings[]
+    | BookWithCategories[]
+    | BookWithRatingsAndCategories[]
+  > {
     const { data } = await this.bookwiseApi.get<BookResponse>(
-      `books?${
-        category ? `category=${category}&` : ''
-      }includeRatings=${includeRatings}`,
+      `books?includeRatings=${includeRatings}&includeCategories=${includeCategories}${
+        category ? `&category=${category}` : ''
+      }`,
     )
 
     const books = data.books
