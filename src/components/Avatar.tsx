@@ -2,15 +2,15 @@ import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface ProfilePictureProps {
+interface AvatarProps {
   user: { id: string; name: string; avatarUrl: string | null }
   size?: number
 }
 
-export function ProfilePicture({
+export function Avatar({
   user: { id, name, avatarUrl },
   size = 40,
-}: ProfilePictureProps) {
+}: AvatarProps) {
   const altText = `Foto de perfil de ${name}.`
 
   return (

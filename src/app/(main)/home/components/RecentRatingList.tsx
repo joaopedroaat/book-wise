@@ -1,7 +1,7 @@
 import { BookWiseService } from '@/services/BookWiseService'
 import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
 import { BookCover } from '@/components/BookCover'
-import { ProfilePicture } from '@/components/ProfilePicture'
+import { Avatar } from '@/components/Avatar'
 import { StarRating } from '@/components/StarRating'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import Link from 'next/link'
@@ -40,7 +40,7 @@ function RecentRatingItem({
     <li className="bg-gray-700 p-6 rounded-lg flex flex-col gap-8">
       <header className="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-start">
         <div className="flex flex-col items-center gap-3 md:flex-row">
-          <ProfilePicture
+          <Avatar
             user={{ id: user.id, name: user.name, avatarUrl: user.avatar_url }}
           />
           <div className="flex flex-col items-center md:items-start">
