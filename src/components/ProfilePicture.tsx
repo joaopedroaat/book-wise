@@ -4,31 +4,31 @@ import Link from 'next/link'
 
 interface ProfilePictureProps {
   user: { id: string; name: string; avatarUrl: string | null }
-  width?: number
-  height?: number
+  size?: number
 }
 
 export function ProfilePicture({
   user: { id, name, avatarUrl },
-  width = 40,
-  height = 40,
+  size = 40,
 }: ProfilePictureProps) {
   const altText = `Foto de perfil de ${name}.`
 
   return (
-    <Link href={`profile/${id}`}>
+    <Link
+      className={`relative w-[${size}px] h-[${size}px]`}
+      href={`profile/${id}`}
+    >
       {avatarUrl ? (
         <Image
           className="rounded-full"
           src={avatarUrl}
-          width={width}
-          height={height}
           alt={altText}
+          fill={true}
         />
       ) : (
         <UserIcon
           className="bg-gray-800 p-1 rounded-full text-green-100"
-          size={width}
+          size={size}
         />
       )}
     </Link>
