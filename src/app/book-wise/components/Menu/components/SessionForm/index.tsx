@@ -5,13 +5,7 @@ export function SessionForm() {
   const { status, data } = useSession()
 
   return status === 'authenticated' && data ? (
-    <SignOutForm
-      user={{
-        id: data.user.id,
-        avatarUrl: data.user.image,
-        name: data.user.name,
-      }}
-    />
+    <SignOutForm user={data.user} />
   ) : (
     <SignInForm />
   )

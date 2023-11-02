@@ -1,7 +1,7 @@
+import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User'
+import { User } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import defaultProfilePicture from '@/assets/user.svg'
-import { User } from '@/services/interfaces/models/User'
 
 interface ProfilePictureProps {
   user: User
@@ -10,19 +10,28 @@ interface ProfilePictureProps {
 }
 
 export function ProfilePicture({
-  user,
+  user: { id, name, image: avatarUrl },
   width = 40,
   height = 40,
 }: ProfilePictureProps) {
+  const altText = `Foto de perfil de ${name}.`
+
   return (
-    <Link href={`/book-wise/profile/${user.id}`}>
-      <Image
-        className="rounded-full"
-        src={user?.image || defaultProfilePicture}
-        width={width}
-        height={height}
-        alt={`Foto de perfil de ${user.name}`}
-      />
+    <Link href={`/book-wise/profile/${id}`}>
+      {avatarUrl ? (
+        <Image
+          className="rounded-full"
+          src={avatarUrl}
+          width={width}
+          height={height}
+          alt={altText}
+        />
+      ) : (
+        <UserIcon
+          className="bg-gray-800 p-1 rounded-full text-green-100"
+          size={width}
+        />
+      )}
     </Link>
   )
 }
