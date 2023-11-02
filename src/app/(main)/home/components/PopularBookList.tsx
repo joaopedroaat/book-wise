@@ -1,13 +1,18 @@
-import { BookWiseService } from '@/services/BookWiseService'
-import Link from 'next/link'
-import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
+import { BookOverlay } from '@/components/BookOverlay'
 import MarqueeText from '@/components/MarqueeText'
 import { StarRating } from '@/components/StarRating'
-import { Book } from '@/services/interfaces/models/Book'
-import { BookOverlay } from '@/components/BookOverlay'
+import { BookWiseService } from '@/services/BookWiseService'
+import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
+import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
+import Link from 'next/link'
 
 export async function PopularBooksList() {
-  const popularBooks = await BookWiseService.getPopularBooks()
+  const booksData = await BookWiseService.getBooks({
+    includeRatings: true,
+    includeCategories: true,
+    orderBy: 'popular',
+  })
+  const books = booksData.books as BookWithRatingsAndCategories[]
 
   return (
     <section className="w-full">
@@ -23,7 +28,7 @@ export async function PopularBooksList() {
       </header>
 
       <ul className="flex flex-col gap-3">
-        {popularBooks.map((book) => (
+        {books.map((book) => (
           <PopularBookItem key={book.id} book={book} />
         ))}
       </ul>
@@ -32,7 +37,7 @@ export async function PopularBooksList() {
 }
 
 interface PopularBookItemProps {
-  book: Book
+  book: BookWithRatingsAndCategories
 }
 
 export function PopularBookItem({ book }: PopularBookItemProps) {

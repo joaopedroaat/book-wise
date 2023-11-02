@@ -1,6 +1,6 @@
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { BookWithRatingsAndCategories } from '@/services/interfaces/models/Book'
+import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
 
 interface BookListProps {
   books: BookWithRatingsAndCategories[]

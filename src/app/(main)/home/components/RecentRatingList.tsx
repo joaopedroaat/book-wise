@@ -2,16 +2,18 @@ import { Avatar } from '@/components/Avatar'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { BookWiseService } from '@/services/BookWiseService'
-import { RatingWithBookAndUser } from '@/services/interfaces/models/RatingWithBookAndUser'
+import { RatingWithBookAndUser } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import Link from 'next/link'
 
 export async function RecentRatingList() {
-  const ratings = await BookWiseService.getRatings({
+  const ratingsData = await BookWiseService.getRatings({
     includeBooks: true,
     includeUsers: true,
     page: 1,
   })
+
+  const ratings = ratingsData.ratings as RatingWithBookAndUser[]
 
   return (
     <section className="flex flex-col gap-4">

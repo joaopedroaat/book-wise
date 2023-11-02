@@ -1,5 +1,5 @@
 import { BookWiseService } from '@/services/BookWiseService'
-import { Category } from '@/services/interfaces/models/Category'
+import { Category } from '@prisma/client'
 import { HTMLProps, useEffect, useState } from 'react'
 
 interface FormCategory {
@@ -21,9 +21,10 @@ export function CategoryForm({
 
   useEffect(() => {
     async function fetchCategories() {
+      const categoriesData = await BookWiseService.getCategories()
       setCategories([
         { id: 'Todos', name: 'Todos' },
-        ...(await BookWiseService.getCategories()),
+        ...categoriesData.categories,
       ])
     }
 

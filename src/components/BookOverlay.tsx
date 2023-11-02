@@ -3,9 +3,9 @@
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { BookCover } from './BookCover'
-import { BookWithRatingsAndCategories } from '@/services/interfaces/models/Book'
 import { StarRating } from './StarRating'
 import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
+import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
 
 interface BookOverlayProps {
   book: BookWithRatingsAndCategories

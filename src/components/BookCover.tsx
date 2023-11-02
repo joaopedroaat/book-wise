@@ -1,4 +1,4 @@
-import { Book } from '@/services/interfaces/models/Book'
+import { Book } from '@/services/BookWiseService/types'
 import Image from 'next/image'
 
 interface BookCoverProps {

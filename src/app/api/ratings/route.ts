@@ -11,7 +11,12 @@ export async function GET(request: Request) {
     take: 10,
     include: {
       user: includeUsers,
-      book: includeBooks,
+      book: includeBooks && {
+        include: {
+          ratings: true,
+          categories: true,
+        },
+      },
     },
     orderBy: {
       created_at: 'desc',
