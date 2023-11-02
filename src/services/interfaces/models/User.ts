@@ -3,6 +3,6 @@ export interface User {
   name: string
   email: string
   emailVerified: Date | null
-  image: string | null
+  avatar_url: string | null
   created_at: string
 }

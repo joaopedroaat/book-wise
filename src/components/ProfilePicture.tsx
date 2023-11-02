@@ -1,16 +1,15 @@
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User'
-import { User } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
 
 interface ProfilePictureProps {
-  user: User
+  user: { id: string; name: string; avatarUrl: string | null }
   width?: number
   height?: number
 }
 
 export function ProfilePicture({
-  user: { id, name, image: avatarUrl },
+  user: { id, name, avatarUrl },
   width = 40,
   height = 40,
 }: ProfilePictureProps) {

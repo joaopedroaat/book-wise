@@ -40,7 +40,9 @@ function RecentRatingItem({
     <li className="bg-gray-700 p-6 rounded-lg flex flex-col gap-8">
       <header className="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-start">
         <div className="flex flex-col items-center gap-3 md:flex-row">
-          <ProfilePicture user={user} />
+          <ProfilePicture
+            user={{ id: user.id, name: user.name, avatarUrl: user.avatar_url }}
+          />
           <div className="flex flex-col items-center md:items-start">
             <Link
               className="text-gray-100 no-underline"
@@ -57,6 +59,7 @@ function RecentRatingItem({
       </header>
       <main className="flex flex-col items-center gap-3 lg:flex-row lg:gap-5 lg:items-start">
         <BookCover book={book} />
+
         <div className="text-center lg:text-start">
           <h1 className="text-xl">{book.name}</h1>
           <small className="text-gray-400">{book.author}</small>
