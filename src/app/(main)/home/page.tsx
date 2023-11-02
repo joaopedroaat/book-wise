@@ -1,6 +1,6 @@
-import { PopularBooksList } from '@/app/(main)/home/components/PopularBooksList'
-import { RecentRatingList } from '@/app/(main)/home/components/RecentRatingsList'
 import { ChartLineUp } from '@phosphor-icons/react/dist/ssr/ChartLineUp'
+import { PopularBooksList } from './components/PopularBookList'
+import { RecentRatingList } from './components/RecentRatingList'
 
 export default function Home() {
   return (
