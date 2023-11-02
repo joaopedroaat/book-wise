@@ -17,7 +17,7 @@ export function BookWiseAdapter(prisma: PrismaClient): Adapter {
         name: prismaUser.name,
         email: prismaUser.email,
         emailVerified: prismaUser.emailVerified,
-        avatarUrl: prismaUser.avatar_url,
+        image: prismaUser.avatar_url,
       }
     },
     async getUser(id) {
@@ -33,7 +33,7 @@ export function BookWiseAdapter(prisma: PrismaClient): Adapter {
             name: prismaUser.name,
             email: prismaUser.email,
             emailVerified: prismaUser.emailVerified,
-            avatarUrl: prismaUser.avatar_url,
+            image: prismaUser.avatar_url,
           }
         : null
     },
@@ -50,7 +50,7 @@ export function BookWiseAdapter(prisma: PrismaClient): Adapter {
             name: prismaUser.name,
             email: prismaUser.email,
             emailVerified: prismaUser.emailVerified,
-            avatarUrl: prismaUser.avatar_url,
+            image: prismaUser.avatar_url,
           }
         : null
     },
@@ -73,7 +73,7 @@ export function BookWiseAdapter(prisma: PrismaClient): Adapter {
             name: prismaAccount.user.name,
             email: prismaAccount.user.email,
             emailVerified: prismaAccount.user.emailVerified,
-            avatarUrl: prismaAccount.user.avatar_url,
+            image: prismaAccount.user.avatar_url,
           }
         : null
     },
@@ -94,7 +94,7 @@ export function BookWiseAdapter(prisma: PrismaClient): Adapter {
         name: prismaUser.name,
         email: prismaUser.email,
         emailVerified: prismaUser.emailVerified,
-        avatarUrl: prismaUser.avatar_url,
+        image: prismaUser.avatar_url,
       }
     },
     async createSession({ sessionToken, userId, expires }) {
@@ -137,7 +137,7 @@ export function BookWiseAdapter(prisma: PrismaClient): Adapter {
           name: user.name,
           email: user.email,
           emailVerified: user.emailVerified,
-          avatarUrl: user.avatar_url,
+          image: user.avatar_url,
         },
       }
     },

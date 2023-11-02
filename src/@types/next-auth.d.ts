@@ -4,8 +4,8 @@ import NextAuth, { DefaultUser } from 'next-auth'
 declare module 'next-auth' {
   interface User {
     id: string
+    name: string
     email: string
-    avatarUrl: string | null
   }
 
   interface Session {
