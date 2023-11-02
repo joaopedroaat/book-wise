@@ -14,7 +14,7 @@ interface BookCoverProps {
 export function BookCover({ book, width = 108, height = 152 }: BookCoverProps) {
   return (
     <Dialog.Root>
-      <Dialog.Trigger>
+      <Dialog.Trigger asChild>
         <Image
           src={book.cover_url}
           width={width}
