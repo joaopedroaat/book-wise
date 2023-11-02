@@ -5,6 +5,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { BookCover } from './BookCover'
 import { Book } from '@/services/interfaces/models/Book'
 import { StarRating } from './StarRating'
+import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 
 interface BookOverlayProps {
   book: Book
@@ -38,7 +39,7 @@ interface BookInfoProps {
 function BookInfo({ book }: BookInfoProps) {
   return (
     <div className="bg-gray-700 rounded-lg w-full px-8 py-6">
-      <div className="flex gap-8">
+      <section className="flex gap-8">
         <BookCover book={book} />
         <div className="flex flex-col justify-between">
           <div>
@@ -50,7 +51,23 @@ function BookInfo({ book }: BookInfoProps) {
             <small className="text-gray-400">3 avaliações</small>
           </div>
         </div>
-      </div>
+      </section>
+      <section className="border-t border-gray-600 py-6 mt-10 flex gap-14">
+        <div className="flex items-center gap-4">
+          <BookmarkSimple className="text-green-100" size={24} />
+          <div className="flex flex-col">
+            <small className="text-gray-300">Categoria</small>
+            <span className="text-sm font-bold">Lorem ipsum dolor</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <BookmarkSimple className="text-green-100" size={24} />
+          <div className="flex flex-col">
+            <small className="text-gray-300">Páginas</small>
+            <span className="text-sm font-bold">{book.total_pages}</span>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
