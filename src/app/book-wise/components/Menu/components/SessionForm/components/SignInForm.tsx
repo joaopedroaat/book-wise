@@ -17,7 +17,7 @@ export function SignInForm() {
           title="Login"
         >
           <span className="hidden md:inline-block">Fazer login</span>
-          <SignIn className="text-green-100" size="1.25rem" />
+          <SignIn className="text-green-100 text-xl" />
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>

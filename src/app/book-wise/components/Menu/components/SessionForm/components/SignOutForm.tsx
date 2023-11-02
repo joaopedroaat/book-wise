@@ -9,11 +9,11 @@ interface SignOutFormProps {
 
 export function SignOutForm({ user }: SignOutFormProps) {
   return (
-    <div className="flex items-center justify-center gap-3">
+    <div className="text-sm flex items-center md:flex-col lg:flex-row justify-center gap-3">
       <ProfilePicture user={user} width={32} height={32} />
-      <span className="hidden xl:flex text-center">{user.name}</span>
+      <span className="hidden md:block text-center">{user.name}</span>
       <button onClick={() => logout()}>
-        <SignOut className="text-red-100" size={20} />
+        <SignOut className="text-red-100 text-base md:text-lg" />
       </button>
     </div>
   )
