@@ -4,6 +4,7 @@ import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { BookCover } from './BookCover'
 import { Book } from '@/services/interfaces/models/Book'
+import { StarRating } from './StarRating'
 
 interface BookOverlayProps {
   book: Book
@@ -23,9 +24,33 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
           <Dialog.Close className="self-end text-gray-400">
             <X size={24} />
           </Dialog.Close>
-          <div>Book Info Here</div>
+          <BookInfo book={book} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
+  )
+}
+
+interface BookInfoProps {
+  book: Book
+}
+
+function BookInfo({ book }: BookInfoProps) {
+  return (
+    <div className="bg-gray-700 rounded-lg w-full px-8 py-6">
+      <div className="flex gap-8">
+        <BookCover book={book} />
+        <div className="flex flex-col justify-between">
+          <div>
+            <h1 className="font-bold">{book.name}</h1>
+            <small className="text-gray-300 text-xs">{book.author}</small>
+          </div>
+          <div>
+            <StarRating rating={3} size={16} />
+            <small className="text-gray-400">3 avaliações</small>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
