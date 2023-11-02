@@ -10,9 +10,9 @@ export function LoginForm() {
   const router = useRouter()
 
   function handleSignIn(provider?: 'google' | 'github') {
-    if (provider) signIn(provider, { callbackUrl: '/book-wise/home' })
+    if (provider) signIn(provider, { callbackUrl: '/home' })
 
-    router.push('/book-wise/home')
+    router.push('home')
   }
 
   return (

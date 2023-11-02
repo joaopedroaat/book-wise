@@ -17,7 +17,7 @@ export function ProfilePicture({
   const altText = `Foto de perfil de ${name}.`
 
   return (
-    <Link href={`/book-wise/profile/${id}`}>
+    <Link href={`profile/${id}`}>
       {avatarUrl ? (
         <Image
           className="rounded-full"

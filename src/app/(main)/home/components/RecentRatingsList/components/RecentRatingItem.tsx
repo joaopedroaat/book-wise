@@ -20,7 +20,7 @@ export function RecentRatingItem({
           <div className="flex flex-col items-center md:items-start">
             <Link
               className="text-gray-100 no-underline"
-              href={`/book-wise/profile/${user.id}`}
+              href={`profile/${user.id}`}
             >
               {user.name}
             </Link>

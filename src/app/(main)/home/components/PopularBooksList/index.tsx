@@ -12,7 +12,7 @@ export async function PopularBooksList() {
         <h1 className="font-normal text-base">Livros populares</h1>
         <Link
           className="text-purple-100 font-bold flex items-center gap-2"
-          href={'/book-wise/explore'}
+          href="explore"
         >
           Ver todos
           <CaretRight size={16} weight="bold" />

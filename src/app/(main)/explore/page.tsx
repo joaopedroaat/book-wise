@@ -1,6 +1,6 @@
 'use client'
 
-import { BookList } from '@/app/book-wise/explore/components/BookList'
+import { BookList } from '@/app/(main)/explore/components/BookList'
 import { BookWiseService } from '@/services/BookWiseService'
 import { BookWithRatings } from '@/services/interfaces/models/BookWithRatings'
 import { Category } from '@/services/interfaces/models/Category'
