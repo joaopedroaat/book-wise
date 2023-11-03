@@ -16,13 +16,14 @@ export function Avatar({
   return (
     <Link href={`profile/${id}`}>
       {avatarUrl ? (
-        <Image
-          className="rounded-full"
-          width={size}
-          height={size}
-          src={avatarUrl}
-          alt={altText}
-        />
+        <div className="relative" style={{ width: size, height: size }}>
+          <Image
+            className="rounded-full"
+            fill={true}
+            src={avatarUrl}
+            alt={altText}
+          />
+        </div>
       ) : (
         <UserIcon
           className="bg-gray-800 p-1 rounded-full text-green-100"
