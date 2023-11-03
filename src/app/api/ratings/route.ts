@@ -7,6 +7,7 @@ import {
 } from '@/services/BookWiseService/schemas'
 import {
   Rating,
+  RatingResponse,
   RatingWithBook,
   RatingWithBookAndUser,
   RatingWithUser,
@@ -90,7 +91,7 @@ export async function GET(request: Request) {
       )
     else parsedRatings = ratings.map((rating) => ratingSchema.parse(rating))
 
-    return Response.json({ ratings: parsedRatings })
+    return Response.json({ ratings: parsedRatings } as RatingResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

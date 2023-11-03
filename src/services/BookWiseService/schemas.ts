@@ -121,3 +121,7 @@ export const ratingResponseSchema = z.object({
     z.array(ratingWithBookAndUserSchema),
   ]),
 })
+
+export const userResponseSchema = z.object({
+  user: userSchema,
+})
