@@ -69,27 +69,27 @@ export async function GET(request: Request) {
       },
     })
 
-    let convertedRatings:
+    let parsedRatings:
       | Rating[]
       | RatingWithBook[]
       | RatingWithUser[]
       | RatingWithBookAndUser[] = []
 
     if (includeBook && includeUser) {
-      convertedRatings = ratings.map((rating) =>
+      parsedRatings = ratings.map((rating) =>
         ratingWithBookAndUser.parse(rating),
       )
     } else if (includeBook) {
-      convertedRatings = ratings.map((rating) =>
+      parsedRatings = ratings.map((rating) =>
         ratingWithBookSchema.parse(rating),
       )
     } else if (includeUser) {
-      convertedRatings = ratings.map((rating) =>
+      parsedRatings = ratings.map((rating) =>
         ratingWithUserSchema.parse(rating),
       )
     }
 
-    return Response.json({ ratings: convertedRatings })
+    return Response.json({ ratings: parsedRatings })
   } catch (error) {
     console.error(error)
     return Response.error()
