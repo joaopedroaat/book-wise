@@ -52,7 +52,7 @@ function BookInfo({ book }: BookInfoProps) {
           </div>
         </div>
       </section>
-      <section className="border-t border-gray-600 py-6 mt-10 flex gap-14">
+      <section className="border-t border-gray-600 py-6 mt-10 flex justify-between [&>div]:flex-grow">
         <div className="flex items-center gap-4">
           <BookmarkSimple className="text-green-100" size={24} />
           <div className="flex flex-col">
