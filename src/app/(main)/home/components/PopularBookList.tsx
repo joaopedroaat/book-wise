@@ -8,6 +8,7 @@ import Link from 'next/link'
 
 export async function PopularBooksList() {
   const booksData = await BookWiseService.getBooks({
+    perPage: 4,
     includeRatings: true,
     includeCategories: true,
     orderBy: 'popular',

@@ -21,6 +21,11 @@ const searchParamsSchema = z.object({
     .nonnegative()
     .nullable()
     .transform((val) => val || 1),
+  perPage: z.coerce
+    .number()
+    .nonnegative()
+    .nullable()
+    .transform((val) => val || 30),
   category: z
     .string()
     .refine((val) =>
@@ -46,6 +51,7 @@ export async function GET(request: Request) {
 
     const validatedSearchParams = searchParamsSchema.safeParse({
       page: searchParams.get('page'),
+      perPage: searchParams.get('perPage'),
       category: searchParams.get('category'),
       includeRatings: searchParams.get('includeRatings'),
       includeCategories: searchParams.get('includeCategories'),
@@ -58,14 +64,18 @@ export async function GET(request: Request) {
         { status: 400 },
       )
 
-    const { page, category, includeRatings, includeCategories, orderBy } =
-      validatedSearchParams.data
-
-    const booksPerPage = 30
+    const {
+      page,
+      category,
+      includeRatings,
+      includeCategories,
+      orderBy,
+      perPage,
+    } = validatedSearchParams.data
 
     const books = await prisma.book.findMany({
-      skip: (page - 1) * booksPerPage,
-      take: booksPerPage,
+      skip: (page - 1) * perPage,
+      take: perPage,
       where: category
         ? {
             categories: {

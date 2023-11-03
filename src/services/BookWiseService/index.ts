@@ -24,18 +24,29 @@ export class BookWiseService {
   }
 
   static async getBooks({
+    page,
+    perPage,
     category,
     includeRatings = false,
     includeCategories = false,
     orderBy,
   }: {
+    page?: number
+    perPage?: number
     category?: Category['name']
     includeRatings?: boolean
     includeCategories?: boolean
     orderBy?: 'popular'
   } = {}): Promise<BookResponse> {
     const { data } = await this.bookwiseApi.get<BookResponse>('books', {
-      params: { category, includeRatings, includeCategories, orderBy },
+      params: {
+        page,
+        perPage,
+        category,
+        includeRatings,
+        includeCategories,
+        orderBy,
+      },
     })
 
     return data
