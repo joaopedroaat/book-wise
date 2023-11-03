@@ -14,16 +14,14 @@ export function Avatar({
   const altText = `Foto de perfil de ${name}.`
 
   return (
-    <Link
-      className={`relative w-[${size}px] h-[${size}px]`}
-      href={`profile/${id}`}
-    >
+    <Link href={`profile/${id}`}>
       {avatarUrl ? (
         <Image
           className="rounded-full"
+          width={size}
+          height={size}
           src={avatarUrl}
           alt={altText}
-          fill={true}
         />
       ) : (
         <UserIcon
