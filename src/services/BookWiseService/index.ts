@@ -7,13 +7,12 @@ export class BookWiseService {
 
   static async getRatings({
     page = 1,
-    includeUsers = false,
-    includeBooks = false,
+    includeUser = false,
+    includeBook = false,
   } = {}): Promise<RatingResponse> {
     const { data } = await this.bookwiseApi.get<RatingResponse>('ratings', {
-      params: { page, includeUsers, includeBooks },
+      params: { page, includeUser, includeBook },
     })
-
     return data
   }
 

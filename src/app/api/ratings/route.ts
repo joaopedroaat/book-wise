@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
 const searchParamsSchema = z.object({
-  page: z
+  page: z.coerce
     .number()
     .nonnegative()
     .nullable()

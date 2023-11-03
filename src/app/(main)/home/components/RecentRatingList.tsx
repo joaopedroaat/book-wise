@@ -8,8 +8,8 @@ import Link from 'next/link'
 
 export async function RecentRatingList() {
   const ratingsData = await BookWiseService.getRatings({
-    includeBooks: true,
-    includeUsers: true,
+    includeBook: true,
+    includeUser: true,
     page: 1,
   })
 
