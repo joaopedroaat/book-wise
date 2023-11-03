@@ -1,6 +1,18 @@
 import { prisma } from '@/lib/prisma'
-import { categorySchema } from '@/services/BookWiseService/schemas'
-import { Book } from '@prisma/client'
+import {
+  bookSchema,
+  bookWithCategories,
+  bookWithRatingsAndCategories,
+  bookWithRatingsSchema,
+  categorySchema,
+} from '@/services/BookWiseService/schemas'
+import {
+  Book,
+  BookResponse,
+  BookWithCategories,
+  BookWithRatings,
+  BookWithRatingsAndCategories,
+} from '@/services/BookWiseService/types'
 import { z } from 'zod'
 
 const searchParamsSchema = z.object({
@@ -29,59 +41,79 @@ const searchParamsSchema = z.object({
 })
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
+  try {
+    const { searchParams } = new URL(request.url)
 
-  const validatedSearchParams = searchParamsSchema.safeParse({
-    page: searchParams.get('page'),
-    category: searchParams.get('category'),
-    includeRatings: searchParams.get('includeRatings'),
-    includeCategories: searchParams.get('includeCategories'),
-    orderBy: searchParams.get('orderBy'),
-  })
+    const validatedSearchParams = searchParamsSchema.safeParse({
+      page: searchParams.get('page'),
+      category: searchParams.get('category'),
+      includeRatings: searchParams.get('includeRatings'),
+      includeCategories: searchParams.get('includeCategories'),
+      orderBy: searchParams.get('orderBy'),
+    })
 
-  if (!validatedSearchParams.success)
-    return Response.json(
-      { error: validatedSearchParams.error },
-      { status: 400 },
-    )
+    if (!validatedSearchParams.success)
+      return Response.json(
+        { error: validatedSearchParams.error },
+        { status: 400 },
+      )
 
-  const { page, category, includeRatings, includeCategories, orderBy } =
-    validatedSearchParams.data
+    const { page, category, includeRatings, includeCategories, orderBy } =
+      validatedSearchParams.data
 
-  const booksPerPage = 30
+    const booksPerPage = 30
 
-  let books: Book[] = []
-
-  books = await prisma.book.findMany({
-    skip: (page - 1) * booksPerPage,
-    take: booksPerPage,
-    where: category
-      ? {
-          categories: {
-            some: {
-              category: {
-                name: category,
+    const books = await prisma.book.findMany({
+      skip: (page - 1) * booksPerPage,
+      take: booksPerPage,
+      where: category
+        ? {
+            categories: {
+              some: {
+                category: {
+                  name: category,
+                },
               },
             },
+          }
+        : undefined,
+      include: {
+        ratings: includeRatings,
+        categories: {
+          include: {
+            category: includeCategories,
           },
-        }
-      : undefined,
-    include: {
-      ratings: includeRatings,
-      categories: includeCategories && {
-        select: {
-          category: includeCategories,
         },
       },
-    },
-    orderBy: orderBy
-      ? {
-          ratings: {
-            _count: 'desc',
-          },
-        }
-      : undefined,
-  })
+      orderBy: orderBy
+        ? {
+            ratings: {
+              _count: 'desc',
+            },
+          }
+        : undefined,
+    })
 
-  return Response.json({ books })
+    let parsedBooks:
+      | Book[]
+      | BookWithRatings[]
+      | BookWithCategories[]
+      | BookWithRatingsAndCategories[] = []
+
+    if (includeRatings && includeCategories) {
+      parsedBooks = books.map((book) =>
+        bookWithRatingsAndCategories.parse(book),
+      )
+    } else if (includeRatings) {
+      parsedBooks = books.map((book) => bookWithRatingsSchema.parse(book))
+    } else if (includeCategories) {
+      parsedBooks = books.map((book) => bookWithCategories.parse(book))
+    } else {
+      parsedBooks = books.map((book) => bookSchema.parse(book))
+    }
+
+    return Response.json({ books: parsedBooks } as BookResponse)
+  } catch (error) {
+    return Response.json({ error }, { status: 500 })
+  }
 }

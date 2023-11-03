@@ -51,7 +51,13 @@ export const bookWithRatingsSchema = bookSchema.extend({
 })
 
 export const bookWithCategories = bookSchema.extend({
-  categories: z.array(categorySchema),
+  categories: z.array(
+    z
+      .object({
+        category: categorySchema,
+      })
+      .transform(({ category }) => ({ id: category.id, name: category.name })),
+  ),
 })
 
 export const bookWithRatingsAndCategories = bookSchema.extend({
