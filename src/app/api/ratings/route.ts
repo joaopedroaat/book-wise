@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import {
+  ratingSchema,
   ratingWithBookAndUserSchema,
   ratingWithBookSchema,
   ratingWithUserSchema,
@@ -87,11 +88,12 @@ export async function GET(request: Request) {
       parsedRatings = ratings.map((rating) =>
         ratingWithUserSchema.parse(rating),
       )
+    } else {
+      parsedRatings = ratings.map((rating) => ratingSchema.parse(rating))
     }
 
     return Response.json({ ratings: parsedRatings })
   } catch (error) {
-    console.error(error)
-    return Response.error()
+    return Response.json({ error }, { status: 500 })
   }
 }
