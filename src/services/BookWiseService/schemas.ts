@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+// Primary Schemas
+
 export const bookSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -46,6 +48,8 @@ export const categorySchema = z.object({
   ]),
 })
 
+// Extensions
+
 export const ratingWithUserSchema = ratingSchema
   .omit({ user_id: true })
   .extend({
@@ -66,34 +70,29 @@ export const bookWithCategoriesSchema = bookSchema.extend({
   ),
 })
 
+export const ratingWithBookSchema = ratingSchema
+  .omit({ book_id: true })
+  .extend({
+    book: bookSchema.extend({
+      categories: z.array(
+        z
+          .object({
+            category: categorySchema,
+          })
+          .transform((val) => val.category),
+      ),
+      ratings: z.array(ratingSchema),
+    }),
+  })
+
 export const bookWithRatingsAndCategoriesSchema = bookWithRatingsSchema.merge(
   bookWithCategoriesSchema,
 )
 
-export const ratingWithBookSchema = ratingSchema
-  .omit({ book_id: true })
-  .extend({
-    book: bookWithRatingsAndCategoriesSchema.extend({
-      categories: z.array(
-        z.object({
-          category: categorySchema,
-        }),
-      ),
-    }),
-  })
+export const ratingWithBookAndUserSchema =
+  ratingWithBookSchema.merge(ratingWithUserSchema)
 
-export const ratingWithBookAndUserSchema = ratingSchema
-  .omit({ book_id: true, user_id: true })
-  .extend({
-    book: bookWithRatingsAndCategoriesSchema.extend({
-      categories: z.array(
-        z.object({
-          category: categorySchema,
-        }),
-      ),
-    }),
-    user: userSchema,
-  })
+// Response Schemas
 
 export const bookResponseSchema = z.object({
   books: z.union([
