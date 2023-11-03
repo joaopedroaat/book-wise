@@ -1,7 +1,7 @@
 import { Book } from '@/services/BookWiseService/types'
 import Image from 'next/image'
 
-interface BookCoverProps {
+type BookCoverProps = {
   book: Book
   width?: number
   height?: number

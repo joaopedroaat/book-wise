@@ -2,7 +2,7 @@
 
 import { HTMLProps, ReactNode, useRef, useEffect } from 'react'
 
-interface MarqueeTextProps extends HTMLProps<HTMLHeadingElement> {
+type MarqueeTextProps = HTMLProps<HTMLHeadingElement> & {
   children: ReactNode
 }
 

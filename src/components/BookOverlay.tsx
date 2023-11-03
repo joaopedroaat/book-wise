@@ -7,7 +7,7 @@ import { StarRating } from './StarRating'
 import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
 
-interface BookOverlayProps {
+type BookOverlayProps = {
   book: BookWithRatingsAndCategories
   width?: number
   height?: number
@@ -32,7 +32,7 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
   )
 }
 
-interface BookInfoProps {
+type BookInfoProps = {
   book: BookWithRatingsAndCategories
 }
 

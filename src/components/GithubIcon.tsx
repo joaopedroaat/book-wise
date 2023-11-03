@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import githubLogo from '@/assets/github-logo.svg'
 
-interface GithubIconProps {
+type GithubIconProps = {
   width?: number
   height?: number
 }

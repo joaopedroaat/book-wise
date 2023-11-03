@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import googleLogo from '@/assets/google-logo.svg'
 
-interface GoogleIconProps {
+type GoogleIconProps = {
   width?: number
   height?: number
 }

@@ -31,7 +31,7 @@ export async function RecentRatingList() {
   )
 }
 
-interface RatingItemProps {
+type RatingItemProps = {
   rating: RatingWithBookAndUser
 }
 

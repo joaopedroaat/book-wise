@@ -3,7 +3,7 @@ import { SignOut } from '@phosphor-icons/react'
 import { User } from 'next-auth'
 import { signOut as logout } from 'next-auth/react'
 
-interface SignOutFormProps {
+type SignOutFormProps = {
   user: User
 }
 

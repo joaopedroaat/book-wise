@@ -36,7 +36,7 @@ export async function PopularBooksList() {
   )
 }
 
-interface PopularBookItemProps {
+type PopularBookItemProps = {
   book: BookWithRatingsAndCategories
 }
 

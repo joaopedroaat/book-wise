@@ -1,7 +1,7 @@
 import { Star } from '@phosphor-icons/react/dist/ssr/Star'
 import { v4 as uuidv4 } from 'uuid'
 
-interface StarRatingProps {
+type StarRatingProps = {
   rating: number
   size?: number
 }

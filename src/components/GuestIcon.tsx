@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import rocketLogo from '@/assets/rocket-logo.svg'
 
-interface GuestIconProps {
+type GuestIconProps = {
   width?: number
   height?: number
 }

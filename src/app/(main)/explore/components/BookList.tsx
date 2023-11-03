@@ -2,7 +2,7 @@ import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
 
-interface BookListProps {
+type BookListProps = {
   books: BookWithRatingsAndCategories[]
 }
 
@@ -18,7 +18,7 @@ export function BookList({ books }: BookListProps) {
   )
 }
 
-interface BookItemProps {
+type BookItemProps = {
   book: BookWithRatingsAndCategories
 }
 

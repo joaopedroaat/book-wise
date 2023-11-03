@@ -2,12 +2,12 @@ import { BookWiseService } from '@/services/BookWiseService'
 import { Category } from '@prisma/client'
 import { HTMLProps, useEffect, useState } from 'react'
 
-interface FormCategory {
+type FormCategory = {
   id: string
   name: 'Todos' | Category['name']
 }
 
-interface CategoryFormProps extends HTMLProps<HTMLUListElement> {
+type CategoryFormProps = HTMLProps<HTMLUListElement> & {
   handleCategoryChange: (category: Category['name'] | null) => void
 }
 

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import bookWiseLogo from '@/assets/book-wise-logo.svg'
 
-interface BookWiseIconsProps {
+type BookWiseIconsProps = {
   width?: number
   height?: number
 }

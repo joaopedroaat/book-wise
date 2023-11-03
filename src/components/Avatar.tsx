@@ -2,7 +2,7 @@ import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface AvatarProps {
+type AvatarProps = {
   user: { id: string; name: string; avatarUrl: string | null }
   size?: number
 }
