@@ -5,7 +5,7 @@ import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { BookCover } from '../BookCover'
 import { BookInfo } from './components/BookInfo'
-import { CommentSection } from './components/CommentSection'
+import { RatingsSection } from './components/RatingsSection'
 
 type BookOverlayProps = {
   book: BookWithRatingsAndCategories
@@ -26,7 +26,7 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
             <X size={24} />
           </Dialog.Close>
           <BookInfo book={book} />
-          <CommentSection ratings={book.ratings} />
+          <RatingsSection ratings={book.ratings} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

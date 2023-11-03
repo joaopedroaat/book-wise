@@ -7,7 +7,7 @@ type CommentSectionProps = {
   ratings: RatingWithUser[]
 }
 
-export function CommentSection({ ratings }: CommentSectionProps) {
+export function RatingsSection({ ratings }: CommentSectionProps) {
   return (
     <section className="mt-4 flex flex-col gap-4">
       <div className="flex items-center justify-between">
