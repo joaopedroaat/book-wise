@@ -25,6 +25,7 @@ const searchParamsSchema = z.object({
     .boolean()
     .nullable()
     .transform((val) => val || false),
+  orderBy: z.enum(['popular']).nullable(),
 })
 
 export async function GET(request: Request) {
@@ -35,6 +36,7 @@ export async function GET(request: Request) {
     category: searchParams.get('category'),
     includeRatings: searchParams.get('includeRatings'),
     includeCategories: searchParams.get('includeCategories'),
+    orderBy: searchParams.get('orderBy'),
   })
 
   if (!validatedSearchParams.success)
@@ -43,10 +45,8 @@ export async function GET(request: Request) {
       { status: 400 },
     )
 
-  const { page, category, includeRatings, includeCategories } =
+  const { page, category, includeRatings, includeCategories, orderBy } =
     validatedSearchParams.data
-
-  console.log(category)
 
   const booksPerPage = 30
 
@@ -74,11 +74,13 @@ export async function GET(request: Request) {
         },
       },
     },
-    orderBy: {
-      ratings: {
-        _count: 'desc',
-      },
-    },
+    orderBy: orderBy
+      ? {
+          ratings: {
+            _count: 'desc',
+          },
+        }
+      : undefined,
   })
 
   return Response.json({ books })
