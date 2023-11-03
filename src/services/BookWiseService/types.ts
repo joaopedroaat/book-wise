@@ -4,12 +4,12 @@ import {
   categorySchema,
   bookSchema,
   bookWithRatingsSchema,
-  bookWithCategories,
-  bookWithRatingsAndCategories,
+  bookWithCategoriesSchema,
+  bookWithRatingsAndCategoriesSchema,
   ratingSchema,
   ratingWithBookSchema,
   ratingWithUserSchema,
-  ratingWithBookAndUser,
+  ratingWithBookAndUserSchema,
   bookResponseSchema,
   categoryResponseSchema,
   ratingResponseSchema,
@@ -22,15 +22,15 @@ export type CategoryNames = Category['name']
 
 export type Book = z.infer<typeof bookSchema>
 export type BookWithRatings = z.infer<typeof bookWithRatingsSchema>
-export type BookWithCategories = z.infer<typeof bookWithCategories>
+export type BookWithCategories = z.infer<typeof bookWithCategoriesSchema>
 export type BookWithRatingsAndCategories = z.infer<
-  typeof bookWithRatingsAndCategories
+  typeof bookWithRatingsAndCategoriesSchema
 >
 
 export type Rating = z.infer<typeof ratingSchema>
 export type RatingWithBook = z.infer<typeof ratingWithBookSchema>
 export type RatingWithUser = z.infer<typeof ratingWithUserSchema>
-export type RatingWithBookAndUser = z.infer<typeof ratingWithBookAndUser>
+export type RatingWithBookAndUser = z.infer<typeof ratingWithBookAndUserSchema>
 
 export type BookResponse = z.infer<typeof bookResponseSchema>
 export type CategoryResponse = z.infer<typeof categoryResponseSchema>

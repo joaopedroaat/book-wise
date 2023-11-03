@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import {
-  ratingWithBookAndUser,
+  ratingWithBookAndUserSchema,
   ratingWithBookSchema,
   ratingWithUserSchema,
 } from '@/services/BookWiseService/schemas'
@@ -77,7 +77,7 @@ export async function GET(request: Request) {
 
     if (includeBook && includeUser) {
       parsedRatings = ratings.map((rating) =>
-        ratingWithBookAndUser.parse(rating),
+        ratingWithBookAndUserSchema.parse(rating),
       )
     } else if (includeBook) {
       parsedRatings = ratings.map((rating) =>

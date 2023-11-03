@@ -1,8 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import {
   bookSchema,
-  bookWithCategories,
-  bookWithRatingsAndCategories,
+  bookWithCategoriesSchema,
+  bookWithRatingsAndCategoriesSchema,
   bookWithRatingsSchema,
   categorySchema,
 } from '@/services/BookWiseService/schemas'
@@ -102,12 +102,12 @@ export async function GET(request: Request) {
 
     if (includeRatings && includeCategories) {
       parsedBooks = books.map((book) =>
-        bookWithRatingsAndCategories.parse(book),
+        bookWithRatingsAndCategoriesSchema.parse(book),
       )
     } else if (includeRatings) {
       parsedBooks = books.map((book) => bookWithRatingsSchema.parse(book))
     } else if (includeCategories) {
-      parsedBooks = books.map((book) => bookWithCategories.parse(book))
+      parsedBooks = books.map((book) => bookWithCategoriesSchema.parse(book))
     } else {
       parsedBooks = books.map((book) => bookSchema.parse(book))
     }

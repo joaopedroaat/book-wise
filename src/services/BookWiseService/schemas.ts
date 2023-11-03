@@ -50,7 +50,7 @@ export const bookWithRatingsSchema = bookSchema.extend({
   ratings: z.array(ratingSchema),
 })
 
-export const bookWithCategories = bookSchema.extend({
+export const bookWithCategoriesSchema = bookSchema.extend({
   categories: z.array(
     z
       .object({
@@ -60,7 +60,7 @@ export const bookWithCategories = bookSchema.extend({
   ),
 })
 
-export const bookWithRatingsAndCategories = bookSchema.extend({
+export const bookWithRatingsAndCategoriesSchema = bookSchema.extend({
   ratings: z.array(ratingSchema),
   categories: z.array(
     z.object({
@@ -72,7 +72,7 @@ export const bookWithRatingsAndCategories = bookSchema.extend({
 export const ratingWithBookSchema = ratingSchema
   .omit({ book_id: true })
   .extend({
-    book: bookWithRatingsAndCategories.extend({
+    book: bookWithRatingsAndCategoriesSchema.extend({
       categories: z.array(
         z.object({
           category: categorySchema,
@@ -87,10 +87,10 @@ export const ratingWithUserSchema = ratingSchema
     user: userSchema,
   })
 
-export const ratingWithBookAndUser = ratingSchema
+export const ratingWithBookAndUserSchema = ratingSchema
   .omit({ book_id: true, user_id: true })
   .extend({
-    book: bookWithRatingsAndCategories.extend({
+    book: bookWithRatingsAndCategoriesSchema.extend({
       categories: z.array(
         z.object({
           category: categorySchema,
@@ -104,8 +104,8 @@ export const bookResponseSchema = z.object({
   books: z.union([
     z.array(bookSchema),
     z.array(bookWithRatingsSchema),
-    z.array(bookWithCategories),
-    z.array(bookWithRatingsAndCategories),
+    z.array(bookWithCategoriesSchema),
+    z.array(bookWithRatingsAndCategoriesSchema),
   ]),
 })
 
@@ -118,6 +118,6 @@ export const ratingResponseSchema = z.object({
     z.array(ratingSchema),
     z.array(ratingWithBookSchema),
     z.array(ratingWithUserSchema),
-    z.array(ratingWithBookAndUser),
+    z.array(ratingWithBookAndUserSchema),
   ]),
 })
