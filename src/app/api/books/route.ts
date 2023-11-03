@@ -101,14 +101,12 @@ export async function GET(request: Request) {
       | BookWithRatingsAndCategories[] = []
 
     if (includeRatings && includeCategories)
-      parsedBooks = books.map((book) =>
-        bookWithRatingsAndCategoriesSchema.parse(book),
-      )
+      parsedBooks = bookWithRatingsAndCategoriesSchema.array().parse(books)
     else if (includeRatings)
-      parsedBooks = books.map((book) => bookWithRatingsSchema.parse(book))
+      parsedBooks = bookWithRatingsSchema.array().parse(books)
     else if (includeCategories)
-      parsedBooks = books.map((book) => bookWithCategoriesSchema.parse(book))
-    else parsedBooks = books.map((book) => bookSchema.parse(book))
+      parsedBooks = bookWithCategoriesSchema.array().parse(books)
+    else parsedBooks = bookSchema.array().parse(books)
 
     return Response.json({ books: parsedBooks } as BookResponse)
   } catch (error) {

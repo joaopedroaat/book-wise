@@ -78,18 +78,12 @@ export async function GET(request: Request) {
       | RatingWithBookAndUser[] = []
 
     if (includeBook && includeUser)
-      parsedRatings = ratings.map((rating) =>
-        ratingWithBookAndUserSchema.parse(rating),
-      )
+      parsedRatings = ratingWithBookAndUserSchema.array().parse(ratings)
     else if (includeBook)
-      parsedRatings = ratings.map((rating) =>
-        ratingWithBookSchema.parse(rating),
-      )
+      parsedRatings = ratingWithBookSchema.array().parse(ratings)
     else if (includeUser)
-      parsedRatings = ratings.map((rating) =>
-        ratingWithUserSchema.parse(rating),
-      )
-    else parsedRatings = ratings.map((rating) => ratingSchema.parse(rating))
+      parsedRatings = ratingWithUserSchema.array().parse(ratings)
+    else parsedRatings = ratingSchema.array().parse(ratings)
 
     return Response.json({ ratings: parsedRatings } as RatingResponse)
   } catch (error) {

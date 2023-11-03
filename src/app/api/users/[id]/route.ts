@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { userSchema } from '@/services/BookWiseService/schemas'
-import { UserResponse } from '@/services/BookWiseService/types'
+import { SingleUserResponse } from '@/services/BookWiseService/types'
 
 export async function GET(
   request: Request,
@@ -12,7 +12,7 @@ export async function GET(
     const user = await prisma.user.findUnique({ where: { id } })
     const parsedUser = userSchema.parse(user)
 
-    return Response.json({ user: parsedUser } as UserResponse)
+    return Response.json({ user: parsedUser } as SingleUserResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

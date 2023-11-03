@@ -122,6 +122,6 @@ export const ratingResponseSchema = z.object({
   ]),
 })
 
-export const userResponseSchema = z.object({
+export const singleUserResponseSchema = z.object({
   user: userSchema,
 })

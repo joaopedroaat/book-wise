@@ -5,9 +5,7 @@ import { CategoryResponse } from '@/services/BookWiseService/types'
 export async function GET() {
   try {
     const categories = await prisma.category.findMany()
-    const parsedCategories = categories.map((category) =>
-      categorySchema.parse(category),
-    )
+    const parsedCategories = categorySchema.array().parse(categories)
 
     return Response.json({ categories: parsedCategories } as CategoryResponse)
   } catch (error) {

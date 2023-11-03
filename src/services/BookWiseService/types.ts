@@ -13,7 +13,7 @@ import {
   bookResponseSchema,
   categoryResponseSchema,
   ratingResponseSchema,
-  userResponseSchema,
+  singleUserResponseSchema,
 } from './schemas'
 
 export type User = z.infer<typeof userSchema>
@@ -36,4 +36,4 @@ export type RatingWithBookAndUser = z.infer<typeof ratingWithBookAndUserSchema>
 export type BookResponse = z.infer<typeof bookResponseSchema>
 export type CategoryResponse = z.infer<typeof categoryResponseSchema>
 export type RatingResponse = z.infer<typeof ratingResponseSchema>
-export type UserResponse = z.infer<typeof userResponseSchema>
+export type SingleUserResponse = z.infer<typeof singleUserResponseSchema>
