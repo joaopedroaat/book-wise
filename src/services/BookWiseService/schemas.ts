@@ -7,14 +7,14 @@ export const bookSchema = z.object({
   summary: z.string(),
   cover_url: z.string(),
   total_pages: z.number(),
-  created_at: z.string().datetime(),
+  created_at: z.date(),
 })
 
 export const ratingSchema = z.object({
   id: z.string(),
   rate: z.number(),
   description: z.string(),
-  created_at: z.string(),
+  created_at: z.date(),
   book_id: z.string(),
   user_id: z.string(),
 })
@@ -25,7 +25,7 @@ export const userSchema = z.object({
   email: z.string().email(),
   emailVerified: z.date().nullable(),
   avatar_url: z.string().nullable(),
-  created_at: z.string().datetime(),
+  created_at: z.date(),
 })
 
 export const categorySchema = z.object({
@@ -66,7 +66,13 @@ export const bookWithRatingsAndCategories = bookSchema.extend({
 export const ratingWithBookSchema = ratingSchema
   .omit({ book_id: true })
   .extend({
-    book: bookWithRatingsAndCategories,
+    book: bookWithRatingsAndCategories.extend({
+      categories: z.array(
+        z.object({
+          category: categorySchema,
+        }),
+      ),
+    }),
   })
 
 export const ratingWithUserSchema = ratingSchema
@@ -78,7 +84,13 @@ export const ratingWithUserSchema = ratingSchema
 export const ratingWithBookAndUser = ratingSchema
   .omit({ book_id: true, user_id: true })
   .extend({
-    book: bookWithRatingsAndCategories,
+    book: bookWithRatingsAndCategories.extend({
+      categories: z.array(
+        z.object({
+          category: categorySchema,
+        }),
+      ),
+    }),
     user: userSchema,
   })
 

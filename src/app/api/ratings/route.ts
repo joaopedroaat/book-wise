@@ -1,4 +1,15 @@
 import { prisma } from '@/lib/prisma'
+import {
+  ratingWithBookAndUser,
+  ratingWithBookSchema,
+  ratingWithUserSchema,
+} from '@/services/BookWiseService/schemas'
+import {
+  Rating,
+  RatingWithBook,
+  RatingWithBookAndUser,
+  RatingWithUser,
+} from '@/services/BookWiseService/types'
 import { z } from 'zod'
 
 const searchParamsSchema = z.object({
@@ -18,40 +29,69 @@ const searchParamsSchema = z.object({
 })
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
+  try {
+    const { searchParams } = new URL(request.url)
 
-  const validatedSearchParams = searchParamsSchema.safeParse({
-    page: searchParams.get('page'),
-    includeUser: searchParams.get('includeUser'),
-    includeBook: searchParams.get('includeBook'),
-  })
+    const validatedSearchParams = searchParamsSchema.safeParse({
+      page: searchParams.get('page'),
+      includeUser: searchParams.get('includeUser'),
+      includeBook: searchParams.get('includeBook'),
+    })
 
-  if (!validatedSearchParams.success)
-    return Response.json(
-      { error: validatedSearchParams.error },
-      { status: 400 },
-    )
+    if (!validatedSearchParams.success)
+      return Response.json(
+        { error: validatedSearchParams.error },
+        { status: 400 },
+      )
 
-  const { page, includeBook, includeUser } = validatedSearchParams.data
+    const { page, includeBook, includeUser } = validatedSearchParams.data
 
-  const ratingsPerPage = 10
+    const ratingsPerPage = 10
 
-  const ratings = await prisma.rating.findMany({
-    skip: (page - 1) * ratingsPerPage,
-    take: 10,
-    include: {
-      user: includeUser,
-      book: includeBook && {
-        include: {
-          ratings: true,
-          categories: true,
+    const ratings = await prisma.rating.findMany({
+      skip: (page - 1) * ratingsPerPage,
+      take: 10,
+      include: {
+        user: includeUser,
+        book: includeBook && {
+          include: {
+            ratings: true,
+            categories: {
+              include: {
+                category: true,
+              },
+            },
+          },
         },
       },
-    },
-    orderBy: {
-      created_at: 'desc',
-    },
-  })
+      orderBy: {
+        created_at: 'desc',
+      },
+    })
 
-  return Response.json({ ratings })
+    let convertedRatings:
+      | Rating[]
+      | RatingWithBook[]
+      | RatingWithUser[]
+      | RatingWithBookAndUser[] = []
+
+    if (includeBook && includeUser) {
+      convertedRatings = ratings.map((rating) =>
+        ratingWithBookAndUser.parse(rating),
+      )
+    } else if (includeBook) {
+      convertedRatings = ratings.map((rating) =>
+        ratingWithBookSchema.parse(rating),
+      )
+    } else if (includeUser) {
+      convertedRatings = ratings.map((rating) =>
+        ratingWithUserSchema.parse(rating),
+      )
+    }
+
+    return Response.json({ ratings: convertedRatings })
+  } catch (error) {
+    console.error(error)
+    return Response.error()
+  }
 }
