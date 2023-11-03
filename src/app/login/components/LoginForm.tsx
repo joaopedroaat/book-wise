@@ -1,18 +1,16 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { GithubIcon } from '../../../components/GithubIcon'
 import { GoogleIcon } from '../../../components/GoogleIcon'
 import { signIn } from 'next-auth/react'
 import { GuestIcon } from '../../../components/GuestIcon'
 
 export function LoginForm() {
-  const router = useRouter()
-
   function handleSignIn(provider?: 'google' | 'github') {
     if (provider) signIn(provider, { callbackUrl: '/home' })
 
-    router.push('home')
+    redirect('home')
   }
 
   return (
