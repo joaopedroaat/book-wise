@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { categorySchema } from '@/services/BookWiseService/schemas/categorySchema'
+import { categorySchema } from '@/services/BookWiseService/schemas'
 import { Book } from '@prisma/client'
 import { z } from 'zod'
 

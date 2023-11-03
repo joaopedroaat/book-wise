@@ -1,23 +1,19 @@
 import { z } from 'zod'
 import {
+  userSchema,
+  categorySchema,
   bookSchema,
   bookWithRatingsSchema,
   bookWithCategories,
   bookWithRatingsAndCategories,
-} from '../schemas/bookSchema'
-import { categorySchema } from '../schemas/categorySchema'
-import {
   ratingSchema,
   ratingWithBookSchema,
   ratingWithUserSchema,
   ratingWithBookAndUser,
-} from '../schemas/ratingSchema'
-import {
   bookResponseSchema,
   categoryResponseSchema,
   ratingResponseSchema,
-} from '../schemas/responseSchema'
-import { userSchema } from '../schemas/userSchema'
+} from '../schemas'
 
 export type User = z.infer<typeof userSchema>
 
