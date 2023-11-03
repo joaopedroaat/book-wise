@@ -54,7 +54,13 @@ export function PopularBookItem({ book }: PopularBookItemProps) {
           </MarqueeText>
           <small className="text-gray-400">{book.author}</small>
         </div>
-        <StarRating rating={3} size={14} />
+        <StarRating
+          rating={
+            book.ratings.reduce((acc, rating) => acc + rating.rate, 0) /
+            book.ratings.length
+          }
+          size={14}
+        />
       </main>
     </li>
   )
