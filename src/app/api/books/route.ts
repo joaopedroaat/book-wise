@@ -14,7 +14,6 @@ import {
   BookWithRatingsAndCategories,
 } from '@/services/BookWiseService/types'
 import { z } from 'zod'
-import { books } from '../../../../prisma/constants/books'
 
 const searchParamsSchema = z.object({
   page: z
