@@ -14,6 +14,7 @@ import {
   BookWithRatingsAndCategories,
 } from '@/services/BookWiseService/types'
 import { z } from 'zod'
+import { books } from '../../../../prisma/constants/books'
 
 const searchParamsSchema = z.object({
   page: z
@@ -100,17 +101,15 @@ export async function GET(request: Request) {
       | BookWithCategories[]
       | BookWithRatingsAndCategories[] = []
 
-    if (includeRatings && includeCategories) {
+    if (includeRatings && includeCategories)
       parsedBooks = books.map((book) =>
         bookWithRatingsAndCategoriesSchema.parse(book),
       )
-    } else if (includeRatings) {
+    else if (includeRatings)
       parsedBooks = books.map((book) => bookWithRatingsSchema.parse(book))
-    } else if (includeCategories) {
+    else if (includeCategories)
       parsedBooks = books.map((book) => bookWithCategoriesSchema.parse(book))
-    } else {
-      parsedBooks = books.map((book) => bookSchema.parse(book))
-    }
+    else parsedBooks = books.map((book) => bookSchema.parse(book))
 
     return Response.json({ books: parsedBooks } as BookResponse)
   } catch (error) {
