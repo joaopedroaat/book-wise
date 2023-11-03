@@ -17,14 +17,14 @@ const searchParamsSchema = z.object({
         .includes(val.toLowerCase()),
     )
     .nullable(),
-  includeRatings: z.coerce
-    .boolean()
+  includeRatings: z
+    .enum(['true', 'false'])
     .nullable()
-    .transform((val) => val || false),
-  includeCategories: z.coerce
-    .boolean()
+    .transform((val) => val === 'true'),
+  includeCategories: z
+    .enum(['true', 'false'])
     .nullable()
-    .transform((val) => val || false),
+    .transform((val) => val === 'true'),
   orderBy: z.enum(['popular']).nullable(),
 })
 
