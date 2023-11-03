@@ -2,44 +2,28 @@ import { Avatar } from '@/components/Avatar'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { BookWiseService } from '@/services/BookWiseService'
-import { RatingWithBookAndUser } from '@/services/BookWiseService/types'
+import {
+  BookWithRatingsAndCategories,
+  RatingWithBookAndUser,
+} from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import Link from 'next/link'
-
-export async function RecentRatingList() {
-  const ratingsData = await BookWiseService.getRatings({
-    includeBook: true,
-    includeUser: true,
-    page: 1,
-  })
-
-  const ratings = ratingsData
-    ? (ratingsData.ratings as RatingWithBookAndUser[])
-    : null
-
-  return (
-    <section className="flex flex-col gap-4">
-      <h1 className="text-base font-normal">Avaliações mais recentes</h1>
-      <ul className="list-none flex flex-col gap-3">
-        {ratings &&
-          ratings.map((rating) => (
-            <RecentRatingItem
-              key={rating.id}
-              rating={rating as RatingWithBookAndUser}
-            />
-          ))}
-      </ul>
-    </section>
-  )
-}
 
 type RatingItemProps = {
   rating: RatingWithBookAndUser
 }
 
-function RecentRatingItem({
+export async function RecentRatingItem({
   rating: { user, book, rate, description, created_at },
 }: RatingItemProps) {
+  const bookData = await BookWiseService.getBook(book.id, {
+    includeRatings: true,
+    includeCategories: true,
+  })
+
+  const bookWithRatingAndCategories =
+    (bookData?.book as BookWithRatingsAndCategories) || null
+
   return (
     <li className="bg-gray-700 p-6 rounded-lg flex flex-col gap-8">
       <header className="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-start">
@@ -62,7 +46,7 @@ function RecentRatingItem({
         <StarRating rating={rate} size={16} />
       </header>
       <main className="flex flex-col items-center gap-3 lg:flex-row lg:gap-5 lg:items-start">
-        <BookOverlay book={book} />
+        <BookOverlay book={bookWithRatingAndCategories} />
 
         <div className="text-center lg:text-start">
           <h1 className="text-xl">{book.name}</h1>

@@ -4,6 +4,7 @@ import {
   BookResponse,
   CategoryResponse,
   RatingResponse,
+  SingleBookResponse,
   SingleUserResponse,
 } from './types'
 
@@ -31,6 +32,24 @@ export class BookWiseService {
     try {
       const { data } = await this.bookwiseApi.get<SingleUserResponse>(
         `users/${id}`,
+      )
+
+      return data
+    } catch (error) {
+      console.error(error)
+
+      return null
+    }
+  }
+
+  static async getBook(
+    id: string,
+    { includeRatings = false, includeCategories = false } = {},
+  ): Promise<SingleBookResponse | null> {
+    try {
+      const { data } = await this.bookwiseApi.get<SingleBookResponse | null>(
+        `books/${id}`,
+        { params: { includeRatings, includeCategories } },
       )
 
       return data

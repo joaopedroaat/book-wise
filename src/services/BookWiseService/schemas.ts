@@ -89,10 +89,24 @@ export const bookWithRatingsAndCategoriesSchema = bookWithRatingsSchema.merge(
   bookWithCategoriesSchema,
 )
 
-export const ratingWithBookAndUserSchema =
-  ratingWithBookSchema.merge(ratingWithUserSchema)
+export const ratingWithBookAndUserSchema = ratingWithBookSchema
+  .merge(ratingWithUserSchema)
+  .omit({ book_id: true, user_id: true })
 
 // Response Schemas
+
+export const singleUserResponseSchema = z.object({
+  user: userSchema,
+})
+
+export const singleBookResponseSchema = z.object({
+  book: z.union([
+    bookSchema,
+    bookWithRatingsSchema,
+    bookWithCategoriesSchema,
+    bookWithRatingsAndCategoriesSchema,
+  ]),
+})
 
 export const bookResponseSchema = z.object({
   books: z.union([
@@ -114,8 +128,4 @@ export const ratingResponseSchema = z.object({
     z.array(ratingWithUserSchema),
     z.array(ratingWithBookAndUserSchema),
   ]),
-})
-
-export const singleUserResponseSchema = z.object({
-  user: userSchema,
 })

@@ -1,7 +1,7 @@
-export function calculateDateDistance(userDate: Date): string {
+export function calculateDateDistance(date: Date): string {
   const currentDate: Date = new Date()
   const timeDifferenceInMilliseconds: number =
-    userDate.getTime() - currentDate.getTime()
+    date.getTime() - currentDate.getTime()
   const differenceInDays: number = Math.floor(
     timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24),
   )
