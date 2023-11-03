@@ -20,7 +20,9 @@ export default function Explore() {
         includeCategories: true,
       })
 
-      setBooks(booksData.books as BookWithRatingsAndCategories[])
+      setBooks(
+        booksData ? (booksData.books as BookWithRatingsAndCategories[]) : [],
+      )
     }
 
     fetchBooks()

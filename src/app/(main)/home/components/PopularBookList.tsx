@@ -13,7 +13,10 @@ export async function PopularBooksList() {
     includeCategories: true,
     orderBy: 'popular',
   })
-  const books = booksData.books as BookWithRatingsAndCategories[]
+
+  const books = booksData
+    ? (booksData.books as BookWithRatingsAndCategories[])
+    : null
 
   return (
     <section className="w-full">
@@ -29,9 +32,8 @@ export async function PopularBooksList() {
       </header>
 
       <ul className="flex flex-col gap-3">
-        {books.map((book) => (
-          <PopularBookItem key={book.id} book={book} />
-        ))}
+        {books &&
+          books.map((book) => <PopularBookItem key={book.id} book={book} />)}
       </ul>
     </section>
   )

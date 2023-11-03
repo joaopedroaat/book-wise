@@ -13,7 +13,9 @@ export async function RecentRatingList() {
     page: 1,
   })
 
-  const ratings = ratingsData.ratings as RatingWithBookAndUser[]
+  const ratings = ratingsData
+    ? (ratingsData.ratings as RatingWithBookAndUser[])
+    : null
 
   return (
     <section className="flex flex-col gap-4">
