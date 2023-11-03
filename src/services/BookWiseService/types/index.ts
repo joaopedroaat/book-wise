@@ -20,7 +20,9 @@ import {
 import { userSchema } from '../schemas/userSchema'
 
 export type User = z.infer<typeof userSchema>
+
 export type Category = z.infer<typeof categorySchema>
+export type CategoryNames = Category['name']
 
 export type Book = z.infer<typeof bookSchema>
 export type BookWithRatings = z.infer<typeof bookWithRatingsSchema>
