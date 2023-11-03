@@ -34,14 +34,9 @@ export class BookWiseService {
     includeCategories?: boolean
     orderBy?: 'popular'
   } = {}): Promise<BookResponse> {
-    const { data } = await this.bookwiseApi.get<BookResponse>(
-      `books?
-      includeRatings=${includeRatings}&
-      includeCategories=${includeCategories}&
-      orderBy=${orderBy}
-      ${category ? `&category=${category}` : ''}
-      ${orderBy ? `&orderBy=${orderBy}` : ''}`,
-    )
+    const { data } = await this.bookwiseApi.get<BookResponse>('books', {
+      params: { category, includeRatings, includeCategories, orderBy },
+    })
 
     return data
   }
