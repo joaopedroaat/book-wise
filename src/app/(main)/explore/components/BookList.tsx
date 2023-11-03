@@ -24,7 +24,7 @@ type BookItemProps = {
 
 export function BookItem({ book }: BookItemProps) {
   return (
-    <div className="bg-gray-700 px-5 py-4 flex flex-col items-center sm:items-end gap-2 sm:flex sm:flex-row sm:gap-5 sm:w-80 rounded-lg">
+    <div className="bg-gray-700 px-5 py-4 w-36 flex flex-col items-center sm:items-end gap-2 sm:flex sm:flex-row sm:gap-5 sm:w-80 rounded-lg">
       <BookOverlay book={book} />
       <div className="flex flex-col items-center gap-2 sm:items-start sm:justify-between h-full">
         <div className="flex flex-col gap-0 text-center sm:text-left">
