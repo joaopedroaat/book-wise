@@ -88,7 +88,13 @@ export async function GET(request: Request) {
           }
         : undefined,
       include: {
-        ratings: includeRatings,
+        ratings: includeRatings
+          ? {
+              include: {
+                user: true,
+              },
+            }
+          : undefined,
         categories: {
           include: {
             category: includeCategories,

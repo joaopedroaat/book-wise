@@ -5,7 +5,10 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { BookCover } from './BookCover'
 import { StarRating } from './StarRating'
 import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
-import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
+import {
+  BookWithRatingsAndCategories,
+  RatingWithUser,
+} from '@/services/BookWiseService/types'
 
 type BookOverlayProps = {
   book: BookWithRatingsAndCategories
@@ -26,6 +29,7 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
             <X size={24} />
           </Dialog.Close>
           <BookInfo book={book} />
+          <CommentSection ratings={book.ratings} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -38,7 +42,7 @@ type BookInfoProps = {
 
 function BookInfo({ book }: BookInfoProps) {
   return (
-    <div className="bg-gray-700 rounded-lg w-full px-8 py-6">
+    <section className="bg-gray-700 rounded-lg w-full px-8 py-6">
       <section className="flex gap-8">
         <BookCover book={book} />
         <div className="flex flex-col justify-between">
@@ -68,6 +72,27 @@ function BookInfo({ book }: BookInfoProps) {
           </div>
         </div>
       </section>
-    </div>
+    </section>
+  )
+}
+
+type CommentSectionProps = {
+  ratings: RatingWithUser[]
+}
+
+export function CommentSection({ ratings }: CommentSectionProps) {
+  return (
+    <section className="mt-4">
+      <div className="flex items-center justify-between">
+        <small>Avaliações</small>
+        <button className="text-purple-100 font-bold text-sm">Avaliar</button>
+      </div>
+
+      <ul>
+        {ratings.map((rating) => (
+          <li key={rating.id}>{rating.description}</li>
+        ))}
+      </ul>
+    </section>
   )
 }

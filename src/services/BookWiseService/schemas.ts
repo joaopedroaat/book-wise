@@ -46,8 +46,14 @@ export const categorySchema = z.object({
   ]),
 })
 
+export const ratingWithUserSchema = ratingSchema
+  .omit({ user_id: true })
+  .extend({
+    user: userSchema,
+  })
+
 export const bookWithRatingsSchema = bookSchema.extend({
-  ratings: z.array(ratingSchema),
+  ratings: z.array(ratingWithUserSchema),
 })
 
 export const bookWithCategoriesSchema = bookSchema.extend({
@@ -60,14 +66,9 @@ export const bookWithCategoriesSchema = bookSchema.extend({
   ),
 })
 
-export const bookWithRatingsAndCategoriesSchema = bookSchema.extend({
-  ratings: z.array(ratingSchema),
-  categories: z.array(
-    z.object({
-      category: categorySchema,
-    }),
-  ),
-})
+export const bookWithRatingsAndCategoriesSchema = bookWithRatingsSchema.merge(
+  bookWithCategoriesSchema,
+)
 
 export const ratingWithBookSchema = ratingSchema
   .omit({ book_id: true })
@@ -79,12 +80,6 @@ export const ratingWithBookSchema = ratingSchema
         }),
       ),
     }),
-  })
-
-export const ratingWithUserSchema = ratingSchema
-  .omit({ user_id: true })
-  .extend({
-    user: userSchema,
   })
 
 export const ratingWithBookAndUserSchema = ratingSchema
