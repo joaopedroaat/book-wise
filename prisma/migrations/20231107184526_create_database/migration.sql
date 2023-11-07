@@ -31,7 +31,7 @@ CREATE TABLE `sessions` (
 -- CreateTable
 CREATE TABLE `users` (
     `id` VARCHAR(191) NOT NULL,
-    `name` VARCHAR(191) NULL,
+    `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `emailVerified` DATETIME(3) NULL,
     `avatar_url` VARCHAR(191) NULL,

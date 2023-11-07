@@ -1,0 +1,18 @@
+services:
+    mysql:
+      image: mysql:8
+      restart: always
+      ports:
+        - 3306:3306
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: book-wise
+        MYSQL_USER: prisma
+        MYSQL_PASSWORD: prisma
+      volumes:
+        - mysql-data:/var/lib/mysql
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql # Grant privileges to prisma
+    
+volumes:
+  mysql-data:
+    
