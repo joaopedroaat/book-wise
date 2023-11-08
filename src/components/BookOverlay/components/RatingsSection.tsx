@@ -1,22 +1,39 @@
 import { Avatar } from '@/components/Avatar'
+import { LoginDialog } from '@/components/LoginDialog'
 import { StarRating } from '@/components/StarRating'
-import { RatingWithUser } from '@/services/BookWiseService/types'
+import { BookWithRatings } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
+import { useSession } from 'next-auth/react'
+import { RatingForm } from './RatingForm'
 
 type CommentSectionProps = {
-  ratings: RatingWithUser[]
+  book: BookWithRatings
 }
 
-export function RatingsSection({ ratings }: CommentSectionProps) {
+export function RatingsSection({ book }: CommentSectionProps) {
+  const session = useSession()
+  const isAuthenticated = session.status === 'authenticated'
+
+  const rateButton = (
+    <button className="text-purple-100 font-bold text-sm">Avaliar</button>
+  )
+
   return (
     <section className="mt-4 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <small>Avaliações</small>
-        <button className="text-purple-100 font-bold text-sm">Avaliar</button>
+        {isAuthenticated ? (
+          rateButton
+        ) : (
+          <LoginDialog description="Faça login para deixar sua avaliação">
+            {rateButton}
+          </LoginDialog>
+        )}
       </div>
 
       <ul className="flex flex-col gap-3">
-        {ratings.map((rating) => (
+        {isAuthenticated && <RatingForm user={session.data.user} book={book} />}
+        {book.ratings.map((rating) => (
           <li
             className="bg-gray-700 p-6 rounded-lg flex flex-col gap-5"
             key={rating.id}

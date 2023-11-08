@@ -26,7 +26,7 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
             <X size={24} />
           </Dialog.Close>
           <BookInfo book={book} />
-          <RatingsSection ratings={book.ratings} />
+          <RatingsSection book={book} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
