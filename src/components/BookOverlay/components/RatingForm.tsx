@@ -1,5 +1,6 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
+import { BookWiseService } from '@/services/BookWiseService'
 import { Book } from '@/services/BookWiseService/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
@@ -19,7 +20,7 @@ const ratingFormSchema = z.object({
 
 export type RatingFormSchema = z.infer<typeof ratingFormSchema>
 
-export function RatingForm({ user }: RatingFormProps) {
+export function RatingForm({ book, user }: RatingFormProps) {
   const {
     register,
     handleSubmit,
@@ -30,8 +31,17 @@ export function RatingForm({ user }: RatingFormProps) {
     resolver: zodResolver(ratingFormSchema),
   })
 
-  function handleFormSubmit(data: RatingFormSchema) {
-    console.log(data)
+  async function handleFormSubmit(data: RatingFormSchema) {
+    const response = await BookWiseService.postRating({
+      rating: {
+        rate: data.rate,
+        description: data.description,
+        book_id: book.id,
+        user_id: user.id,
+      },
+    })
+
+    console.log(response)
 
     reset()
   }

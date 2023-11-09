@@ -11,6 +11,7 @@ import {
   RatingWithBook,
   RatingWithBookAndUser,
   RatingWithUser,
+  RatingsResponse,
 } from '@/services/BookWiseService/types'
 import { z } from 'zod'
 
@@ -85,7 +86,32 @@ export async function GET(request: Request) {
       parsedRatings = ratingWithUserSchema.array().parse(ratings)
     else parsedRatings = ratingSchema.array().parse(ratings)
 
-    return Response.json({ ratings: parsedRatings } as RatingResponse)
+    return Response.json({ ratings: parsedRatings } as RatingsResponse)
+  } catch (error) {
+    return Response.json({ error }, { status: 500 })
+  }
+}
+
+const requestBodySchema = z.object({
+  rating: ratingSchema.omit({ id: true, created_at: true }),
+})
+
+export type PostRating = z.infer<typeof requestBodySchema>
+
+export async function POST(request: Request) {
+  try {
+    const parsedBody = requestBodySchema.safeParse(await request.json())
+
+    if (!parsedBody.success)
+      return Response.json({ error: parsedBody.error }, { status: 400 })
+
+    const createdRate = await prisma.rating.create({
+      data: parsedBody.data.rating,
+    })
+
+    const parsedCreatedRate = ratingSchema.parse(createdRate)
+
+    return Response.json({ rating: parsedCreatedRate } as RatingResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

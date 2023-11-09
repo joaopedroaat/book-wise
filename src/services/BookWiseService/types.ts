@@ -1,20 +1,21 @@
 import { z } from 'zod'
 import {
-  userSchema,
-  categorySchema,
+  bookResponseSchema,
   bookSchema,
-  bookWithRatingsSchema,
   bookWithCategoriesSchema,
   bookWithRatingsAndCategoriesSchema,
+  bookWithRatingsSchema,
+  categoryResponseSchema,
+  categorySchema,
+  ratingResponseSchema,
   ratingSchema,
+  ratingWithBookAndUserSchema,
   ratingWithBookSchema,
   ratingWithUserSchema,
-  ratingWithBookAndUserSchema,
-  bookResponseSchema,
-  categoryResponseSchema,
-  ratingResponseSchema,
-  singleUserResponseSchema,
+  ratingsResponseSchema,
   singleBookResponseSchema,
+  singleUserResponseSchema,
+  userSchema,
 } from './schemas'
 
 export type User = z.infer<typeof userSchema>
@@ -39,3 +40,4 @@ export type SingleBookResponse = z.infer<typeof singleBookResponseSchema>
 export type BookResponse = z.infer<typeof bookResponseSchema>
 export type CategoryResponse = z.infer<typeof categoryResponseSchema>
 export type RatingResponse = z.infer<typeof ratingResponseSchema>
+export type RatingsResponse = z.infer<typeof ratingsResponseSchema>

@@ -122,6 +122,10 @@ export const categoryResponseSchema = z.object({
 })
 
 export const ratingResponseSchema = z.object({
+  rating: ratingSchema,
+})
+
+export const ratingsResponseSchema = z.object({
   ratings: z.union([
     z.array(ratingSchema),
     z.array(ratingWithBookSchema),
