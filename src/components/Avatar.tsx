@@ -20,6 +20,7 @@ export function Avatar({
           <Image
             className="rounded-full"
             fill={true}
+            sizes={`${size}px`}
             src={avatarUrl}
             alt={altText}
           />

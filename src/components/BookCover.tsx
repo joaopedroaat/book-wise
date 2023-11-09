@@ -10,7 +10,7 @@ type BookCoverProps = {
 export function BookCover({ book, width = 108, height = 152 }: BookCoverProps) {
   return (
     <Image
-      className="shrink-0"
+      className="shrink-0 w-auto h-auto"
       src={book.cover_url}
       width={width}
       height={height}

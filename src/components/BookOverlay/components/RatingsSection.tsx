@@ -31,7 +31,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
         )}
       </div>
 
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-3 overflow-scroll">
         {isAuthenticated && <RatingForm user={session.data.user} book={book} />}
         {book.ratings.map((rating) => (
           <li
