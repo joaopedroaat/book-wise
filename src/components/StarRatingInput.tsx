@@ -19,7 +19,6 @@ export function StarRatingInput({
 
   return (
     <div className="text-purple-100">
-      <input className="hidden" type="number" value={rate} />
       <button type="button" onClick={() => handleRateChange(1)}>
         <Star size={size} weight={rate >= 1 ? 'fill' : undefined} />
       </button>
