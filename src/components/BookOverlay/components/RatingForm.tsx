@@ -16,7 +16,7 @@ type RatingFormProps = {
 
 const ratingFormSchema = z.object({
   rate: z.coerce.number().min(1).max(5),
-  description: z.string().min(1).max(450),
+  description: z.string().min(1, 'A descrição é obrigatória').max(450),
 })
 
 export type RatingFormSchema = z.infer<typeof ratingFormSchema>
@@ -26,14 +26,14 @@ export function RatingForm({ book, user, onAbort }: RatingFormProps) {
     register,
     handleSubmit,
     control,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
     reset,
   } = useForm<RatingFormSchema>({
     resolver: zodResolver(ratingFormSchema),
   })
 
   async function handleFormSubmit(data: RatingFormSchema) {
-    const response = await BookWiseService.postRating({
+    await BookWiseService.postRating({
       rating: {
         rate: data.rate,
         description: data.description,
@@ -66,20 +66,32 @@ export function RatingForm({ book, user, onAbort }: RatingFormProps) {
           name="rate"
           control={control}
           render={({ field }) => (
-            <StarRatingInput
-              onRateChange={(newRate) => field.onChange(newRate)}
-              rate={field.value}
-            />
+            <div className="flex flex-col text-right">
+              <StarRatingInput
+                onRateChange={(newRate) => field.onChange(newRate)}
+                rate={field.value}
+              />
+              {errors.rate && (
+                <small className="block text-red-100">Dê uma nota</small>
+              )}
+            </div>
           )}
         />
       </header>
       <main className="mt-6">
         <textarea
           {...register('description')}
-          className="w-full h-40 p-3 bg-gray-800 rounded"
+          className={`w-full h-40 p-3 bg-gray-800 rounded focus:outline outline-1 ${
+            errors.description ? 'outline-red-100' : 'outline-purple-100'
+          }`}
           placeholder="Escreva sua avaliação"
           maxLength={450}
         />
+        {errors.description && (
+          <small className="block mt-1 text-right text-red-100">
+            {errors.description.message}
+          </small>
+        )}
       </main>
       <footer className="mt-3 flex justify-end gap-2">
         <button
