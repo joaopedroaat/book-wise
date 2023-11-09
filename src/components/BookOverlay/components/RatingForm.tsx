@@ -11,6 +11,7 @@ import { z } from 'zod'
 type RatingFormProps = {
   book: Book
   user: User
+  onAbort: () => void
 }
 
 const ratingFormSchema = z.object({
@@ -20,7 +21,7 @@ const ratingFormSchema = z.object({
 
 export type RatingFormSchema = z.infer<typeof ratingFormSchema>
 
-export function RatingForm({ book, user }: RatingFormProps) {
+export function RatingForm({ book, user, onAbort }: RatingFormProps) {
   const {
     register,
     handleSubmit,
@@ -41,9 +42,12 @@ export function RatingForm({ book, user }: RatingFormProps) {
       },
     })
 
-    console.log(response)
-
     reset()
+    onAbort()
+  }
+
+  function handleAbort() {
+    onAbort()
   }
 
   return (
@@ -78,7 +82,11 @@ export function RatingForm({ book, user }: RatingFormProps) {
         />
       </main>
       <footer className="mt-3 flex justify-end gap-2">
-        <button className="bg-gray-600 p-2 rounded" type="button">
+        <button
+          className="bg-gray-600 p-2 rounded"
+          type="button"
+          onClick={handleAbort}
+        >
           <X className="text-purple-100" size={24} />
         </button>
         <button

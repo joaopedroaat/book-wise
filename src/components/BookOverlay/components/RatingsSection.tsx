@@ -4,6 +4,7 @@ import { StarRating } from '@/components/StarRating'
 import { BookWithRatings } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { RatingForm } from './RatingForm'
 
 type CommentSectionProps = {
@@ -14,8 +15,17 @@ export function RatingsSection({ book }: CommentSectionProps) {
   const session = useSession()
   const isAuthenticated = session.status === 'authenticated'
 
+  const [isRatingFormVisible, setIsRatingFormVisible] = useState(false)
+
   const rateButton = (
-    <button className="text-purple-100 font-bold text-sm">Avaliar</button>
+    <button
+      className="text-purple-100 font-bold text-sm"
+      onClick={
+        !isRatingFormVisible ? () => setIsRatingFormVisible(true) : undefined
+      }
+    >
+      Avaliar
+    </button>
   )
 
   return (
@@ -31,8 +41,14 @@ export function RatingsSection({ book }: CommentSectionProps) {
         )}
       </div>
 
-      <ul className="flex flex-col gap-3 overflow-scroll">
-        {isAuthenticated && <RatingForm user={session.data.user} book={book} />}
+      <ul className="flex flex-col gap-3">
+        {isAuthenticated && isRatingFormVisible && (
+          <RatingForm
+            user={session.data.user}
+            book={book}
+            onAbort={() => setIsRatingFormVisible(false)}
+          />
+        )}
         {book.ratings.map((rating) => (
           <li
             className="bg-gray-700 p-6 rounded-lg flex flex-col gap-5"
@@ -50,7 +66,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
                 <div>
                   <p className="font-bold text-sm">{rating.user.name}</p>
                   <small className="text-gray-400">
-                    {calculateDateDistance(new Date(rating.user.created_at))}
+                    {calculateDateDistance(new Date(rating.created_at))}
                   </small>
                 </div>
               </div>
