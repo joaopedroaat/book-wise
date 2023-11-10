@@ -4,6 +4,7 @@ import { StarRating } from '@/components/StarRating'
 import { BookWiseService } from '@/services/BookWiseService'
 import { Book, RatingWithUser } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
+import { CircleNotch } from '@phosphor-icons/react'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
@@ -14,8 +15,8 @@ type CommentSectionProps = {
 }
 
 export function RatingsSection({ book }: CommentSectionProps) {
-  const { data: ratings } = useQuery({
-    queryKey: ['ratings_on_book'],
+  const { data: ratings, isLoading } = useQuery({
+    queryKey: ['ratings_on_book', book],
     queryFn: async () => {
       const ratings = await BookWiseService.getRatingsOnBook(book.id, {
         includeUser: true,
@@ -64,7 +65,13 @@ export function RatingsSection({ book }: CommentSectionProps) {
             onAbort={() => setIsRatingFormVisible(false)}
           />
         )}
-        {ratings &&
+        {isLoading && (
+          <div className="w-full flex justify-center">
+            <CircleNotch className="animate-spin" size={32} />
+          </div>
+        )}
+        {!isLoading &&
+          ratings &&
           ratings.map((rating) => (
             <li
               className="bg-gray-700 p-6 rounded-lg flex flex-col gap-5"

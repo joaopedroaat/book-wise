@@ -7,17 +7,6 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {
-      animation: {
-        marquee: 'marquee 10s linear infinite',
-      },
-    },
-    keyframes: {
-      marquee: {
-        '0%': { transform: 'translateX(0%)' },
-        '100%': { transform: 'translateX(-150%)' },
-      },
-    },
     backgroundImage: {
       'bookwise-cover': "url('/book-wise-cover.svg')",
     },
