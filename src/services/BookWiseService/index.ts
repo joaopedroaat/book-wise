@@ -26,102 +26,61 @@ export class BookWiseService {
     includeUser = false,
     includeBook = false,
   } = {}): Promise<
-    | Rating[]
-    | RatingWithBook[]
-    | RatingWithUser[]
-    | RatingWithBookAndUser[]
-    | null
+    Rating[] | RatingWithBook[] | RatingWithUser[] | RatingWithBookAndUser[]
   > {
-    try {
-      const { data } = await this.bookwiseApi.get<RatingsResponse>('ratings', {
-        params: { page, includeUser, includeBook },
-      })
-      return data.ratings
-    } catch (error) {
-      console.error(error)
-
-      return null
-    }
+    const { data } = await this.bookwiseApi.get<RatingsResponse>('ratings', {
+      params: { page, includeUser, includeBook },
+    })
+    return data.ratings
   }
 
   static async getRatingsOnBook(
     bookId: string,
     { includeUser = false } = {},
   ): Promise<
-    | Rating[]
-    | RatingWithUser[]
-    | RatingWithBook[]
-    | RatingWithBookAndUser[]
-    | null
+    Rating[] | RatingWithUser[] | RatingWithBook[] | RatingWithBookAndUser[]
   > {
-    try {
-      const { data } = await this.bookwiseApi.get<RatingsResponse>(
-        `ratings/${bookId}`,
-        {
-          params: {
-            includeUser,
-          },
+    const { data } = await this.bookwiseApi.get<RatingsResponse>(
+      `ratings/${bookId}`,
+      {
+        params: {
+          includeUser,
         },
-      )
+      },
+    )
 
-      return data.ratings
-    } catch (error) {
-      console.log(error)
-
-      return null
-    }
+    return data.ratings
   }
 
-  static async postRating(rating: PostRating): Promise<Rating | null> {
-    try {
-      const { data } = await this.bookwiseApi.post<RatingResponse>(
-        'ratings',
-        rating,
-      )
+  static async postRating(rating: PostRating): Promise<Rating> {
+    const { data } = await this.bookwiseApi.post<RatingResponse>(
+      'ratings',
+      rating,
+    )
 
-      return data.rating
-    } catch (error) {
-      console.error(error)
-      return null
-    }
+    return data.rating
   }
 
-  static async getUser(id: string): Promise<User | null> {
-    try {
-      const { data } = await this.bookwiseApi.get<SingleUserResponse>(
-        `users/${id}`,
-      )
+  static async getUser(id: string): Promise<User> {
+    const { data } = await this.bookwiseApi.get<SingleUserResponse>(
+      `users/${id}`,
+    )
 
-      return data.user
-    } catch (error) {
-      console.error(error)
-
-      return null
-    }
+    return data.user
   }
 
   static async getBook(
     id: string,
     { includeRatings = false, includeCategories = false } = {},
   ): Promise<
-    | Book
-    | BookWithRatings
-    | BookWithCategories
-    | BookWithRatingsAndCategories
-    | null
+    Book | BookWithRatings | BookWithCategories | BookWithRatingsAndCategories
   > {
-    try {
-      const { data } = await this.bookwiseApi.get<SingleBookResponse>(
-        `books/${id}`,
-        { params: { includeRatings, includeCategories } },
-      )
+    const { data } = await this.bookwiseApi.get<SingleBookResponse>(
+      `books/${id}`,
+      { params: { includeRatings, includeCategories } },
+    )
 
-      return data.book
-    } catch (error) {
-      console.error(error)
-
-      return null
-    }
+    return data.book
   }
 
   static async getBooks({
@@ -143,38 +102,24 @@ export class BookWiseService {
     | BookWithRatings[]
     | BookWithCategories[]
     | BookWithRatingsAndCategories[]
-    | null
   > {
-    try {
-      const { data } = await this.bookwiseApi.get<BookResponse>('books', {
-        params: {
-          page,
-          perPage,
-          category,
-          includeRatings,
-          includeCategories,
-          orderBy,
-        },
-      })
+    const { data } = await this.bookwiseApi.get<BookResponse>('books', {
+      params: {
+        page,
+        perPage,
+        category,
+        includeRatings,
+        includeCategories,
+        orderBy,
+      },
+    })
 
-      return data.books
-    } catch (error) {
-      console.error(error)
-
-      return null
-    }
+    return data.books
   }
 
-  static async getCategories(): Promise<Category[] | null> {
-    try {
-      const { data } =
-        await this.bookwiseApi.get<CategoryResponse>('categories')
+  static async getCategories(): Promise<Category[]> {
+    const { data } = await this.bookwiseApi.get<CategoryResponse>('categories')
 
-      return data.categories
-    } catch (error) {
-      console.error(error)
-
-      return null
-    }
+    return data.categories
   }
 }

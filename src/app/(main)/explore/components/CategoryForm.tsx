@@ -22,9 +22,7 @@ export function CategoryForm({
   useEffect(() => {
     async function fetchCategories() {
       const categories = await BookWiseService.getCategories()
-
-      if (categories)
-        setCategories([{ id: 'Todos', name: 'Todos' }, ...categories])
+      setCategories([{ id: 'Todos', name: 'Todos' }, ...categories])
     }
 
     fetchCategories()

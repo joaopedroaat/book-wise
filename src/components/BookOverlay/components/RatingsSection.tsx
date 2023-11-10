@@ -22,8 +22,6 @@ export function RatingsSection({ book }: CommentSectionProps) {
         includeUser: true,
       })
 
-      if (!ratings) throw new Error(`Failed to fetch ${book.name} ratings.`)
-
       return ratings as RatingWithUser[]
     },
   })

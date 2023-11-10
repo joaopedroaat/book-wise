@@ -19,8 +19,6 @@ export function RecentRatingList() {
         page: 1,
       })
 
-      if (!ratings) throw new Error('Failed to fetch recent ratings.')
-
       return ratings as RatingWithBookAndUser[]
     },
   })

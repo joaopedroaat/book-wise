@@ -20,8 +20,6 @@ export function PopularBooksList() {
         orderBy: 'popular',
       })
 
-      if (!books) throw new Error('Failed to fetch popular books.')
-
       return books as BookWithRatingsAndCategories[]
     },
   })
