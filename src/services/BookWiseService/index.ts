@@ -4,7 +4,11 @@ import { Category } from '@prisma/client'
 import {
   BookResponse,
   CategoryResponse,
+  Rating,
   RatingResponse,
+  RatingWithBook,
+  RatingWithBookAndUser,
+  RatingWithUser,
   RatingsResponse,
   SingleBookResponse,
   SingleUserResponse,
@@ -17,14 +21,42 @@ export class BookWiseService {
     page = 1,
     includeUser = false,
     includeBook = false,
-  } = {}): Promise<RatingsResponse | null> {
+  } = {}): Promise<
+    | Rating[]
+    | RatingWithBook[]
+    | RatingWithUser[]
+    | RatingWithBookAndUser[]
+    | null
+  > {
     try {
       const { data } = await this.bookwiseApi.get<RatingsResponse>('ratings', {
         params: { page, includeUser, includeBook },
       })
-      return data
+      return data.ratings
     } catch (error) {
       console.error(error)
+
+      return null
+    }
+  }
+
+  static async getRatingsOnBook(
+    bookId: string,
+    { includeUser = false } = {},
+  ): Promise<Rating[] | RatingWithUser[] | null> {
+    try {
+      const { data } = await this.bookwiseApi.get<RatingsResponse>(
+        `ratings/${bookId}`,
+        {
+          params: {
+            includeUser,
+          },
+        },
+      )
+
+      return data.ratings as Rating[]
+    } catch (error) {
+      console.log(error)
 
       return null
     }
