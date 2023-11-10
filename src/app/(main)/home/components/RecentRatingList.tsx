@@ -10,17 +10,14 @@ import Link from 'next/link'
 import { useQuery } from 'react-query'
 
 export function RecentRatingList() {
-  const { data: ratings } = useQuery({
-    queryKey: ['ratings'],
-    queryFn: async () => {
-      const ratings = await BookWiseService.getRatings({
-        includeBook: true,
-        includeUser: true,
-        page: 1,
-      })
+  const { data: ratings } = useQuery('recent_ratings', async () => {
+    const ratings = await BookWiseService.getRatings({
+      includeBook: true,
+      includeUser: true,
+      page: 1,
+    })
 
-      return ratings as RatingWithBookAndUser[]
-    },
+    return ratings as RatingWithBookAndUser[]
   })
 
   return (

@@ -10,18 +10,15 @@ import Link from 'next/link'
 import { useQuery } from 'react-query'
 
 export function PopularBooksList() {
-  const { data: books } = useQuery({
-    queryKey: ['popular_books'],
-    queryFn: async () => {
-      const books = await BookWiseService.getBooks({
-        perPage: 4,
-        includeRatings: true,
-        includeCategories: true,
-        orderBy: 'popular',
-      })
+  const { data: books } = useQuery('popular_books', async () => {
+    const books = await BookWiseService.getBooks({
+      perPage: 4,
+      includeRatings: true,
+      includeCategories: true,
+      orderBy: 'popular',
+    })
 
-      return books as BookWithRatingsAndCategories[]
-    },
+    return books as BookWithRatingsAndCategories[]
   })
 
   return (

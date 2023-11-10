@@ -15,16 +15,17 @@ type CommentSectionProps = {
 }
 
 export function RatingsSection({ book }: CommentSectionProps) {
-  const { data: ratings, isLoading } = useQuery({
-    queryKey: ['ratings_on_book', book],
-    queryFn: async () => {
+  const { data: ratings, isLoading } = useQuery(
+    ['ratings_on_book', book],
+    async () => {
+      console.log('Fetching ratings on book')
       const ratings = await BookWiseService.getRatingsOnBook(book.id, {
         includeUser: true,
       })
 
       return ratings as RatingWithUser[]
     },
-  })
+  )
 
   const session = useSession()
   const isAuthenticated = session.status === 'authenticated'

@@ -1,3 +1,4 @@
+import { PostRating } from '@/app/api/ratings/route'
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
 import { BookWiseService } from '@/services/BookWiseService'
@@ -6,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
 import { User } from 'next-auth'
 import { Controller, useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
 import { z } from 'zod'
 
 type RatingFormProps = {
@@ -32,19 +34,32 @@ export function RatingForm({ book, user, onAbort }: RatingFormProps) {
     resolver: zodResolver(ratingFormSchema),
   })
 
+  const queryClient = useQueryClient()
+
+  const { mutateAsync: postRatingMutation } = useMutation({
+    mutationFn: async (rating: PostRating) => {
+      BookWiseService.postRating(rating)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries('ratings_on_book')
+      queryClient.invalidateQueries('popular_books')
+      queryClient.invalidateQueries('recent_ratings')
+    },
+  })
+
   async function handleFormSubmit(data: RatingFormSchema) {
-    await BookWiseService.postRating({
+    await postRatingMutation({
       rate: data.rate,
       description: data.description,
       book_id: book.id,
       user_id: user.id,
     })
 
-    reset()
-    onAbort()
+    handleAbort()
   }
 
   function handleAbort() {
+    reset()
     onAbort()
   }
 
