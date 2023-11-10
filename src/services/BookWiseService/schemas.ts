@@ -93,6 +93,16 @@ export const ratingWithBookAndUserSchema = ratingWithBookSchema
   .merge(ratingWithUserSchema)
   .omit({ book_id: true, user_id: true })
 
+// Request Schemas
+export const ratingPutRequestBodySchema = z.object({
+  rating: ratingSchema.omit({
+    id: true,
+    created_at: true,
+    book_id: true,
+    user_id: true,
+  }),
+})
+
 // Response Schemas
 
 export const singleUserResponseSchema = z.object({

@@ -1,4 +1,3 @@
-import { PutRating } from '@/app/api/ratings/[id]/route'
 import { PostRating } from '@/app/api/ratings/route'
 import { localApi } from '@/lib/axios'
 import { Book, Category } from '@prisma/client'
@@ -9,6 +8,7 @@ import {
   BookWithRatingsAndCategories,
   CategoryResponse,
   Rating,
+  RatingPutRequestBody,
   RatingResponse,
   RatingWithBook,
   RatingWithBookAndUser,
@@ -64,11 +64,11 @@ export class BookWiseService {
 
   static async putRating(
     ratingId: string,
-    newRating: PutRating,
+    { rate, description }: RatingPutRequestBody['rating'],
   ): Promise<Rating> {
     const { data } = await this.bookwiseApi.put<RatingResponse>(
       `ratings/${ratingId}`,
-      newRating,
+      { rating: { rate, description } } as RatingPutRequestBody,
     )
 
     return data.rating

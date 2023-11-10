@@ -7,6 +7,7 @@ import {
   bookWithRatingsSchema,
   categoryResponseSchema,
   categorySchema,
+  ratingPutRequestBodySchema,
   ratingResponseSchema,
   ratingSchema,
   ratingWithBookAndUserSchema,
@@ -35,6 +36,10 @@ export type RatingWithBook = z.infer<typeof ratingWithBookSchema>
 export type RatingWithUser = z.infer<typeof ratingWithUserSchema>
 export type RatingWithBookAndUser = z.infer<typeof ratingWithBookAndUserSchema>
 
+// Requests
+export type RatingPutRequestBody = z.infer<typeof ratingPutRequestBodySchema>
+
+// Responses
 export type SingleUserResponse = z.infer<typeof singleUserResponseSchema>
 export type SingleBookResponse = z.infer<typeof singleBookResponseSchema>
 export type BookResponse = z.infer<typeof bookResponseSchema>
