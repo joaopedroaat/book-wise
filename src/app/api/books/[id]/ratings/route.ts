@@ -19,10 +19,10 @@ const searchParamsSchema = z.object({
 
 export async function GET(
   request: Request,
-  { params }: { params: { bookId: string } },
+  { params }: { params: { id: string } },
 ) {
   try {
-    const bookId = params.bookId
+    const id = params.id
 
     const { searchParams } = new URL(request.url)
 
@@ -40,7 +40,7 @@ export async function GET(
 
     const ratings = await prisma.rating.findMany({
       where: {
-        book_id: bookId,
+        book_id: id,
       },
       include: {
         user: includeUser,

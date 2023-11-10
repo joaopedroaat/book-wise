@@ -2,7 +2,7 @@ import { PostRating } from '@/app/api/ratings/route'
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
 import { BookWiseService } from '@/services/BookWiseService'
-import { Book } from '@/services/BookWiseService/types'
+import { Book, Rating } from '@/services/BookWiseService/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
 import { User } from 'next-auth'
@@ -13,6 +13,7 @@ import { z } from 'zod'
 type RatingFormProps = {
   book: Book
   user: User
+  rating?: Rating
   onAbort: () => void
 }
 
@@ -23,7 +24,7 @@ const ratingFormSchema = z.object({
 
 export type RatingFormSchema = z.infer<typeof ratingFormSchema>
 
-export function RatingForm({ book, user, onAbort }: RatingFormProps) {
+export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
   const {
     register,
     handleSubmit,
@@ -32,6 +33,10 @@ export function RatingForm({ book, user, onAbort }: RatingFormProps) {
     reset,
   } = useForm<RatingFormSchema>({
     resolver: zodResolver(ratingFormSchema),
+    defaultValues: {
+      rate: rating?.rate,
+      description: rating?.description,
+    },
   })
 
   const queryClient = useQueryClient()
@@ -47,13 +52,31 @@ export function RatingForm({ book, user, onAbort }: RatingFormProps) {
     },
   })
 
+  const { mutateAsync: putRatingMutation } = useMutation({
+    mutationFn: async (rating: Rating) => {
+      BookWiseService.putRating(rating.id, {
+        rate: rating.rate,
+        description: rating.description,
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries('ratings_on_book')
+    },
+  })
+
   async function handleFormSubmit(data: RatingFormSchema) {
-    await postRatingMutation({
-      rate: data.rate,
-      description: data.description,
-      book_id: book.id,
-      user_id: user.id,
-    })
+    rating
+      ? await putRatingMutation({
+          ...rating,
+          rate: data.rate,
+          description: data.description,
+        })
+      : await postRatingMutation({
+          rate: data.rate,
+          description: data.description,
+          book_id: book.id,
+          user_id: user.id,
+        })
 
     handleAbort()
   }

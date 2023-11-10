@@ -43,6 +43,10 @@ export function RatingsSection({ book }: CommentSectionProps) {
     </button>
   )
 
+  const userRating = ratings?.find(
+    (rating) => rating.user.id === session.data?.user.id,
+  )
+
   return (
     <section className="mt-4 flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -61,6 +65,16 @@ export function RatingsSection({ book }: CommentSectionProps) {
           <RatingForm
             user={session.data.user}
             book={book}
+            rating={
+              userRating && {
+                id: userRating.id,
+                rate: userRating.rate,
+                description: userRating.description,
+                created_at: userRating.created_at,
+                book_id: userRating.book_id,
+                user_id: userRating.user.id,
+              }
+            }
             onAbort={() => setIsRatingFormVisible(false)}
           />
         )}
