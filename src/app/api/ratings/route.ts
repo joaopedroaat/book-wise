@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import {
+  ratingPostRequestBodySchema,
   ratingSchema,
   ratingWithBookAndUserSchema,
   ratingWithBookSchema,
@@ -92,19 +93,19 @@ export async function GET(request: Request) {
   }
 }
 
-const requestBodySchema = ratingSchema.omit({ id: true, created_at: true })
-
-export type PostRating = z.infer<typeof requestBodySchema>
-
 export async function POST(request: Request) {
   try {
-    const parsedBody = requestBodySchema.safeParse(await request.json())
+    const parsedBody = ratingPostRequestBodySchema.safeParse(
+      await request.json(),
+    )
 
     if (!parsedBody.success)
       return Response.json({ error: parsedBody.error }, { status: 400 })
 
+    const { rating } = parsedBody.data
+
     const createdRate = await prisma.rating.create({
-      data: parsedBody.data,
+      data: rating,
     })
 
     const parsedCreatedRate = ratingSchema.parse(createdRate)

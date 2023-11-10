@@ -94,6 +94,10 @@ export const ratingWithBookAndUserSchema = ratingWithBookSchema
   .omit({ book_id: true, user_id: true })
 
 // Request Schemas
+export const ratingPostRequestBodySchema = z.object({
+  rating: ratingSchema.omit({ id: true, created_at: true }),
+})
+
 export const ratingPutRequestBodySchema = z.object({
   rating: ratingSchema.omit({
     id: true,

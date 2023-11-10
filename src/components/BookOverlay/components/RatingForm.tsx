@@ -1,8 +1,12 @@
-import { PostRating } from '@/app/api/ratings/route'
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
 import { BookWiseService } from '@/services/BookWiseService'
-import { Book, Rating } from '@/services/BookWiseService/types'
+import {
+  Book,
+  Rating,
+  RatingPostRequestBody,
+  RatingPutRequestBody,
+} from '@/services/BookWiseService/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
 import { User } from 'next-auth'
@@ -42,7 +46,7 @@ export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
   const queryClient = useQueryClient()
 
   const { mutateAsync: postRatingMutation } = useMutation({
-    mutationFn: async (rating: PostRating) => {
+    mutationFn: async (rating: RatingPostRequestBody['rating']) => {
       BookWiseService.postRating(rating)
     },
     onSuccess: () => {
@@ -53,11 +57,12 @@ export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
   })
 
   const { mutateAsync: putRatingMutation } = useMutation({
-    mutationFn: async (rating: Rating) => {
-      BookWiseService.putRating(rating.id, {
-        rate: rating.rate,
-        description: rating.description,
-      })
+    mutationFn: async (newRating: RatingPutRequestBody['rating']) => {
+      if (rating)
+        BookWiseService.putRating(rating.id, {
+          rate: newRating.rate,
+          description: newRating.description,
+        })
     },
     onSuccess: () => {
       queryClient.invalidateQueries('ratings_on_book')
@@ -67,7 +72,6 @@ export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
   async function handleFormSubmit(data: RatingFormSchema) {
     rating
       ? await putRatingMutation({
-          ...rating,
           rate: data.rate,
           description: data.description,
         })
