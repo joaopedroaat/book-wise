@@ -45,6 +45,9 @@ export async function GET(
       include: {
         user: includeUser,
       },
+      orderBy: {
+        created_at: 'desc',
+      },
     })
 
     let parsedRatings: Rating[] | RatingWithUser[] = []
