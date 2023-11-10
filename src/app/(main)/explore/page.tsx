@@ -1,12 +1,12 @@
 'use client'
 
 import { BookWiseService } from '@/services/BookWiseService'
-import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
-import { useEffect, useState } from 'react'
-import { CategoryForm } from './components/CategoryForm'
-import { BookList } from './components/BookList'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
+import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
 import { Category } from '@prisma/client'
+import { useEffect, useState } from 'react'
+import { BookList } from './components/BookList'
+import { CategoryForm } from './components/CategoryForm'
 
 export default function Explore() {
   const [category, setCategory] = useState<Category['name'] | null>(null)
@@ -14,14 +14,12 @@ export default function Explore() {
 
   useEffect(() => {
     async function fetchBooks() {
-      const booksData = await BookWiseService.getBooks({
-        category: category || undefined,
-        includeRatings: true,
-        includeCategories: true,
-      })
-
       setBooks(
-        booksData ? (booksData.books as BookWithRatingsAndCategories[]) : [],
+        (await BookWiseService.getBooks({
+          category: category || undefined,
+          includeRatings: true,
+          includeCategories: true,
+        })) as BookWithRatingsAndCategories[],
       )
     }
 

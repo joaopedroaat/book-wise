@@ -15,6 +15,7 @@ import {
   RatingsResponse,
   SingleBookResponse,
   SingleUserResponse,
+  User,
 } from './types'
 
 export class BookWiseService {
@@ -46,7 +47,13 @@ export class BookWiseService {
   static async getRatingsOnBook(
     bookId: string,
     { includeUser = false } = {},
-  ): Promise<Rating[] | RatingWithUser[] | null> {
+  ): Promise<
+    | Rating[]
+    | RatingWithUser[]
+    | RatingWithBook[]
+    | RatingWithBookAndUser[]
+    | null
+  > {
     try {
       const { data } = await this.bookwiseApi.get<RatingsResponse>(
         `ratings/${bookId}`,
@@ -57,7 +64,7 @@ export class BookWiseService {
         },
       )
 
-      return data.ratings as Rating[]
+      return data.ratings
     } catch (error) {
       console.log(error)
 
@@ -65,27 +72,27 @@ export class BookWiseService {
     }
   }
 
-  static async postRating(rating: PostRating): Promise<RatingResponse | null> {
+  static async postRating(rating: PostRating): Promise<Rating | null> {
     try {
       const { data } = await this.bookwiseApi.post<RatingResponse>(
         'ratings',
         rating,
       )
 
-      return data
+      return data.rating
     } catch (error) {
       console.error(error)
       return null
     }
   }
 
-  static async getUser(id: string): Promise<SingleUserResponse | null> {
+  static async getUser(id: string): Promise<User | null> {
     try {
       const { data } = await this.bookwiseApi.get<SingleUserResponse>(
         `users/${id}`,
       )
 
-      return data
+      return data.user
     } catch (error) {
       console.error(error)
 
@@ -96,14 +103,20 @@ export class BookWiseService {
   static async getBook(
     id: string,
     { includeRatings = false, includeCategories = false } = {},
-  ): Promise<SingleBookResponse | null> {
+  ): Promise<
+    | Book
+    | BookWithRatings
+    | BookWithCategories
+    | BookWithRatingsAndCategories
+    | null
+  > {
     try {
-      const { data } = await this.bookwiseApi.get<SingleBookResponse | null>(
+      const { data } = await this.bookwiseApi.get<SingleBookResponse>(
         `books/${id}`,
         { params: { includeRatings, includeCategories } },
       )
 
-      return data
+      return data.book
     } catch (error) {
       console.error(error)
 
@@ -152,12 +165,12 @@ export class BookWiseService {
     }
   }
 
-  static async getCategories(): Promise<CategoryResponse | null> {
+  static async getCategories(): Promise<Category[] | null> {
     try {
       const { data } =
         await this.bookwiseApi.get<CategoryResponse>('categories')
 
-      return data
+      return data.categories
     } catch (error) {
       console.error(error)
 
