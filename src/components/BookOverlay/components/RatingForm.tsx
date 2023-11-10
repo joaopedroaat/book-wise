@@ -66,6 +66,8 @@ export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries('ratings_on_book')
+      queryClient.invalidateQueries('popular_books')
+      queryClient.invalidateQueries('recent_ratings')
     },
   })
 
