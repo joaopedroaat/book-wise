@@ -1,3 +1,5 @@
+'use client'
+
 import { BookOverlay } from '@/components/BookOverlay'
 import MarqueeText from '@/components/MarqueeText'
 import { StarRating } from '@/components/StarRating'
@@ -5,18 +7,24 @@ import { BookWiseService } from '@/services/BookWiseService'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import Link from 'next/link'
+import { useQuery } from 'react-query'
 
-export async function PopularBooksList() {
-  const booksData = await BookWiseService.getBooks({
-    perPage: 4,
-    includeRatings: true,
-    includeCategories: true,
-    orderBy: 'popular',
+export function PopularBooksList() {
+  const { data: books } = useQuery({
+    queryKey: ['popular_books'],
+    queryFn: async () => {
+      const books = await BookWiseService.getBooks({
+        perPage: 4,
+        includeRatings: true,
+        includeCategories: true,
+        orderBy: 'popular',
+      })
+
+      if (!books) throw new Error('Failed to fetch popular books.')
+
+      return books as BookWithRatingsAndCategories[]
+    },
   })
-
-  const books = booksData
-    ? (booksData.books as BookWithRatingsAndCategories[])
-    : null
 
   return (
     <section className="w-full">

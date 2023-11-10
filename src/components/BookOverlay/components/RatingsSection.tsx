@@ -15,7 +15,7 @@ type CommentSectionProps = {
 
 export function RatingsSection({ book }: CommentSectionProps) {
   const { data: ratings } = useQuery({
-    queryKey: ['ratings'],
+    queryKey: ['ratings_on_book'],
     queryFn: async () => {
       const ratings = await BookWiseService.getRatingsOnBook(book.id, {
         includeUser: true,

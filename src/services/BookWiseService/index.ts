@@ -1,8 +1,11 @@
 import { PostRating } from '@/app/api/ratings/route'
 import { localApi } from '@/lib/axios'
-import { Category } from '@prisma/client'
+import { Book, Category } from '@prisma/client'
 import {
   BookResponse,
+  BookWithCategories,
+  BookWithRatings,
+  BookWithRatingsAndCategories,
   CategoryResponse,
   Rating,
   RatingResponse,
@@ -122,7 +125,13 @@ export class BookWiseService {
     includeRatings?: boolean
     includeCategories?: boolean
     orderBy?: 'popular'
-  } = {}): Promise<BookResponse | null> {
+  } = {}): Promise<
+    | Book[]
+    | BookWithRatings[]
+    | BookWithCategories[]
+    | BookWithRatingsAndCategories[]
+    | null
+  > {
     try {
       const { data } = await this.bookwiseApi.get<BookResponse>('books', {
         params: {
@@ -135,7 +144,7 @@ export class BookWiseService {
         },
       })
 
-      return data
+      return data.books
     } catch (error) {
       console.error(error)
 
