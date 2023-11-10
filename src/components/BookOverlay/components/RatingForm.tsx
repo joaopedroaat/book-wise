@@ -34,12 +34,10 @@ export function RatingForm({ book, user, onAbort }: RatingFormProps) {
 
   async function handleFormSubmit(data: RatingFormSchema) {
     await BookWiseService.postRating({
-      rating: {
-        rate: data.rate,
-        description: data.description,
-        book_id: book.id,
-        user_id: user.id,
-      },
+      rate: data.rate,
+      description: data.description,
+      book_id: book.id,
+      user_id: user.id,
     })
 
     reset()

@@ -92,9 +92,7 @@ export async function GET(request: Request) {
   }
 }
 
-const requestBodySchema = z.object({
-  rating: ratingSchema.omit({ id: true, created_at: true }),
-})
+const requestBodySchema = ratingSchema.omit({ id: true, created_at: true })
 
 export type PostRating = z.infer<typeof requestBodySchema>
 
@@ -106,7 +104,7 @@ export async function POST(request: Request) {
       return Response.json({ error: parsedBody.error }, { status: 400 })
 
     const createdRate = await prisma.rating.create({
-      data: parsedBody.data.rating,
+      data: parsedBody.data,
     })
 
     const parsedCreatedRate = ratingSchema.parse(createdRate)
