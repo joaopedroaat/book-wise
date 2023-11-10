@@ -1,6 +1,6 @@
 'use client'
 
-import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
+import { Book } from '@/services/BookWiseService/types'
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { BookCover } from '../BookCover'
@@ -8,7 +8,7 @@ import { BookInfo } from './components/BookInfo'
 import { RatingsSection } from './components/RatingsSection'
 
 type BookOverlayProps = {
-  book: BookWithRatingsAndCategories
+  book: Book
   width?: number
   height?: number
 }

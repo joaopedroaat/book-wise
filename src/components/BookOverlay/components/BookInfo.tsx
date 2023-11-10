@@ -1,10 +1,10 @@
 import { BookCover } from '@/components/BookCover'
 import { StarRating } from '@/components/StarRating'
-import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
+import { Book } from '@/services/BookWiseService/types'
 import { BookmarkSimple } from '@phosphor-icons/react'
 
 type BookInfoProps = {
-  book: BookWithRatingsAndCategories
+  book: Book
 }
 
 export function BookInfo({ book }: BookInfoProps) {

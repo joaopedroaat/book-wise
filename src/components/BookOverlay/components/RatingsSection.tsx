@@ -1,17 +1,32 @@
 import { Avatar } from '@/components/Avatar'
 import { LoginDialog } from '@/components/LoginDialog'
 import { StarRating } from '@/components/StarRating'
-import { BookWithRatings } from '@/services/BookWiseService/types'
+import { BookWiseService } from '@/services/BookWiseService'
+import { Book, RatingWithUser } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
+import { useQuery } from 'react-query'
 import { RatingForm } from './RatingForm'
 
 type CommentSectionProps = {
-  book: BookWithRatings
+  book: Book
 }
 
 export function RatingsSection({ book }: CommentSectionProps) {
+  const { data: ratings } = useQuery({
+    queryKey: ['ratings'],
+    queryFn: async () => {
+      const ratings = await BookWiseService.getRatingsOnBook(book.id, {
+        includeUser: true,
+      })
+
+      if (!ratings) throw new Error(`Failed to fetch ${book.name} ratings.`)
+
+      return ratings as RatingWithUser[]
+    },
+  })
+
   const session = useSession()
   const isAuthenticated = session.status === 'authenticated'
 
@@ -49,32 +64,33 @@ export function RatingsSection({ book }: CommentSectionProps) {
             onAbort={() => setIsRatingFormVisible(false)}
           />
         )}
-        {book.ratings.map((rating) => (
-          <li
-            className="bg-gray-700 p-6 rounded-lg flex flex-col gap-5"
-            key={rating.id}
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex gap-4">
-                <Avatar
-                  user={{
-                    id: rating.user.id,
-                    name: rating.user.name,
-                    avatarUrl: rating.user.avatar_url,
-                  }}
-                />
-                <div>
-                  <p className="font-bold text-sm">{rating.user.name}</p>
-                  <small className="text-gray-400">
-                    {calculateDateDistance(new Date(rating.created_at))}
-                  </small>
+        {ratings &&
+          ratings.map((rating) => (
+            <li
+              className="bg-gray-700 p-6 rounded-lg flex flex-col gap-5"
+              key={rating.id}
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex gap-4">
+                  <Avatar
+                    user={{
+                      id: rating.user.id,
+                      name: rating.user.name,
+                      avatarUrl: rating.user.avatar_url,
+                    }}
+                  />
+                  <div>
+                    <p className="font-bold text-sm">{rating.user.name}</p>
+                    <small className="text-gray-400">
+                      {calculateDateDistance(new Date(rating.created_at))}
+                    </small>
+                  </div>
                 </div>
+                <StarRating rating={rating.rate} size={14} />
               </div>
-              <StarRating rating={rating.rate} size={14} />
-            </div>
-            <p>{rating.description}</p>
-          </li>
-        ))}
+              <p>{rating.description}</p>
+            </li>
+          ))}
       </ul>
     </section>
   )
