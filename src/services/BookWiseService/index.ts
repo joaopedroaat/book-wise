@@ -5,6 +5,7 @@ import {
   BookWithCategories,
   BookWithRatings,
   BookWithRatingsAndCategories,
+  CategoriesOnBookResponse,
   CategoryResponse,
   Rating,
   RatingPostRequestBody,
@@ -51,6 +52,14 @@ export class BookWiseService {
     )
 
     return data.ratings
+  }
+
+  static async getCategoriesOnBOok(bookId: string) {
+    const { data } = await this.bookwiseApi.get<CategoriesOnBookResponse>(
+      `/books/${bookId}/categories`,
+    )
+
+    return data.categories
   }
 
   static async postRating(

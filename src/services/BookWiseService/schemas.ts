@@ -143,3 +143,13 @@ export const ratingsResponseSchema = z.object({
     z.array(ratingWithBookAndUserSchema),
   ]),
 })
+
+export const categoriesOnBookResponseSchema = z.object({
+  categories: categorySchema
+    .array()
+    .refine((categories) =>
+      categories.map(
+        (category, index, array) => index === 0 || category.id === array[0].id,
+      ),
+    ),
+})
