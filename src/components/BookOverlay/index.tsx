@@ -3,7 +3,7 @@
 import { Book } from '@/services/BookWiseService/types'
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { BookCover } from '../BookCover'
+import { BookCover } from './components/BookCover'
 import { BookInfo } from './components/BookInfo'
 import { RatingsSection } from './components/RatingsSection'
 

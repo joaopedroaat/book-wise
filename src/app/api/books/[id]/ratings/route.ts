@@ -46,7 +46,7 @@ export async function GET(
         user: includeUser,
       },
       orderBy: {
-        created_at: 'desc',
+        createdAt: 'desc',
       },
     })
 

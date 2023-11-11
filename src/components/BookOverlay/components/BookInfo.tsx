@@ -1,4 +1,4 @@
-import { BookCover } from '@/components/BookCover'
+import { BookCover } from '@/components/BookOverlay/components/BookCover'
 import { StarRating } from '@/components/StarRating'
 import { BookWiseService } from '@/services/BookWiseService'
 import { Book } from '@/services/BookWiseService/types'
@@ -50,7 +50,7 @@ export function BookInfo({ book }: BookInfoProps) {
           <BookmarkSimple className="text-green-100" size={24} />
           <div className="flex flex-col">
             <small className="text-gray-300">Páginas</small>
-            <span className="text-sm font-bold">{book.total_pages}</span>
+            <span className="text-sm font-bold">{book.totalPages}</span>
           </div>
         </div>
       </section>

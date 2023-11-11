@@ -69,7 +69,7 @@ export async function GET(request: Request) {
         },
       },
       orderBy: {
-        created_at: 'desc',
+        createdAt: 'desc',
       },
     })
 

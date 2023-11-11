@@ -70,7 +70,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
                 id: userRating.id,
                 rate: userRating.rate,
                 description: userRating.description,
-                created_at: userRating.created_at,
+                createdAt: userRating.createdAt,
                 bookId: userRating.bookId,
                 userId: userRating.user.id,
               }
@@ -102,7 +102,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
                   <div>
                     <p className="font-bold text-sm">{rating.user.name}</p>
                     <small className="text-gray-400">
-                      {calculateDateDistance(new Date(rating.created_at))}
+                      {calculateDateDistance(new Date(rating.createdAt))}
                     </small>
                   </div>
                 </div>

@@ -11,7 +11,7 @@ export function BookCover({ book, width = 108, height = 152 }: BookCoverProps) {
   return (
     <Image
       className="shrink-0 w-auto h-auto"
-      src={book.cover_url}
+      src={book.coverUrl}
       width={width}
       height={height}
       title={book.name}

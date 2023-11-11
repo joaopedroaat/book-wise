@@ -7,16 +7,16 @@ export const bookSchema = z.object({
   name: z.string(),
   author: z.string(),
   summary: z.string(),
-  cover_url: z.string(),
-  total_pages: z.number(),
-  created_at: z.date(),
+  coverUrl: z.string(),
+  totalPages: z.number(),
+  createdAt: z.date(),
 })
 
 export const ratingSchema = z.object({
   id: z.string(),
   rate: z.number(),
   description: z.string(),
-  created_at: z.date(),
+  createdAt: z.date(),
   bookId: z.string(),
   userId: z.string(),
 })
@@ -27,7 +27,7 @@ export const userSchema = z.object({
   email: z.string().email(),
   emailVerified: z.date().nullable(),
   avatarUrl: z.string().nullable(),
-  created_at: z.date(),
+  createdAt: z.date(),
 })
 
 export const categorySchema = z.object({
@@ -91,13 +91,13 @@ export const ratingWithBookAndUserSchema = ratingWithBookSchema
 
 // Request Schemas
 export const ratingPostRequestBodySchema = z.object({
-  rating: ratingSchema.omit({ id: true, created_at: true }),
+  rating: ratingSchema.omit({ id: true, createdAt: true }),
 })
 
 export const ratingPutRequestBodySchema = z.object({
   rating: ratingSchema.omit({
     id: true,
-    created_at: true,
+    createdAt: true,
     bookId: true,
     userId: true,
   }),

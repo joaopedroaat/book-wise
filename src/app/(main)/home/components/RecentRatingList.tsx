@@ -38,7 +38,7 @@ type RatingItemProps = {
 }
 
 export function RecentRatingItem({
-  rating: { user, book, rate, description, created_at },
+  rating: { user, book, rate, description, createdAt },
 }: RatingItemProps) {
   return (
     <li className="bg-gray-700 p-6 rounded-lg flex flex-col gap-8">
@@ -55,7 +55,7 @@ export function RecentRatingItem({
               {user.name}
             </Link>
             <small className="text-gray-400">
-              {calculateDateDistance(new Date(created_at))}
+              {calculateDateDistance(new Date(createdAt))}
             </small>
           </div>
         </div>
