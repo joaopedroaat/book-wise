@@ -2,15 +2,20 @@
 
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { GithubIcon } from '../../../components/GithubIcon'
 import { GoogleIcon } from '../../../components/GoogleIcon'
 import { GuestIcon } from '../../../components/GuestIcon'
 
 export function LoginForm() {
+  const [provider, setProvider] = useState<'google' | 'github' | null>(null)
+
   const router = useRouter()
 
-  function handleSignIn(provider?: 'google' | 'github') {
-    if (provider) signIn(provider, { callbackUrl: '/home' })
+  function handleSignIn(account?: 'google' | 'github') {
+    setProvider(account || null)
+
+    if (account) signIn(account, { callbackUrl: '/home' })
 
     router.push('/home')
   }
@@ -23,11 +28,17 @@ export function LoginForm() {
       </header>
       <main>
         <ul className="list-none flex flex-col gap-5 p-0 [&>li]:bg-gray-600 [&>li]:flex [&>li]:items-center [&>li]:gap-5 [&>li]:py-5 [&>li]:px-6 [&>li]:rounded-lg [&>li]:cursor-pointer hover:[&>li]:bg-gray-500 [&>li]:font-bold">
-          <li onClick={() => handleSignIn('google')}>
+          <li
+            className={`${provider === 'google' && 'animate-pulse'}`}
+            onClick={() => handleSignIn('google')}
+          >
             <GoogleIcon width={24} height={20} />
             Entrar com Google
           </li>
-          <li onClick={() => handleSignIn('github')}>
+          <li
+            className={`${provider === 'github' && 'animate-pulse'}`}
+            onClick={() => handleSignIn('github')}
+          >
             <GithubIcon width={24} height={20} />
             Entrar com GitHub
           </li>
