@@ -3,6 +3,7 @@
 import { Providers, login } from '@/utils/login'
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
+import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 import { GithubIcon } from './GithubIcon'
 import { GoogleIcon } from './GoogleIcon'
@@ -18,15 +19,15 @@ export function LoginDialog({
   description,
   callbackUrl,
 }: LoginDialogProps) {
+  const path = usePathname()
+
   function handleSignIn(provider: Providers) {
-    login(provider, { callbackUrl })
+    login(provider, { callbackUrl: callbackUrl || path })
   }
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <button>{children}</button>
-      </Dialog.Trigger>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black opacity-70" />
         <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-700 w-96 p-4 rounded-xl flex flex-col items-center">
