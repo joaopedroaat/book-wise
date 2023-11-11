@@ -40,7 +40,7 @@ export async function GET(
 
     const ratings = await prisma.rating.findMany({
       where: {
-        book_id: id,
+        bookId: id,
       },
       include: {
         user: includeUser,

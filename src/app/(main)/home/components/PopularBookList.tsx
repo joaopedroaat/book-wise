@@ -1,7 +1,6 @@
 'use client'
 
 import { BookOverlay } from '@/components/BookOverlay'
-import MarqueeText from '@/components/MarqueeText'
 import { StarRating } from '@/components/StarRating'
 import { BookWiseService } from '@/services/BookWiseService'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
@@ -52,9 +51,7 @@ export function PopularBookItem({ book }: PopularBookItemProps) {
       <BookOverlay book={book} width={64} height={94} />
       <main className="flex flex-col justify-between overflow-hidden whitespace-nowrap">
         <div className="flex flex-col">
-          <MarqueeText className="font-bold text-gray-100">
-            {book.name}
-          </MarqueeText>
+          <h1 className="font-bold text-gray-100">{book.name}</h1>
           <small className="text-gray-400">{book.author}</small>
         </div>
         <StarRating

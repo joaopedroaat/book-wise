@@ -71,8 +71,8 @@ export function RatingsSection({ book }: CommentSectionProps) {
                 rate: userRating.rate,
                 description: userRating.description,
                 created_at: userRating.created_at,
-                book_id: userRating.book_id,
-                user_id: userRating.user.id,
+                bookId: userRating.bookId,
+                userId: userRating.user.id,
               }
             }
             onAbort={() => setIsRatingFormVisible(false)}
@@ -96,7 +96,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
                     user={{
                       id: rating.user.id,
                       name: rating.user.name,
-                      avatarUrl: rating.user.avatar_url,
+                      avatarUrl: rating.user.avatarUrl,
                     }}
                   />
                   <div>

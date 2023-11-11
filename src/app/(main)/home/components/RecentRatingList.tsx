@@ -45,7 +45,7 @@ export function RecentRatingItem({
       <header className="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-start">
         <div className="flex flex-col items-center gap-3 md:flex-row">
           <Avatar
-            user={{ id: user.id, name: user.name, avatarUrl: user.avatar_url }}
+            user={{ id: user.id, name: user.name, avatarUrl: user.avatarUrl }}
           />
           <div className="flex flex-col items-center md:items-start">
             <Link

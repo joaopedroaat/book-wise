@@ -80,8 +80,8 @@ export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
       : await postRatingMutation({
           rate: data.rate,
           description: data.description,
-          book_id: book.id,
-          user_id: user.id,
+          bookId: book.id,
+          userId: user.id,
         })
 
     handleAbort()

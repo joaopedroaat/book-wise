@@ -17,8 +17,8 @@ export const ratingSchema = z.object({
   rate: z.number(),
   description: z.string(),
   created_at: z.date(),
-  book_id: z.string(),
-  user_id: z.string(),
+  bookId: z.string(),
+  userId: z.string(),
 })
 
 export const userSchema = z.object({
@@ -26,7 +26,7 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   emailVerified: z.date().nullable(),
-  avatar_url: z.string().nullable(),
+  avatarUrl: z.string().nullable(),
   created_at: z.date(),
 })
 
@@ -50,11 +50,9 @@ export const categorySchema = z.object({
 
 // Extensions
 
-export const ratingWithUserSchema = ratingSchema
-  .omit({ user_id: true })
-  .extend({
-    user: userSchema,
-  })
+export const ratingWithUserSchema = ratingSchema.omit({ userId: true }).extend({
+  user: userSchema,
+})
 
 export const bookWithRatingsSchema = bookSchema.extend({
   ratings: z.array(ratingWithUserSchema),
@@ -70,20 +68,18 @@ export const bookWithCategoriesSchema = bookSchema.extend({
   ),
 })
 
-export const ratingWithBookSchema = ratingSchema
-  .omit({ book_id: true })
-  .extend({
-    book: bookSchema.extend({
-      categories: z.array(
-        z
-          .object({
-            category: categorySchema,
-          })
-          .transform((val) => val.category),
-      ),
-      ratings: z.array(ratingSchema),
-    }),
-  })
+export const ratingWithBookSchema = ratingSchema.omit({ bookId: true }).extend({
+  book: bookSchema.extend({
+    categories: z.array(
+      z
+        .object({
+          category: categorySchema,
+        })
+        .transform((val) => val.category),
+    ),
+    ratings: z.array(ratingSchema),
+  }),
+})
 
 export const bookWithRatingsAndCategoriesSchema = bookWithRatingsSchema.merge(
   bookWithCategoriesSchema,
@@ -91,7 +87,7 @@ export const bookWithRatingsAndCategoriesSchema = bookWithRatingsSchema.merge(
 
 export const ratingWithBookAndUserSchema = ratingWithBookSchema
   .merge(ratingWithUserSchema)
-  .omit({ book_id: true, user_id: true })
+  .omit({ bookId: true, userId: true })
 
 // Request Schemas
 export const ratingPostRequestBodySchema = z.object({
@@ -102,8 +98,8 @@ export const ratingPutRequestBodySchema = z.object({
   rating: ratingSchema.omit({
     id: true,
     created_at: true,
-    book_id: true,
-    user_id: true,
+    bookId: true,
+    userId: true,
   }),
 })
 
