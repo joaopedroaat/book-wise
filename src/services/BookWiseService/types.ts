@@ -16,6 +16,7 @@ import {
   ratingWithBookSchema,
   ratingWithUserSchema,
   ratingsResponseSchema,
+  readingsResponseSchema,
   singleBookResponseSchema,
   singleUserResponseSchema,
   userSchema,
@@ -52,3 +53,4 @@ export type RatingsResponse = z.infer<typeof ratingsResponseSchema>
 export type CategoriesOnBookResponse = z.infer<
   typeof categoriesOnBookResponseSchema
 >
+export type ReadingsResponse = z.infer<typeof readingsResponseSchema>

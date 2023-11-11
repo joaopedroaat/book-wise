@@ -153,3 +153,7 @@ export const categoriesOnBookResponseSchema = z.object({
       ),
     ),
 })
+
+export const readingsResponseSchema = z.object({
+  books: bookSchema.array(),
+})

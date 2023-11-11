@@ -38,21 +38,21 @@ model Session {
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String
-  email         String          @unique
-  emailVerified DateTime?       @map("email_verified")
-  avatarUrl     String?         @map("avatar_url")
-  createdAt     DateTime        @default(now()) @map("created_at")
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
+  avatarUrl     String?   @map("avatar_url")
+  createdAt     DateTime  @default(now()) @map("created_at")
   accounts      Account[]
   sessions      Session[]
   ratings       Rating[]
-  RecentReading RecentReading[]
+  readings      Reading[]
 
   @@map("users")
 }
 
-model RecentReading {
+model Reading {
   id        String   @id @default(cuid())
   userId    String   @map("user_id")
   bookId    String   @map("book_id")
@@ -61,7 +61,7 @@ model RecentReading {
   user User @relation(fields: [userId], references: [id])
   book Book @relation(fields: [bookId], references: [id])
 
-  @@map("recent_readings")
+  @@map("readings")
 }
 
 model Book {
@@ -73,9 +73,9 @@ model Book {
   totalPages Int      @map("total_pages")
   createdAt  DateTime @default(now()) @map("created_at")
 
-  categories    CategoriesOnBooks[]
-  ratings       Rating[]
-  RecentReading RecentReading[]
+  categories CategoriesOnBooks[]
+  ratings    Rating[]
+  readings   Reading[]
 
   @@map("books")
 }
