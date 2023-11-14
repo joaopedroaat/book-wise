@@ -18,6 +18,7 @@ import {
   Reading,
   ReadingPostRequestBody,
   ReadingResponse,
+  ReadingWithBook,
   ReadingsResponse,
   SingleBookResponse,
   SingleUserResponse,
@@ -96,12 +97,20 @@ export class BookWiseService {
     return data.user
   }
 
-  static async getUserReadings(id: string): Promise<Book[]> {
+  static async getUserReadings(
+    id: string,
+    { includeBooks = false },
+  ): Promise<Reading[] | ReadingWithBook[]> {
     const { data } = await this.bookwiseApi.get<ReadingsResponse>(
       `/users/${id}/readings`,
+      {
+        params: {
+          includeBooks,
+        },
+      },
     )
 
-    return data.books
+    return data.readings as ReadingWithBook[]
   }
 
   static async postUserReading({

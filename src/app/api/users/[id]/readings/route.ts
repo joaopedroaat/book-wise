@@ -1,10 +1,23 @@
 import { prisma } from '@/lib/prisma'
-import { readingPostRequestBodySchema } from '@/services/BookWiseService/schemas'
 import {
+  readingPostRequestBodySchema,
+  readingSchema,
+  readingWithBookSchema,
+} from '@/services/BookWiseService/schemas'
+import {
+  Reading,
   ReadingResponse,
+  ReadingWithBook,
   ReadingsResponse,
 } from '@/services/BookWiseService/types'
-import { Reading } from '@prisma/client'
+import { z } from 'zod'
+
+const searchParamsSchema = z.object({
+  includeBooks: z
+    .enum(['true', 'false'])
+    .nullable()
+    .transform((val) => val === 'true'),
+})
 
 export async function GET(
   request: Request,
@@ -13,21 +26,39 @@ export async function GET(
   try {
     const id = params.id
 
+    const { searchParams } = new URL(request.url)
+
+    const validatedSearchParams = searchParamsSchema.safeParse({
+      includeBooks: searchParams.get('includeBooks'),
+    })
+
+    if (!validatedSearchParams.success)
+      return Response.json(
+        { error: validatedSearchParams.error },
+        { status: 400 },
+      )
+
+    const { includeBooks } = validatedSearchParams.data
+
     const recentReadings = await prisma.reading.findMany({
       where: {
         userId: id,
       },
       include: {
-        book: true,
+        book: includeBooks,
       },
       orderBy: {
         createdAt: 'desc',
       },
     })
 
-    const books = recentReadings.map((readings) => readings.book)
+    let readings: Reading[] | ReadingWithBook[] = []
 
-    return Response.json({ books } as ReadingsResponse)
+    if (includeBooks)
+      readings = readingWithBookSchema.array().parse(recentReadings)
+    else readings = readingSchema.array().parse(recentReadings)
+
+    return Response.json({ readings } as ReadingsResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

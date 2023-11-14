@@ -19,6 +19,7 @@ import {
   readingPostRequestBodySchema,
   readingResponseSchema,
   readingSchema,
+  readingWithBookSchema,
   readingsResponseSchema,
   singleBookResponseSchema,
   singleUserResponseSchema,
@@ -28,6 +29,7 @@ import {
 export type User = z.infer<typeof userSchema>
 
 export type Reading = z.infer<typeof readingSchema>
+export type ReadingWithBook = z.infer<typeof readingWithBookSchema>
 
 export type Category = z.infer<typeof categorySchema>
 export type CategoryNames = Category['name']

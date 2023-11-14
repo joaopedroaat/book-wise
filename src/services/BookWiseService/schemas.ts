@@ -96,6 +96,12 @@ export const ratingWithBookAndUserSchema = ratingWithBookSchema
   .merge(ratingWithUserSchema)
   .omit({ bookId: true, userId: true })
 
+export const readingWithBookSchema = readingSchema
+  .omit({ bookId: true })
+  .extend({
+    book: bookSchema,
+  })
+
 // Request Schemas
 
 export const ratingPostRequestBodySchema = z.object({
@@ -167,7 +173,7 @@ export const categoriesOnBookResponseSchema = z.object({
 })
 
 export const readingsResponseSchema = z.object({
-  books: bookSchema.array(),
+  readings: z.union([readingSchema.array(), readingWithBookSchema.array()]),
 })
 
 export const readingResponseSchema = z.object({
