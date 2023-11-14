@@ -90,6 +90,7 @@ export const ratingWithBookAndUserSchema = ratingWithBookSchema
   .omit({ bookId: true, userId: true })
 
 // Request Schemas
+
 export const ratingPostRequestBodySchema = z.object({
   rating: ratingSchema.omit({ id: true, createdAt: true }),
 })
@@ -101,6 +102,10 @@ export const ratingPutRequestBodySchema = z.object({
     bookId: true,
     userId: true,
   }),
+})
+
+export const readingPostRequestBodySchema = z.object({
+  bookId: z.string(),
 })
 
 // Response Schemas

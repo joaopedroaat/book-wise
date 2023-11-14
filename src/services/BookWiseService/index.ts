@@ -15,6 +15,7 @@ import {
   RatingWithBookAndUser,
   RatingWithUser,
   RatingsResponse,
+  ReadingsResponse,
   SingleBookResponse,
   SingleUserResponse,
   User,
@@ -90,6 +91,14 @@ export class BookWiseService {
     )
 
     return data.user
+  }
+
+  static async getUserReadings(id: string): Promise<Book[]> {
+    const { data } = await this.bookwiseApi.get<ReadingsResponse>(
+      `/users/${id}/readings`,
+    )
+
+    return data.books
   }
 
   static async getBook(
