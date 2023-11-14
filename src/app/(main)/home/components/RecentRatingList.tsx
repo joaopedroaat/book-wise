@@ -65,7 +65,7 @@ export function RecentRatingItem({
         <BookOverlay book={book} />
 
         <div className="text-center lg:text-start">
-          <h1 className="text-xl">{book.name}</h1>
+          <h1 className="text-xl font-bold">{book.name}</h1>
           <small className="text-gray-400">{book.author}</small>
           <p className="mt-5 text-gray-300">{description}</p>
         </div>
