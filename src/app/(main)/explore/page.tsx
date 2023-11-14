@@ -2,9 +2,9 @@
 
 import { BookWiseService } from '@/services/BookWiseService'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
-import { Binoculars } from '@phosphor-icons/react/dist/ssr/index'
 import { Category } from '@prisma/client'
 import { useEffect, useState } from 'react'
+import { PageTitle } from '../components/PageTitle'
 import { BookList } from './components/BookList'
 import { CategoryForm } from './components/CategoryForm'
 
@@ -32,10 +32,7 @@ export default function Explore() {
 
   return (
     <>
-      <h1 className="flex gap-3 text-2xl font-bold mb-14">
-        <Binoculars className="text-green-100" size={32} />
-        Explorar
-      </h1>
+      <PageTitle />
       <CategoryForm
         className="mb-12 flex items-center justify-center gap-3 flex-wrap"
         handleCategoryChange={handleCategoryChange}
