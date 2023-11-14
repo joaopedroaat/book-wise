@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import { readingPostRequestBodySchema } from '@/services/BookWiseService/schemas'
-import { ReadingsResponse } from '@/services/BookWiseService/types'
+import {
+  ReadingResponse,
+  ReadingsResponse,
+} from '@/services/BookWiseService/types'
 import { Reading } from '@prisma/client'
 
 export async function GET(
@@ -67,5 +70,5 @@ export async function POST(
       },
     })
 
-  return Response.json(reading)
+  return Response.json({ reading } as ReadingResponse)
 }

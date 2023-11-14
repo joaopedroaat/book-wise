@@ -1,8 +1,10 @@
 'use client'
 
+import { BookWiseService } from '@/services/BookWiseService'
 import { Book } from '@/services/BookWiseService/types'
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
+import { useSession } from 'next-auth/react'
 import { BookCover } from './components/BookCover'
 import { BookInfo } from './components/BookInfo'
 import { RatingsSection } from './components/RatingsSection'
@@ -14,10 +16,25 @@ type BookOverlayProps = {
 }
 
 export function BookOverlay({ book, width, height }: BookOverlayProps) {
+  const session = useSession()
+
+  const user = session.status === 'authenticated' && session.data.user
+
+  async function handleUserReading() {
+    if (!user) return
+
+    await BookWiseService.postUserReading({
+      userId: user.id,
+      bookId: book.id,
+    })
+  }
+
   return (
     <Dialog.Root>
-      <Dialog.Trigger className="shrink-0">
-        <BookCover book={book} width={width} height={height} />
+      <Dialog.Trigger asChild>
+        <button className="shrink-0" onClick={handleUserReading}>
+          <BookCover book={book} width={width} height={height} />
+        </button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />

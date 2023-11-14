@@ -15,6 +15,9 @@ import {
   RatingWithBookAndUser,
   RatingWithUser,
   RatingsResponse,
+  Reading,
+  ReadingPostRequestBody,
+  ReadingResponse,
   ReadingsResponse,
   SingleBookResponse,
   SingleUserResponse,
@@ -99,6 +102,21 @@ export class BookWiseService {
     )
 
     return data.books
+  }
+
+  static async postUserReading({
+    userId,
+    bookId,
+  }: {
+    userId: string
+    bookId: string
+  }): Promise<Reading> {
+    const { data } = await this.bookwiseApi.post<ReadingResponse>(
+      `/users/${userId}/readings`,
+      { bookId } as ReadingPostRequestBody,
+    )
+
+    return data.reading
   }
 
   static async getBook(

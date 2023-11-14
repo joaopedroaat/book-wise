@@ -48,6 +48,13 @@ export const categorySchema = z.object({
   ]),
 })
 
+export const readingSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  bookId: z.string(),
+  createdAt: z.date(),
+})
+
 // Extensions
 
 export const ratingWithUserSchema = ratingSchema.omit({ userId: true }).extend({
@@ -161,4 +168,8 @@ export const categoriesOnBookResponseSchema = z.object({
 
 export const readingsResponseSchema = z.object({
   books: bookSchema.array(),
+})
+
+export const readingResponseSchema = z.object({
+  reading: readingSchema,
 })

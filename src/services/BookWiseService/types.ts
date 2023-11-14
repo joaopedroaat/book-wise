@@ -16,6 +16,9 @@ import {
   ratingWithBookSchema,
   ratingWithUserSchema,
   ratingsResponseSchema,
+  readingPostRequestBodySchema,
+  readingResponseSchema,
+  readingSchema,
   readingsResponseSchema,
   singleBookResponseSchema,
   singleUserResponseSchema,
@@ -23,6 +26,8 @@ import {
 } from './schemas'
 
 export type User = z.infer<typeof userSchema>
+
+export type Reading = z.infer<typeof readingSchema>
 
 export type Category = z.infer<typeof categorySchema>
 export type CategoryNames = Category['name']
@@ -43,6 +48,10 @@ export type RatingWithBookAndUser = z.infer<typeof ratingWithBookAndUserSchema>
 export type RatingPostRequestBody = z.infer<typeof ratingPostRequestBodySchema>
 export type RatingPutRequestBody = z.infer<typeof ratingPutRequestBodySchema>
 
+export type ReadingPostRequestBody = z.infer<
+  typeof readingPostRequestBodySchema
+>
+
 // Responses
 export type SingleUserResponse = z.infer<typeof singleUserResponseSchema>
 export type SingleBookResponse = z.infer<typeof singleBookResponseSchema>
@@ -54,3 +63,4 @@ export type CategoriesOnBookResponse = z.infer<
   typeof categoriesOnBookResponseSchema
 >
 export type ReadingsResponse = z.infer<typeof readingsResponseSchema>
+export type ReadingResponse = z.infer<typeof readingResponseSchema>
