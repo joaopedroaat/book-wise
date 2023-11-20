@@ -15,8 +15,8 @@ export function MenuLink({ href, children }: MenuLinkProps) {
 
   return (
     <Link
-      className={`text-lg flex items-center gap-3 relative after:absolute after:w-1 after:h-full after:bg-green-100 after:rounded after:-left-4 ${
-        active ? 'text-gray-100' : 'text-gray-400 after:hidden'
+      className={`flex items-center gap-2 md:gap-4 relative after:absolute after:w-1 after:h-full after:bg-green-100 after:rounded after:-left-4 after:hidden ${
+        active ? 'text-gray-100 md:after:block' : 'text-gray-400'
       }`}
       href={href}
     >

@@ -9,7 +9,7 @@ export function SignInForm() {
         title="Login"
       >
         <span className="hidden md:inline-block">Fazer login</span>
-        <SignIn className="text-green-100 text-xl" />
+        <SignIn className="text-green-100" size="1.5em" />
       </button>
     </LoginDialog>
   )

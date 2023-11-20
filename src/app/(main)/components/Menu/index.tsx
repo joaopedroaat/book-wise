@@ -18,20 +18,20 @@ export async function Menu() {
       <Link href="/home" className="md:mb-16">
         <BookWiseIcon />
       </Link>
-      <nav className="flex flex-col gap-10 mb-auto">
+      <nav className="flex text-sm md:text-lg gap-4 md:gap-10 items-center md:items-start md:flex-col md:mb-auto ">
         <MenuLink href="/home">
-          <ChartLineUp size="2rem" />
+          <ChartLineUp size="1.5em" />
           Início
         </MenuLink>
 
         <MenuLink href="/explore">
-          <Binoculars size="2rem" />
+          <Binoculars size="1.5em" />
           Explorar
         </MenuLink>
 
         {isAuthenticated && (
           <MenuLink href={`/profile/${session.user.id}`}>
-            <User size="2rem" />
+            <User size="1.5em" />
             Perfil
           </MenuLink>
         )}

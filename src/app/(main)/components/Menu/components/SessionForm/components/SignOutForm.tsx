@@ -15,7 +15,7 @@ export function SignOutForm({ user: { id, name, image } }: SignOutFormProps) {
       <Avatar user={{ id, name, avatarUrl: image }} size={32} />
       <span className="hidden md:block text-center">{name}</span>
       <button onClick={() => logout()}>
-        <SignOut className="text-red-100 text-base md:text-lg" />
+        <SignOut className="text-red-100" size="1.5em" />
       </button>
     </div>
   )
