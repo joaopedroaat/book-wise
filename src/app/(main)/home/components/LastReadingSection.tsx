@@ -15,7 +15,7 @@ export function LastReadingSection() {
 
   const user = session.status === 'authenticated' && session.data.user
 
-  const { data: readings } = useQuery('readings', async () => {
+  const { data: readings } = useQuery(['readings', user], async () => {
     if (!user) return
 
     return (await BookWiseService.getUserReadings(user.id, {
