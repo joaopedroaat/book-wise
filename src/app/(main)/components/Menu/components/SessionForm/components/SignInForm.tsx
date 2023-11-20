@@ -1,5 +1,5 @@
 import { LoginDialog } from '@/components/LoginDialog'
-import { SignIn } from '@phosphor-icons/react'
+import { SignIn } from '@phosphor-icons/react/dist/ssr/SignIn'
 
 export function SignInForm() {
   return (

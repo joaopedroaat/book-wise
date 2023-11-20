@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar } from '@/components/Avatar'
 import { SignOut } from '@phosphor-icons/react'
 import { User } from 'next-auth'

@@ -1,46 +1,39 @@
-'use client'
-
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { BookWiseIcon } from '@/components/BookWiseIcon'
-import { Binoculars, ChartLineUp, User } from '@phosphor-icons/react'
-import { useSession } from 'next-auth/react'
+import { Binoculars } from '@phosphor-icons/react/dist/ssr/Binoculars'
+import { ChartLineUp } from '@phosphor-icons/react/dist/ssr/ChartLineUp'
+import { User } from '@phosphor-icons/react/dist/ssr/User'
+import { getServerSession } from 'next-auth'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { MenuLink } from './components/MenuLink'
 import { SessionForm } from './components/SessionForm'
 
-export function Menu() {
-  const path = usePathname()
+export async function Menu() {
+  const session = await getServerSession(authOptions)
 
-  const session = useSession()
-
-  const isAuthenticated = session.status === 'authenticated'
+  const isAuthenticated = !!session?.user
 
   return (
     <div className="flex justify-between items-center md:flex-col h-full gap-5">
       <Link href="/home" className="md:mb-16">
         <BookWiseIcon />
       </Link>
-      <nav className="text-sm md:text-base lg:text-lg [&>a>svg]:text-lg [&>a>svg]:md:text-2xl flex md:flex-col md:flex-grow md:gap-4 gap-3 [&>a.active]:border-green-200 [&>a]:border-transparent [&>a]:flex [&>a]:items-center [&>a]:gap-2 [&>a]:sm:gap-3 [&>a]:text-gray-400 [&>a]:no-underline hover:[&>a]:text-gray-300  [&>a.active]:text-gray-200">
-        <Link href="/home" className={`${path.includes('home') && 'active'}`}>
-          <ChartLineUp />
+      <nav className="flex flex-col gap-10 mb-auto">
+        <MenuLink href="/home">
+          <ChartLineUp size="2rem" />
           Início
-        </Link>
+        </MenuLink>
 
-        <Link
-          href="/explore"
-          className={`${path.includes('explore') && 'active'}`}
-        >
-          <Binoculars />
+        <MenuLink href="/explore">
+          <Binoculars size="2rem" />
           Explorar
-        </Link>
+        </MenuLink>
 
         {isAuthenticated && (
-          <Link
-            href={`/profile/${session.data.user.id}`}
-            className={`${path.includes('profile') && 'active'}`}
-          >
-            <User />
+          <MenuLink href={`/profile/${session.user.id}`}>
+            <User size="2rem" />
             Perfil
-          </Link>
+          </MenuLink>
         )}
       </nav>
       <SessionForm />
