@@ -76,16 +76,7 @@ export const bookWithCategoriesSchema = bookSchema.extend({
 })
 
 export const ratingWithBookSchema = ratingSchema.omit({ bookId: true }).extend({
-  book: bookSchema.extend({
-    categories: z.array(
-      z
-        .object({
-          category: categorySchema,
-        })
-        .transform((val) => val.category),
-    ),
-    ratings: z.array(ratingSchema),
-  }),
+  book: bookSchema,
 })
 
 export const bookWithRatingsAndCategoriesSchema = bookWithRatingsSchema.merge(
@@ -178,4 +169,15 @@ export const readingsResponseSchema = z.object({
 
 export const readingResponseSchema = z.object({
   reading: readingSchema,
+})
+
+export const userRatingsResponseSchema = z.object({
+  ratings: z
+    .array(ratingWithBookSchema)
+    .refine((ratings) =>
+      ratings.every(
+        (rating, index, array) =>
+          index === 0 || rating.userId === array[0].userId,
+      ),
+    ),
 })
