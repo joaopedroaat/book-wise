@@ -1,8 +1,7 @@
-'use client'
-
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { Avatar } from '@/components/Avatar'
 import { BookWiseService } from '@/services/BookWiseService'
-import { useQuery } from 'react-query'
-import { PageTitle } from '../../components/PageTitle'
+import { getServerSession } from 'next-auth'
 
 type ProfileProps = {
   params: {
@@ -10,24 +9,25 @@ type ProfileProps = {
   }
 }
 
-export default function Profile({ params: { userId } }: ProfileProps) {
-  const { data: userData } = useQuery('profile', async () => {
-    console.log('fetching user data')
-    const user = await BookWiseService.getUser(userId)
-    const stats = await BookWiseService.getUserStats(userId)
+export default async function Profile({ params: { userId } }: ProfileProps) {
+  const session = await getServerSession(authOptions)
+  const user = await BookWiseService.getUser(userId)
+  const stats = await BookWiseService.getUserStats(userId)
 
-    return { user, stats }
-  })
+  const isUserProfile = !!session && session.user.id === userId
 
   return (
     <>
-      <PageTitle />
-      <main className="grid grid-cols-1">
-        <section>{JSON.stringify(userData)}</section>
-        <aside>
-          <div></div>
-        </aside>
-      </main>
+      <div>Profile</div>
+      <aside>
+        <div className="flex flex-col items-center">
+          <Avatar user={user} size={72} border />
+          <strong className="mt-5">{user.name}</strong>
+          <small className="text-gray-400">
+            {new Date(user.createdAt).toISOString()}
+          </small>
+        </div>
+      </aside>
     </>
   )
 }

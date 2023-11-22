@@ -7,9 +7,10 @@ import Link from 'next/link'
 type AvatarProps = {
   user: User | NextAuthUser
   size?: number
+  border?: boolean
 }
 
-export function Avatar({ user, size = 40 }: AvatarProps) {
+export function Avatar({ user, size = 40, border }: AvatarProps) {
   const altText = `Foto de perfil de ${user.name}.`
   const avatarUrl = (user as User).avatarUrl
     ? (user as User).avatarUrl
@@ -20,7 +21,9 @@ export function Avatar({ user, size = 40 }: AvatarProps) {
       {avatarUrl ? (
         <div className="relative" style={{ width: size, height: size }}>
           <Image
-            className="rounded-full"
+            className={`rounded-full border-2 ${
+              border ? 'border-green-100' : 'border-transparent'
+            }`}
             fill={true}
             sizes={`${size}px`}
             src={avatarUrl}
