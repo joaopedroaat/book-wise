@@ -55,6 +55,12 @@ export const readingSchema = z.object({
   createdAt: z.date(),
 })
 
+export const userStatsSchema = z.object({
+  totalBooksReviewed: z.number(),
+  totalAuthorsReviewed: z.number(),
+  mostReviewedCategories: z.array(categorySchema.shape.name),
+})
+
 // Extensions
 
 export const ratingWithUserSchema = ratingSchema.omit({ userId: true }).extend({
@@ -180,4 +186,8 @@ export const userRatingsResponseSchema = z.object({
           index === 0 || rating.userId === array[0].userId,
       ),
     ),
+})
+
+export const userStatsResponseSchema = z.object({
+  stats: userStatsSchema,
 })
