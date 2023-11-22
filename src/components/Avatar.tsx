@@ -1,20 +1,22 @@
+import { User } from '@/services/BookWiseService/types'
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User'
+import { User as NextAuthUser } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
 
 type AvatarProps = {
-  user: { id: string; name: string; avatarUrl: string | null }
+  user: User | NextAuthUser
   size?: number
 }
 
-export function Avatar({
-  user: { id, name, avatarUrl },
-  size = 40,
-}: AvatarProps) {
-  const altText = `Foto de perfil de ${name}.`
+export function Avatar({ user, size = 40 }: AvatarProps) {
+  const altText = `Foto de perfil de ${user.name}.`
+  const avatarUrl = (user as User).avatarUrl
+    ? (user as User).avatarUrl
+    : (user as NextAuthUser).image
 
   return (
-    <Link href={`profile/${id}`}>
+    <Link href={`profile/${user.id}`}>
       {avatarUrl ? (
         <div className="relative" style={{ width: size, height: size }}>
           <Image

@@ -44,9 +44,7 @@ export function RecentRatingItem({
     <li className="bg-gray-700 p-6 rounded-lg flex flex-col gap-8">
       <header className="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-start">
         <div className="flex flex-col items-center gap-3 md:flex-row">
-          <Avatar
-            user={{ id: user.id, name: user.name, avatarUrl: user.avatarUrl }}
-          />
+          <Avatar user={user} />
           <div className="flex flex-col items-center md:items-start">
             <Link
               className="text-gray-100 no-underline"

@@ -92,13 +92,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
             >
               <div className="flex justify-between items-start">
                 <div className="flex gap-4">
-                  <Avatar
-                    user={{
-                      id: rating.user.id,
-                      name: rating.user.name,
-                      avatarUrl: rating.user.avatarUrl,
-                    }}
-                  />
+                  <Avatar user={rating.user} />
                   <div>
                     <p className="font-bold text-sm">{rating.user.name}</p>
                     <small className="text-gray-400">

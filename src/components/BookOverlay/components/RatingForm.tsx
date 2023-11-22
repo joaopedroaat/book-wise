@@ -99,9 +99,7 @@ export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
     >
       <header className="flex justify-between">
         <div className="flex items-center gap-4">
-          <Avatar
-            user={{ id: user?.id, name: user?.name, avatarUrl: user?.image }}
-          />
+          <Avatar user={user} />
           <strong>{user.name}</strong>
         </div>
         <Controller
