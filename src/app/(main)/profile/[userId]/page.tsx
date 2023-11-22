@@ -23,9 +23,7 @@ export default async function Profile({ params: { userId } }: ProfileProps) {
         <div className="flex flex-col items-center">
           <Avatar user={user} size={72} border />
           <strong className="mt-5">{user.name}</strong>
-          <small className="text-gray-400">
-            {new Date(user.createdAt).toISOString()}
-          </small>
+          <small className="text-gray-400">{user.createdAt}</small>
         </div>
       </aside>
     </>

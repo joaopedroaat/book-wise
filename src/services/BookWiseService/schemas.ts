@@ -9,14 +9,14 @@ export const bookSchema = z.object({
   summary: z.string(),
   coverUrl: z.string(),
   totalPages: z.number(),
-  createdAt: z.date(),
+  createdAt: z.date().transform((date) => date.toISOString()),
 })
 
 export const ratingSchema = z.object({
   id: z.string(),
   rate: z.number(),
   description: z.string(),
-  createdAt: z.date(),
+  createdAt: z.date().transform((date) => date.toISOString()),
   bookId: z.string(),
   userId: z.string(),
 })
@@ -27,7 +27,7 @@ export const userSchema = z.object({
   email: z.string().email(),
   emailVerified: z.date().nullable(),
   avatarUrl: z.string().nullable(),
-  createdAt: z.date(),
+  createdAt: z.date().transform((date) => date.toISOString()),
 })
 
 export const categorySchema = z.object({
@@ -52,7 +52,7 @@ export const readingSchema = z.object({
   id: z.string(),
   userId: z.string(),
   bookId: z.string(),
-  createdAt: z.date(),
+  createdAt: z.date().transform((date) => date.toISOString()),
 })
 
 export const userStatsSchema = z.object({
