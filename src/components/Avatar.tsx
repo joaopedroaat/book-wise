@@ -17,7 +17,7 @@ export function Avatar({ user, size = 40, border }: AvatarProps) {
     : (user as NextAuthUser).image
 
   return (
-    <Link href={`profile/${user.id}`}>
+    <Link href={`/profile/${user.id}`}>
       {avatarUrl ? (
         <div className="relative" style={{ width: size, height: size }}>
           <Image
