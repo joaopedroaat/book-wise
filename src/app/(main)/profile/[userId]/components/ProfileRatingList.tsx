@@ -14,12 +14,12 @@ export function ProfileRatingList({ ratings }: ProfileRatingListProps) {
           key={rating.id}
           className="bg-gray-700 p-6 rounded-lg flex flex-col gap-6"
         >
-          <div className="flex gap-6">
+          <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6">
             <BookOverlay book={rating.book} />
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center sm:items-start flex-grow">
               <strong>{rating.book.name}</strong>
               <small className="text-gray-400">{rating.book.author}</small>
-              <div className="mt-auto">
+              <div className="mt-1">
                 <StarRating rating={5} size={16} />
               </div>
             </div>
