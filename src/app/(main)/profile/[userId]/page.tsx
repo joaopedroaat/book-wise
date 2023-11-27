@@ -2,6 +2,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { BookWiseService } from '@/services/BookWiseService'
 import { getServerSession } from 'next-auth'
 import { ProfileAvatar } from './components/ProfileAvatar'
+import { ProfileRatingList } from './components/ProfileRatingList'
 import { StatsList } from './components/StatsList'
 
 type ProfileProps = {
@@ -20,7 +21,9 @@ export default async function Profile({ params: { userId } }: ProfileProps) {
 
   return (
     <>
-      <span>{JSON.stringify(userRatings)}</span>
+      <section>
+        <ProfileRatingList ratings={userRatings} />
+      </section>
       <aside className="flex flex-col items-center gap-16">
         <ProfileAvatar user={user} />
         <StatsList stats={stats} />
