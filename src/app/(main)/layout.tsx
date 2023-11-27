@@ -1,4 +1,5 @@
 import { Menu } from './components/Menu'
+import { PageTitle } from './components/PageTitle'
 
 export default async function HomeLayout({
   children,
@@ -11,6 +12,7 @@ export default async function HomeLayout({
         <Menu />
       </aside>
       <main className="col-span-12 md:col-span-9 lg:col-span-10 px-2 md:px-24 pt-14 pb-5 md:pb-0 overflow-scroll">
+        <PageTitle />
         {children}
       </main>
     </div>
