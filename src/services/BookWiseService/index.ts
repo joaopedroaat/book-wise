@@ -158,7 +158,11 @@ export class BookWiseService {
       { params: { includeRatings, includeCategories } },
     )
 
-    return data.book
+    return data.book as
+      | Book
+      | BookWithRatings
+      | BookWithCategories
+      | BookWithRatingsAndCategories
   }
 
   static async getBooks({
@@ -192,7 +196,11 @@ export class BookWiseService {
       },
     })
 
-    return data.books
+    return data.books as
+      | Book[]
+      | BookWithRatings[]
+      | BookWithCategories[]
+      | BookWithRatingsAndCategories[]
   }
 
   static async getCategories(): Promise<Category[]> {
