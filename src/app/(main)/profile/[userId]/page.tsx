@@ -1,7 +1,7 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { Avatar } from '@/components/Avatar'
 import { BookWiseService } from '@/services/BookWiseService'
 import { getServerSession } from 'next-auth'
+import { ProfileAvatar } from './components/ProfileAvatar'
 import { StatsList } from './components/StatsList'
 
 type ProfileProps = {
@@ -20,11 +20,7 @@ export default async function Profile({ params: { userId } }: ProfileProps) {
   return (
     <>
       <aside className="flex flex-col items-center gap-16">
-        <div className="flex flex-col items-center">
-          <Avatar user={user} size={72} border />
-          <strong className="mt-5">{user.name}</strong>
-          <small className="text-gray-400">{user.createdAt}</small>
-        </div>
+        <ProfileAvatar user={user} />
         <StatsList stats={stats} />
       </aside>
     </>
