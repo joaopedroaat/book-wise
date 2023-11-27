@@ -24,7 +24,7 @@ export function ProfileRatingList({ ratings }: ProfileRatingListProps) {
               </div>
             </div>
           </div>
-          <p>{rating.description}</p>
+          <p className="text-gray-300">{rating.description}</p>
         </li>
       ))}
     </ul>
