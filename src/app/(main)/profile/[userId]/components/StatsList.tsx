@@ -11,7 +11,7 @@ type StatsListProps = {
 export function StatsList({ stats, ...props }: StatsListProps) {
   const Stat = ({ children }: { children: ReactNode }) => {
     return (
-      <li className="flex gap-5 items-center [&>svg]:text-green-100 [&>div]:flex [&>div]:flex-col">
+      <li className="flex gap-5 items-center [&>svg]:text-green-100 [&>div]:flex [&>div]:flex-col [&>div>strong]:text-gray-200 [&>div>small]:text-gray-400">
         {children}
       </li>
     )
@@ -20,21 +20,21 @@ export function StatsList({ stats, ...props }: StatsListProps) {
   return (
     <ul className={`${props.className} flex flex-col gap-10`} {...props}>
       <Stat>
-        <Books size={32} />
+        <Books size="2rem" />
         <div>
           <strong>{stats.totalBooksReviewed}</strong>
           <small>Livros avaliados</small>
         </div>
       </Stat>
       <Stat>
-        <UserList size={32} />
+        <UserList size="2rem" />
         <div>
           <strong>{stats.totalAuthorsReviewed}</strong>
           <small>Autores avaliados</small>
         </div>
       </Stat>
       <Stat>
-        <BookmarkSimple size={32} />
+        <BookmarkSimple className="shrink-0" size="2rem" />
         <div>
           <strong>{stats.mostReviewedCategories.join(', ') + '.'}</strong>
           <small>Categorias mais lidas</small>
