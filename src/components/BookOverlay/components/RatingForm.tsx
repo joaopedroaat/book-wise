@@ -1,23 +1,16 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
-import { BookWiseService } from '@/services/BookWiseService'
-import {
-  Book,
-  Rating,
-  RatingPostRequestBody,
-  RatingPutRequestBody,
-} from '@/services/BookWiseService/types'
+import { Book, RatingPostRequestBody } from '@/services/BookWiseService/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
 import { User } from 'next-auth'
 import { Controller, useForm } from 'react-hook-form'
-import { useMutation, useQueryClient } from 'react-query'
 import { z } from 'zod'
 
 type RatingFormProps = {
   book: Book
   user: User
-  rating?: Rating
+  mutation: (ratings: RatingPostRequestBody['rating']) => Promise<void>
   onAbort: () => void
 }
 
@@ -28,7 +21,7 @@ const ratingFormSchema = z.object({
 
 export type RatingFormSchema = z.infer<typeof ratingFormSchema>
 
-export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
+export function RatingForm({ book, user, mutation, onAbort }: RatingFormProps) {
   const {
     register,
     handleSubmit,
@@ -37,53 +30,10 @@ export function RatingForm({ book, user, rating, onAbort }: RatingFormProps) {
     reset,
   } = useForm<RatingFormSchema>({
     resolver: zodResolver(ratingFormSchema),
-    defaultValues: {
-      rate: rating?.rate,
-      description: rating?.description,
-    },
-  })
-
-  const queryClient = useQueryClient()
-
-  const { mutateAsync: postRatingMutation } = useMutation({
-    mutationFn: async (rating: RatingPostRequestBody['rating']) => {
-      BookWiseService.postRating(rating)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries('ratings_on_book')
-      queryClient.invalidateQueries('popular_books')
-      queryClient.invalidateQueries('recent_ratings')
-    },
-  })
-
-  const { mutateAsync: putRatingMutation } = useMutation({
-    mutationFn: async (newRating: RatingPutRequestBody['rating']) => {
-      if (rating)
-        BookWiseService.putRating(rating.id, {
-          rate: newRating.rate,
-          description: newRating.description,
-        })
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries('ratings_on_book')
-      queryClient.invalidateQueries('popular_books')
-      queryClient.invalidateQueries('recent_ratings')
-    },
   })
 
   async function handleFormSubmit(data: RatingFormSchema) {
-    rating
-      ? await putRatingMutation({
-          rate: data.rate,
-          description: data.description,
-        })
-      : await postRatingMutation({
-          rate: data.rate,
-          description: data.description,
-          bookId: book.id,
-          userId: user.id,
-        })
-
+    mutation({ ...data, bookId: book.id, userId: user.id })
     handleAbort()
   }
 

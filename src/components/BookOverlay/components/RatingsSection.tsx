@@ -1,13 +1,12 @@
 import { Avatar } from '@/components/Avatar'
 import { LoginDialog } from '@/components/LoginDialog'
 import { StarRating } from '@/components/StarRating'
-import { BookWiseService } from '@/services/BookWiseService'
-import { Book, RatingWithUser } from '@/services/BookWiseService/types'
+import { useRatingsOnBook } from '@/services/BookWiseService/hooks/useRatingsOnBook'
+import { Book } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CircleNotch } from '@phosphor-icons/react'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
-import { useQuery } from 'react-query'
 import { RatingForm } from './RatingForm'
 
 type CommentSectionProps = {
@@ -15,17 +14,7 @@ type CommentSectionProps = {
 }
 
 export function RatingsSection({ book }: CommentSectionProps) {
-  const { data: ratings, isLoading } = useQuery(
-    ['ratings_on_book', book],
-    async () => {
-      console.log('Fetching ratings on book')
-      const ratings = await BookWiseService.getRatingsOnBook(book.id, {
-        includeUser: true,
-      })
-
-      return ratings as RatingWithUser[]
-    },
-  )
+  const [{ data: ratings, isLoading }, { mutateAsync }] = useRatingsOnBook(book)
 
   const session = useSession()
   const isAuthenticated = session.status === 'authenticated'
@@ -41,10 +30,6 @@ export function RatingsSection({ book }: CommentSectionProps) {
     >
       Avaliar
     </button>
-  )
-
-  const userRating = ratings?.find(
-    (rating) => rating.user.id === session.data?.user.id,
   )
 
   return (
@@ -65,16 +50,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
           <RatingForm
             user={session.data.user}
             book={book}
-            rating={
-              userRating && {
-                id: userRating.id,
-                rate: userRating.rate,
-                description: userRating.description,
-                createdAt: userRating.createdAt,
-                bookId: userRating.bookId,
-                userId: userRating.user.id,
-              }
-            }
+            mutation={mutateAsync}
             onAbort={() => setIsRatingFormVisible(false)}
           />
         )}
