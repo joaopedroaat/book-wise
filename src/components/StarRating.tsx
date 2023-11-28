@@ -8,11 +8,11 @@ import { v4 as uuidv4 } from 'uuid'
 
 type StarRatingProps = {
   rate: number | Book
-  size?: number
+  size?: number | string
 }
 
 export function StarRating({ rate, size = 20 }: StarRatingProps) {
-  const { data: averageRating } = useQuery(['ratings'], async () => {
+  const { data: averageRating } = useQuery(['ratings', rate], async () => {
     if (typeof rate === 'object') {
       return await BookWiseService.getAverageRating(rate.id)
     }

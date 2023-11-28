@@ -1,3 +1,5 @@
+'use client'
+
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { RatingWithBook } from '@/services/BookWiseService/types'
@@ -20,7 +22,7 @@ export function ProfileRatingList({ ratings }: ProfileRatingListProps) {
               <strong>{rating.book.name}</strong>
               <small className="text-gray-400">{rating.book.author}</small>
               <div className="mt-1">
-                <StarRating book={rating.book} size={16} />
+                <StarRating rate={rating.book} size="1rem" />
               </div>
             </div>
           </div>
