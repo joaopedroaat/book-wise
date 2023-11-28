@@ -36,7 +36,7 @@ export function StatsList({ stats, ...props }: StatsListProps) {
       <Stat>
         <BookmarkSimple className="shrink-0" size="2rem" />
         <div>
-          <strong>{stats.mostReviewedCategories.join(', ') + '.'}</strong>
+          <strong>{stats.mostReviewedCategories.join(', ')}</strong>
           <small>Categorias mais lidas</small>
         </div>
       </Stat>
