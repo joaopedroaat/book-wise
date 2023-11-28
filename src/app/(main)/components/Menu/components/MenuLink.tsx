@@ -11,7 +11,9 @@ type MenuLinkProps = {
 
 export function MenuLink({ href, children }: MenuLinkProps) {
   const path = usePathname()
-  const active = path.includes(href)
+  const active =
+    path.includes(href) ||
+    (href.split('/').includes('profile') && path.split('/').includes('profile'))
 
   return (
     <Link
