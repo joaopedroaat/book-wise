@@ -1,5 +1,4 @@
 import { Avatar } from '@/components/Avatar'
-import { LoginDialog } from '@/components/LoginDialog'
 import { StarRating } from '@/components/StarRating'
 import { useRatingsOnBook } from '@/services/BookWiseService/hooks/useRatingsOnBook'
 import { Book } from '@/services/BookWiseService/types'
@@ -7,13 +6,14 @@ import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CircleNotch } from '@phosphor-icons/react'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
-import { RatingForm } from './RatingForm'
+import { RatingForm } from '../RatingForm'
+import { Header } from './components/Header'
 
-type CommentSectionProps = {
+type RatingFeed = {
   book: Book
 }
 
-export function RatingsSection({ book }: CommentSectionProps) {
+export function RatingFeed({ book }: RatingFeed) {
   const [{ data: ratings, isLoading }, { mutateAsync }] = useRatingsOnBook(book)
 
   const session = useSession()
@@ -21,29 +21,12 @@ export function RatingsSection({ book }: CommentSectionProps) {
 
   const [isRatingFormVisible, setIsRatingFormVisible] = useState(false)
 
-  const rateButton = (
-    <button
-      className="text-purple-100 font-bold text-sm"
-      onClick={
-        !isRatingFormVisible ? () => setIsRatingFormVisible(true) : undefined
-      }
-    >
-      Avaliar
-    </button>
-  )
-
   return (
     <section className="mt-4 flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <small>Avaliações</small>
-        {isAuthenticated ? (
-          rateButton
-        ) : (
-          <LoginDialog description="Faça login para deixar sua avaliação">
-            {rateButton}
-          </LoginDialog>
-        )}
-      </div>
+      <Header
+        isAuthenticated={isAuthenticated}
+        setRatingFormVisibility={setIsRatingFormVisible}
+      />
 
       <ul className="flex flex-col gap-3">
         {isAuthenticated && isRatingFormVisible && (

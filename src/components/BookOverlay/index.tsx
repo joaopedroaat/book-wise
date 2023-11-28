@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react'
 import { useMutation } from 'react-query'
 import { BookCover } from './components/BookCover'
 import { BookInfo } from './components/BookInfo'
-import { RatingsSection } from './components/RatingsSection'
+import { RatingFeed } from './components/RatingFeed'
 
 type BookOverlayProps = {
   book: Book
@@ -50,7 +50,7 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
             <X size={24} />
           </Dialog.Close>
           <BookInfo book={book} />
-          <RatingsSection book={book} />
+          <RatingFeed book={book} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
