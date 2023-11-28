@@ -10,7 +10,6 @@ import {
   CategoryResponse,
   Rating,
   RatingPostRequestBody,
-  RatingPutRequestBody,
   RatingResponse,
   RatingWithBook,
   RatingWithBookAndUser,
@@ -22,11 +21,7 @@ import {
   ReadingWithBook,
   ReadingsResponse,
   SingleBookResponse,
-  SingleUserResponse,
-  User,
   UserRatingsResponse,
-  UserStats,
-  UserStatsResponse,
 } from './types'
 
 export class BookWiseService {
@@ -87,34 +82,6 @@ export class BookWiseService {
     } as RatingPostRequestBody)
 
     return data.rating
-  }
-
-  static async putRating(
-    ratingId: string,
-    rating: RatingPutRequestBody['rating'],
-  ): Promise<Rating> {
-    const { data } = await this.bookwiseApi.put<RatingResponse>(
-      `ratings/${ratingId}`,
-      { rating } as RatingPutRequestBody,
-    )
-
-    return data.rating
-  }
-
-  static async getUser(id: string): Promise<User> {
-    const { data } = await this.bookwiseApi.get<SingleUserResponse>(
-      `users/${id}`,
-    )
-
-    return data.user
-  }
-
-  static async getUserStats(id: string): Promise<UserStats> {
-    const { data } = await this.bookwiseApi.get<UserStatsResponse>(
-      `users/${id}/stats`,
-    )
-
-    return data.stats
   }
 
   static async getUserReadings(

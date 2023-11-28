@@ -104,13 +104,27 @@ export async function POST(request: Request) {
 
     const { rating } = parsedBody.data
 
-    const createdRate = await prisma.rating.create({
-      data: rating,
+    const existingRate = await prisma.rating.findFirst({
+      where: {
+        bookId: rating.bookId,
+        userId: rating.userId,
+      },
     })
 
-    const parsedCreatedRate = ratingSchema.parse(createdRate)
+    const createdRating = existingRate
+      ? await prisma.rating.update({
+          data: rating,
+          where: {
+            id: existingRate.id,
+          },
+        })
+      : await prisma.rating.create({
+          data: rating,
+        })
 
-    return Response.json({ rating: parsedCreatedRate } as RatingResponse)
+    const parsedRating = ratingSchema.parse(createdRating)
+
+    return Response.json({ rating: parsedRating } as RatingResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
