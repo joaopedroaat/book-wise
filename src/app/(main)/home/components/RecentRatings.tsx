@@ -3,22 +3,13 @@
 import { Avatar } from '@/components/Avatar'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { BookWiseService } from '@/services/BookWiseService'
+import { useRecentRatings } from '@/services/BookWiseService/hooks/useRecentRatings'
 import { RatingWithBookAndUser } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import Link from 'next/link'
-import { useQuery } from 'react-query'
 
 export function RecentRatings() {
-  const { data: ratings } = useQuery('recent_ratings', async () => {
-    const ratings = await BookWiseService.getRatings({
-      includeBook: true,
-      includeUser: true,
-      page: 1,
-    })
-
-    return ratings as RatingWithBookAndUser[]
-  })
+  const [{ data: ratings }] = useRecentRatings()
 
   return (
     <section className="flex flex-col gap-4">
