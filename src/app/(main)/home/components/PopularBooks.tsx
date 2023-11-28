@@ -2,23 +2,13 @@
 
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { BookWiseService } from '@/services/BookWiseService'
+import { usePopularBooks } from '@/services/BookWiseService/hooks/usePopularBooks'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import Link from 'next/link'
-import { useQuery } from 'react-query'
 
 export function PopularBooks() {
-  const { data: books } = useQuery('popular_books', async () => {
-    const books = await BookWiseService.getBooks({
-      perPage: 4,
-      includeRatings: true,
-      includeCategories: true,
-      orderBy: 'popular',
-    })
-
-    return books as BookWithRatingsAndCategories[]
-  })
+  const [{ data: books }] = usePopularBooks()
 
   return (
     <section className="w-full">
