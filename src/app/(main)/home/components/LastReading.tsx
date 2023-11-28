@@ -2,31 +2,17 @@
 
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { BookWiseService } from '@/services/BookWiseService'
-import { ReadingWithBook } from '@/services/BookWiseService/types'
+import { useUserReadings } from '@/services/BookWiseService/hooks/useUserReadings'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CaretRight } from '@phosphor-icons/react'
-import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { useQuery } from 'react-query'
 
 export function LastReading() {
-  const session = useSession()
-
-  const user = session.status === 'authenticated' && session.data.user
-
-  const { data: readings } = useQuery(['readings', user], async () => {
-    if (!user) return
-
-    return (await BookWiseService.getUserReadings(user.id, {
-      includeBooks: true,
-    })) as ReadingWithBook[]
-  })
+  const [{ data: readings }] = useUserReadings()
 
   const lastReading = readings && readings[0]
 
   return (
-    user &&
     lastReading && (
       <section className="flex flex-col gap-4">
         <header className="flex justify-between">
