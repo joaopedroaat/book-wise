@@ -8,7 +8,7 @@ import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import Link from 'next/link'
 import { useQuery } from 'react-query'
 
-export function PopularBooksList() {
+export function PopularBooks() {
   const { data: books } = useQuery('popular_books', async () => {
     const books = await BookWiseService.getBooks({
       perPage: 4,
@@ -32,20 +32,20 @@ export function PopularBooksList() {
           <CaretRight size={16} weight="bold" />
         </Link>
       </header>
-
-      <ul className="flex flex-col gap-3">
-        {books &&
-          books.map((book) => <PopularBookItem key={book.id} book={book} />)}
-      </ul>
+      <main>
+        <ul className="flex flex-col gap-3">
+          {books && books.map((book) => <BookItem key={book.id} book={book} />)}
+        </ul>
+      </main>
     </section>
   )
 }
 
-type PopularBookItemProps = {
+type BookItemProps = {
   book: BookWithRatingsAndCategories
 }
 
-export function PopularBookItem({ book }: PopularBookItemProps) {
+export function BookItem({ book }: BookItemProps) {
   return (
     <li className="flex gap-4 bg-gray-700 p-5 rounded-lg">
       <BookOverlay book={book} width={64} height={94} />

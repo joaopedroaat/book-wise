@@ -9,7 +9,7 @@ import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import Link from 'next/link'
 import { useQuery } from 'react-query'
 
-export function RecentRatingList() {
+export function RecentRatings() {
   const { data: ratings } = useQuery('recent_ratings', async () => {
     const ratings = await BookWiseService.getRatings({
       includeBook: true,
@@ -26,7 +26,7 @@ export function RecentRatingList() {
       <ul className="list-none flex flex-col gap-3">
         {ratings &&
           ratings.map((rating) => (
-            <RecentRatingItem key={rating.id} rating={rating} />
+            <RatingItem key={rating.id} rating={rating} />
           ))}
       </ul>
     </section>
@@ -37,7 +37,7 @@ type RatingItemProps = {
   rating: RatingWithBookAndUser
 }
 
-export function RecentRatingItem({
+export function RatingItem({
   rating: { user, book, rate, description, createdAt },
 }: RatingItemProps) {
   return (

@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useQuery } from 'react-query'
 
-export function LastReadingSection() {
+export function LastReading() {
   const session = useSession()
 
   const user = session.status === 'authenticated' && session.data.user
