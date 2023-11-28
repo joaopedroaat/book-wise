@@ -1,26 +1,22 @@
 import { LoginDialog } from '@/components/LoginDialog'
+import { useSession } from 'next-auth/react'
 
 type HeaderProps = {
-  isAuthenticated: boolean
-  setRatingFormVisibility: (isVisible: boolean) => void
+  onRateClick: () => void
 }
 
-export function Header({
-  isAuthenticated,
-  setRatingFormVisibility,
-}: HeaderProps) {
+export function Header({ onRateClick }: HeaderProps) {
+  const isAuthenticated = useSession().status === 'authenticated'
+
   const rateButton = (
-    <button
-      className="text-purple-100 font-bold text-sm"
-      onClick={() => setRatingFormVisibility(true)}
-    >
+    <button className="text-purple-100 font-bold text-sm" onClick={onRateClick}>
       Avaliar
     </button>
   )
 
   return (
     <div className="flex items-center justify-between">
-      <small>Avaliações</small>
+      <small className="text-gray-200">Avaliações</small>
       {isAuthenticated ? (
         rateButton
       ) : (
