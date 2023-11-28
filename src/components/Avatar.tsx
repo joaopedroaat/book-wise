@@ -19,17 +19,15 @@ export function Avatar({ user, size = 40, border }: AvatarProps) {
   return (
     <Link href={`/profile/${user.id}`}>
       {avatarUrl ? (
-        <div className="relative" style={{ width: size, height: size }}>
-          <Image
-            className={`rounded-full border-2 ${
-              border ? 'border-green-100' : 'border-transparent'
-            }`}
-            fill={true}
-            sizes={`${size}px`}
-            src={avatarUrl}
-            alt={altText}
-          />
-        </div>
+        <Image
+          className={`rounded-full border-2 ${
+            border ? 'border-green-100' : 'border-transparent'
+          }`}
+          width={size}
+          height={size}
+          src={avatarUrl}
+          alt={altText}
+        />
       ) : (
         <UserIcon
           className="bg-gray-800 p-1 rounded-full text-green-100"
