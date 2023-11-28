@@ -100,7 +100,7 @@ export function RatingsSection({ book }: CommentSectionProps) {
                     </small>
                   </div>
                 </div>
-                <StarRating rating={rating.rate} size={14} />
+                <StarRating rate={rating.rate} size={14} />
               </div>
               <p>{rating.description}</p>
             </li>

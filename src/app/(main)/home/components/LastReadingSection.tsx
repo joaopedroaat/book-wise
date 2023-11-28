@@ -46,7 +46,7 @@ export function LastReadingSection() {
                 <span className="text-gray-300">
                   {calculateDateDistance(new Date(lastReading.createdAt))}
                 </span>
-                <StarRating rating={4} size={16} />
+                <StarRating rate={lastReading.book} size={16} />
               </div>
               <div className="flex flex-col mt-3">
                 <h1 className="font-bold text-lg text-gray-100">

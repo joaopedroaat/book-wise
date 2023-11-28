@@ -31,13 +31,7 @@ export function BookItem({ book }: BookItemProps) {
           <h1 className="font-bold text-gray-100">{book.name}</h1>
           <small className="text-gray-400">{book.author}</small>
         </div>
-        <StarRating
-          rating={
-            book.ratings.reduce((acc, rating) => acc + rating.rate, 0) /
-            book.ratings.length
-          }
-          size={16}
-        />
+        <StarRating rate={book} size={16} />
       </div>
     </div>
   )

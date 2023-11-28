@@ -20,7 +20,7 @@ export function ProfileRatingList({ ratings }: ProfileRatingListProps) {
               <strong>{rating.book.name}</strong>
               <small className="text-gray-400">{rating.book.author}</small>
               <div className="mt-1">
-                <StarRating rating={5} size={16} />
+                <StarRating book={rating.book} size={16} />
               </div>
             </div>
           </div>

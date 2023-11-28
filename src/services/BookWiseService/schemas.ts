@@ -191,3 +191,7 @@ export const userRatingsResponseSchema = z.object({
 export const userStatsResponseSchema = z.object({
   stats: userStatsSchema,
 })
+
+export const averageRatingResponseSchema = z.object({
+  average: z.number(),
+})

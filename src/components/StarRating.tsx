@@ -1,26 +1,41 @@
+'use_client'
+
+import { BookWiseService } from '@/services/BookWiseService'
+import { Book } from '@/services/BookWiseService/types'
 import { Star } from '@phosphor-icons/react/dist/ssr/Star'
+import { useQuery } from 'react-query'
 import { v4 as uuidv4 } from 'uuid'
 
 type StarRatingProps = {
-  rating: number
+  rate: number | Book
   size?: number
 }
 
-export function StarRating({ rating, size = 20 }: StarRatingProps) {
+export function StarRating({ rate, size = 20 }: StarRatingProps) {
+  const { data: averageRating } = useQuery(['ratings'], async () => {
+    if (typeof rate === 'object') {
+      return await BookWiseService.getAverageRating(rate.id)
+    }
+
+    return rate
+  })
+
   return (
-    <ul className="flex gap-1">
-      {new Array(5).fill(null).map((_, index) => (
-        <li
-          key={uuidv4()}
-          className="flex items-center list-none gap-1 text-purple-100"
-        >
-          {index + 1 <= Math.floor(rating) ? (
-            <Star size={size} weight="fill" />
-          ) : (
-            <Star size={size} />
-          )}
-        </li>
-      ))}
-    </ul>
+    averageRating && (
+      <ul className="flex gap-1">
+        {new Array(5).fill(null).map((_, index) => (
+          <li
+            key={uuidv4()}
+            className="flex items-center list-none gap-1 text-purple-100"
+          >
+            {index + 1 <= Math.floor(averageRating) ? (
+              <Star size={size} weight="fill" />
+            ) : (
+              <Star size={size} />
+            )}
+          </li>
+        ))}
+      </ul>
+    )
   )
 }

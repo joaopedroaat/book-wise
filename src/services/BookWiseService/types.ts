@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import {
+  averageRatingResponseSchema,
   bookResponseSchema,
   bookSchema,
   bookWithCategoriesSchema,
@@ -72,3 +73,4 @@ export type ReadingsResponse = z.infer<typeof readingsResponseSchema>
 export type ReadingResponse = z.infer<typeof readingResponseSchema>
 export type UserRatingsResponse = z.infer<typeof userRatingsResponseSchema>
 export type UserStatsResponse = z.infer<typeof userStatsResponseSchema>
+export type AverageRatingResponse = z.infer<typeof averageRatingResponseSchema>

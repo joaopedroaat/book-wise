@@ -1,6 +1,7 @@
 import { localApi } from '@/lib/axios'
 import { Book, Category } from '@prisma/client'
 import {
+  AverageRatingResponse,
   BookResponse,
   BookWithCategories,
   BookWithRatings,
@@ -60,6 +61,14 @@ export class BookWiseService {
     )
 
     return data.ratings
+  }
+
+  static async getAverageRating(bookId: string): Promise<number> {
+    const { data } = await this.bookwiseApi.get<AverageRatingResponse>(
+      `books/${bookId}/ratings/average`,
+    )
+
+    return data.average
   }
 
   static async getCategoriesOnBOok(bookId: string) {
