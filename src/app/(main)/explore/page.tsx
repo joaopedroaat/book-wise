@@ -1,29 +1,18 @@
 'use client'
 
-import { BookWiseService } from '@/services/BookWiseService'
-import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
-import { Category } from '@prisma/client'
-import { useEffect, useState } from 'react'
+import { useBooks } from '@/services/BookWiseService/hooks/useBooks'
+import { Genre } from '@/services/BookWiseService/schemas'
+import { CircleNotch } from '@phosphor-icons/react'
+import { useState } from 'react'
 import { BookList } from './components/BookList'
 import { CategoryForm } from './components/CategoryForm'
 
 export default function Explore() {
-  const [category, setCategory] = useState<Category['name']>(undefined)
-  const [books, setBooks] = useState<BookWithRatingsAndCategories[]>([])
+  const [category, setCategory] = useState<Genre | undefined>(undefined)
 
-  useEffect(() => {
-    async function fetchBooks() {
-      setBooks(
-        await BookWiseService.getBooks({
-          category: category || undefined,
-        }),
-      )
-    }
+  const [{ data: books, isLoading }] = useBooks(category)
 
-    fetchBooks()
-  }, [category])
-
-  function handleCategoryChange(newCategory: Category['name'] | null) {
+  function handleCategoryChange(newCategory: Genre | null) {
     setCategory(newCategory || undefined)
   }
 
@@ -31,9 +20,15 @@ export default function Explore() {
     <>
       <CategoryForm
         className="mb-12 flex items-center justify-center gap-3 flex-wrap"
-        handleCategoryChange={handleCategoryChange}
+        currentCategory={category || null}
+        onCategoryChange={handleCategoryChange}
       />
-      <BookList books={books} />
+      {isLoading && (
+        <div className="flex justify-center">
+          <CircleNotch className="animate-spin" size={32} />
+        </div>
+      )}
+      {books && <BookList books={books} />}
     </>
   )
 }
