@@ -1,27 +1,27 @@
 import { z } from 'zod'
 import {
   averageRatingResponseSchema,
-  bookResponseSchema,
   bookSchema,
   bookWithCategoriesSchema,
   bookWithRatingsAndCategoriesSchema,
   bookWithRatingsSchema,
+  booksResponseSchema,
   categoriesOnBookResponseSchema,
-  categoryResponseSchema,
+  categoriesResponseSchema,
   categorySchema,
-  ratingPostRequestBodySchema,
-  ratingResponseSchema,
+  postRatingSchema,
+  postReadingSchema,
   ratingSchema,
   ratingWithBookAndUserSchema,
   ratingWithBookSchema,
   ratingWithUserSchema,
   ratingsResponseSchema,
-  readingPostRequestBodySchema,
-  readingResponseSchema,
   readingSchema,
   readingWithBookSchema,
   readingsResponseSchema,
   singleBookResponseSchema,
+  singleRatingResponseSchema,
+  singleReadingResponseSchema,
   singleUserResponseSchema,
   userRatingsResponseSchema,
   userSchema,
@@ -51,23 +51,21 @@ export type RatingWithUser = z.infer<typeof ratingWithUserSchema>
 export type RatingWithBookAndUser = z.infer<typeof ratingWithBookAndUserSchema>
 
 // Requests
-export type RatingPostRequestBody = z.infer<typeof ratingPostRequestBodySchema>
-export type ReadingPostRequestBody = z.infer<
-  typeof readingPostRequestBodySchema
->
+export type PostRating = z.infer<typeof postRatingSchema>
+export type PostReading = z.infer<typeof postReadingSchema>
 
 // Responses
 export type SingleUserResponse = z.infer<typeof singleUserResponseSchema>
 export type SingleBookResponse = z.infer<typeof singleBookResponseSchema>
-export type BookResponse = z.infer<typeof bookResponseSchema>
-export type CategoryResponse = z.infer<typeof categoryResponseSchema>
-export type RatingResponse = z.infer<typeof ratingResponseSchema>
+export type BooksResponse = z.infer<typeof booksResponseSchema>
+export type CategoriesResponse = z.infer<typeof categoriesResponseSchema>
+export type SingleRatingResponse = z.infer<typeof singleRatingResponseSchema>
 export type RatingsResponse = z.infer<typeof ratingsResponseSchema>
 export type CategoriesOnBookResponse = z.infer<
   typeof categoriesOnBookResponseSchema
 >
 export type ReadingsResponse = z.infer<typeof readingsResponseSchema>
-export type ReadingResponse = z.infer<typeof readingResponseSchema>
+export type SingleReadingResponse = z.infer<typeof singleReadingResponseSchema>
 export type UserRatingsResponse = z.infer<typeof userRatingsResponseSchema>
 export type UserStatsResponse = z.infer<typeof userStatsResponseSchema>
 export type AverageRatingResponse = z.infer<typeof averageRatingResponseSchema>

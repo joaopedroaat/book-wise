@@ -19,7 +19,7 @@ type BookOverlayProps = {
 export function BookOverlay({ book, width, height }: BookOverlayProps) {
   const { mutateAsync: readingMutation } = useMutation(
     async ({ bookId, userId }: { bookId: string; userId: string }) => {
-      BookWiseService.postUserReading({ bookId, userId })
+      BookWiseService.postReading(bookId, userId)
     },
   )
 

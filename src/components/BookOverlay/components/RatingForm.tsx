@@ -1,6 +1,6 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
-import { Book, RatingPostRequestBody } from '@/services/BookWiseService/types'
+import { Book, PostRating } from '@/services/BookWiseService/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
 import { User } from 'next-auth'
@@ -10,7 +10,7 @@ import { z } from 'zod'
 type RatingFormProps = {
   book: Book
   user: User
-  mutation: (ratings: RatingPostRequestBody['rating']) => Promise<void>
+  mutation: (ratings: PostRating['rating']) => Promise<void>
   onAbort: () => void
 }
 

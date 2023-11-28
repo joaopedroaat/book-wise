@@ -1,23 +1,13 @@
 import { prisma } from '@/lib/prisma'
 import {
-  readingPostRequestBodySchema,
+  postReadingSchema,
   readingSchema,
   readingWithBookSchema,
 } from '@/services/BookWiseService/schemas'
 import {
-  Reading,
-  ReadingResponse,
-  ReadingWithBook,
   ReadingsResponse,
+  SingleReadingResponse,
 } from '@/services/BookWiseService/types'
-import { z } from 'zod'
-
-const searchParamsSchema = z.object({
-  includeBooks: z
-    .enum(['true', 'false'])
-    .nullable()
-    .transform((val) => val === 'true'),
-})
 
 export async function GET(
   request: Request,
@@ -26,37 +16,19 @@ export async function GET(
   try {
     const id = params.id
 
-    const { searchParams } = new URL(request.url)
-
-    const validatedSearchParams = searchParamsSchema.safeParse({
-      includeBooks: searchParams.get('includeBooks'),
-    })
-
-    if (!validatedSearchParams.success)
-      return Response.json(
-        { error: validatedSearchParams.error },
-        { status: 400 },
-      )
-
-    const { includeBooks } = validatedSearchParams.data
-
     const recentReadings = await prisma.reading.findMany({
       where: {
         userId: id,
       },
       include: {
-        book: includeBooks,
+        book: true,
       },
       orderBy: {
         createdAt: 'desc',
       },
     })
 
-    let readings: Reading[] | ReadingWithBook[] = []
-
-    if (includeBooks)
-      readings = readingWithBookSchema.array().parse(recentReadings)
-    else readings = readingSchema.array().parse(recentReadings)
+    const readings = readingWithBookSchema.array().parse(recentReadings)
 
     return Response.json({ readings } as ReadingsResponse)
   } catch (error) {
@@ -70,9 +42,7 @@ export async function POST(
 ) {
   const userId = params.id
 
-  const parsedRequestBody = readingPostRequestBodySchema.safeParse(
-    await request.json(),
-  )
+  const parsedRequestBody = postReadingSchema.safeParse(await request.json())
 
   if (!parsedRequestBody.success)
     return Response.json({ error: parsedRequestBody.error }, { status: 400 })
@@ -86,20 +56,19 @@ export async function POST(
     },
   })
 
-  let reading: Reading | null = null
+  const reading = existingReading
+    ? await prisma.reading.update({
+        data: { createdAt: new Date() },
+        where: { id: existingReading.id },
+      })
+    : await prisma.reading.create({
+        data: {
+          userId,
+          bookId,
+        },
+      })
 
-  if (existingReading)
-    reading = await prisma.reading.update({
-      data: { createdAt: new Date() },
-      where: { id: existingReading.id },
-    })
-  else
-    reading = await prisma.reading.create({
-      data: {
-        userId,
-        bookId,
-      },
-    })
+  const parsedReading = readingSchema.parse(reading)
 
-  return Response.json({ reading } as ReadingResponse)
+  return Response.json({ reading: parsedReading } as SingleReadingResponse)
 }

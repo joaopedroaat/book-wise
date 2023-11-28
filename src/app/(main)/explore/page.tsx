@@ -8,25 +8,23 @@ import { BookList } from './components/BookList'
 import { CategoryForm } from './components/CategoryForm'
 
 export default function Explore() {
-  const [category, setCategory] = useState<Category['name'] | null>(null)
+  const [category, setCategory] = useState<Category['name']>(undefined)
   const [books, setBooks] = useState<BookWithRatingsAndCategories[]>([])
 
   useEffect(() => {
     async function fetchBooks() {
       setBooks(
-        (await BookWiseService.getBooks({
+        await BookWiseService.getBooks({
           category: category || undefined,
-          includeRatings: true,
-          includeCategories: true,
-        })) as BookWithRatingsAndCategories[],
+        }),
       )
     }
 
     fetchBooks()
   }, [category])
 
-  function handleCategoryChange(category: Category['name'] | null) {
-    setCategory(category)
+  function handleCategoryChange(newCategory: Category['name'] | null) {
+    setCategory(newCategory || undefined)
   }
 
   return (

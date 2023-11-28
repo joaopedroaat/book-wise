@@ -1,64 +1,81 @@
 import { localApi } from '@/lib/axios'
-import { Book, Category } from '@prisma/client'
 import {
   AverageRatingResponse,
-  BookResponse,
-  BookWithCategories,
-  BookWithRatings,
-  BookWithRatingsAndCategories,
+  BooksResponse,
   CategoriesOnBookResponse,
-  CategoryResponse,
-  Rating,
-  RatingPostRequestBody,
-  RatingResponse,
-  RatingWithBook,
-  RatingWithBookAndUser,
-  RatingWithUser,
+  CategoriesResponse,
+  Category,
+  PostRating,
+  PostReading,
   RatingsResponse,
-  Reading,
-  ReadingPostRequestBody,
-  ReadingResponse,
-  ReadingWithBook,
   ReadingsResponse,
-  SingleBookResponse,
+  SingleRatingResponse,
+  SingleReadingResponse,
+  SingleUserResponse,
   UserRatingsResponse,
+  UserStatsResponse,
 } from './types'
 
 export class BookWiseService {
   private static bookwiseApi = localApi
 
-  static async getRatings({
-    page = 1,
-    includeUser = false,
-    includeBook = false,
-  } = {}): Promise<
-    Rating[] | RatingWithBook[] | RatingWithUser[] | RatingWithBookAndUser[]
-  > {
+  // GET - User
+  static async getUser(userId: string) {
+    const { data } = await this.bookwiseApi.get<SingleUserResponse>(
+      `/users/${userId}`,
+    )
+
+    return data.user
+  }
+
+  static async getUserStats(userId: string) {
+    const { data } = await this.bookwiseApi.get<UserStatsResponse>(
+      `/users/${userId}/stats`,
+    )
+
+    return data.stats
+  }
+
+  static async getUserReadings(userId: string) {
+    const { data } = await this.bookwiseApi.get<ReadingsResponse>(
+      `/users/${userId}/readings`,
+    )
+
+    return data.readings
+  }
+
+  // GET - Ratings
+  static async getRatings(params: { page?: number } = { page: 1 }) {
     const { data } = await this.bookwiseApi.get<RatingsResponse>('ratings', {
-      params: { page, includeUser, includeBook },
+      params,
     })
+
     return data.ratings
   }
 
-  static async getRatingsOnBook(
+  static async getBookRatings(
     bookId: string,
-    { includeUser = false } = {},
-  ): Promise<
-    Rating[] | RatingWithUser[] | RatingWithBook[] | RatingWithBookAndUser[]
-  > {
+    params: { page: number } = { page: 1 },
+  ) {
     const { data } = await this.bookwiseApi.get<RatingsResponse>(
       `books/${bookId}/ratings`,
       {
-        params: {
-          includeUser,
-        },
+        params,
       },
     )
 
     return data.ratings
   }
 
-  static async getAverageRating(bookId: string): Promise<number> {
+  static async getUserRatings(id: string) {
+    const { data } = await this.bookwiseApi.get<UserRatingsResponse>(
+      `users/${id}/ratings`,
+    )
+
+    return data.ratings
+  }
+
+  static async getAverageRating(bookId: string) {
     const { data } = await this.bookwiseApi.get<AverageRatingResponse>(
       `books/${bookId}/ratings/average`,
     )
@@ -66,122 +83,54 @@ export class BookWiseService {
     return data.average
   }
 
-  static async getCategoriesOnBOok(bookId: string) {
-    const { data } = await this.bookwiseApi.get<CategoriesOnBookResponse>(
-      `/books/${bookId}/categories`,
-    )
+  // GET - Categories
+  static async getCategories(bookId?: string) {
+    const { data } = bookId
+      ? await this.bookwiseApi.get<CategoriesOnBookResponse>(
+          `/books/${bookId}/categories`,
+        )
+      : await this.bookwiseApi.get<CategoriesResponse>('categories')
 
     return data.categories
   }
 
-  static async postRating(
-    rating: RatingPostRequestBody['rating'],
-  ): Promise<Rating> {
-    const { data } = await this.bookwiseApi.post<RatingResponse>('ratings', {
-      rating,
-    } as RatingPostRequestBody)
+  // GET - Books
+  static async getBooks(
+    params: {
+      page?: number
+      perPage?: number
+      category?: Category['name']
+      orderBy?: 'popular'
+    } = {},
+  ) {
+    const { data } = await this.bookwiseApi.get<BooksResponse>('books', {
+      params,
+    })
+
+    return data.books
+  }
+
+  // POST - Rating
+
+  static async postRating(rating: PostRating['rating']) {
+    const { data } = await this.bookwiseApi.post<SingleRatingResponse>(
+      'ratings',
+      {
+        rating,
+      } as PostRating,
+    )
 
     return data.rating
   }
 
-  static async getUserReadings(
-    id: string,
-    { includeBooks = false },
-  ): Promise<Reading[] | ReadingWithBook[]> {
-    const { data } = await this.bookwiseApi.get<ReadingsResponse>(
-      `/users/${id}/readings`,
-      {
-        params: {
-          includeBooks,
-        },
-      },
-    )
+  // POST - Reading
 
-    return data.readings as ReadingWithBook[]
-  }
-
-  static async getUserRatings(id: string): Promise<RatingWithBook[]> {
-    const { data } = await this.bookwiseApi.get<UserRatingsResponse>(
-      `users/${id}/ratings`,
-    )
-
-    return data.ratings as RatingWithBook[]
-  }
-
-  static async postUserReading({
-    userId,
-    bookId,
-  }: {
-    userId: string
-    bookId: string
-  }): Promise<Reading> {
-    const { data } = await this.bookwiseApi.post<ReadingResponse>(
+  static async postReading(userId: string, bookId: string) {
+    const { data } = await this.bookwiseApi.post<SingleReadingResponse>(
       `/users/${userId}/readings`,
-      { bookId } as ReadingPostRequestBody,
+      { bookId } as PostReading,
     )
 
     return data.reading
-  }
-
-  static async getBook(
-    id: string,
-    { includeRatings = false, includeCategories = false } = {},
-  ): Promise<
-    Book | BookWithRatings | BookWithCategories | BookWithRatingsAndCategories
-  > {
-    const { data } = await this.bookwiseApi.get<SingleBookResponse>(
-      `books/${id}`,
-      { params: { includeRatings, includeCategories } },
-    )
-
-    return data.book as
-      | Book
-      | BookWithRatings
-      | BookWithCategories
-      | BookWithRatingsAndCategories
-  }
-
-  static async getBooks({
-    page,
-    perPage,
-    category,
-    includeRatings = false,
-    includeCategories = false,
-    orderBy,
-  }: {
-    page?: number
-    perPage?: number
-    category?: Category['name']
-    includeRatings?: boolean
-    includeCategories?: boolean
-    orderBy?: 'popular'
-  } = {}): Promise<
-    | Book[]
-    | BookWithRatings[]
-    | BookWithCategories[]
-    | BookWithRatingsAndCategories[]
-  > {
-    const { data } = await this.bookwiseApi.get<BookResponse>('books', {
-      params: {
-        page,
-        perPage,
-        category,
-        includeRatings,
-        includeCategories,
-        orderBy,
-      },
-    })
-
-    return data.books as
-      | Book[]
-      | BookWithRatings[]
-      | BookWithCategories[]
-      | BookWithRatingsAndCategories[]
-  }
-
-  static async getCategories(): Promise<Category[]> {
-    const { data } = await this.bookwiseApi.get<CategoryResponse>('categories')
-
-    return data.categories
   }
 }

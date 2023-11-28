@@ -6,24 +6,22 @@ import {
   useQueryClient,
 } from 'react-query'
 import { BookWiseService } from '..'
-import { Book, RatingPostRequestBody, RatingWithUser } from '../types'
+import { Book, PostRating, RatingsResponse } from '../types'
 
 type RatingsHookResult = [
-  UseQueryResult<RatingWithUser[], unknown>,
-  UseMutationResult<void, unknown, RatingPostRequestBody['rating']>,
+  UseQueryResult<RatingsResponse['ratings'], unknown>,
+  UseMutationResult<void, unknown, PostRating['rating']>,
 ]
 
 export function useRatingsOnBook(book: Book): RatingsHookResult {
   const query = useQuery(['ratings_on_book', book], async () => {
-    return (await BookWiseService.getRatingsOnBook(book.id, {
-      includeUser: true,
-    })) as RatingWithUser[]
+    return await BookWiseService.getBookRatings(book.id)
   })
 
   const queryClient = useQueryClient()
 
   const mutation = useMutation(
-    async (rating: RatingPostRequestBody['rating']) => {
+    async (rating: PostRating['rating']) => {
       BookWiseService.postRating(rating)
     },
     {

@@ -12,7 +12,7 @@ type BookInfoProps = {
 export function BookInfo({ book }: BookInfoProps) {
   const { data: categories } = useQuery(
     ['categories_on_book', book],
-    async () => await BookWiseService.getCategoriesOnBOok(book.id),
+    async () => await BookWiseService.getCategories(book.id),
   )
 
   return (

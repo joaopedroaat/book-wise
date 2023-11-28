@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
 // Primary Schemas
-
 export const bookSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -100,12 +99,11 @@ export const readingWithBookSchema = readingSchema
   })
 
 // Request Schemas
-
-export const ratingPostRequestBodySchema = z.object({
+export const postRatingSchema = z.object({
   rating: ratingSchema.omit({ id: true, createdAt: true }),
 })
 
-export const readingPostRequestBodySchema = z.object({
+export const postReadingSchema = z.object({
   bookId: z.string(),
 })
 
@@ -124,20 +122,15 @@ export const singleBookResponseSchema = z.object({
   ]),
 })
 
-export const bookResponseSchema = z.object({
-  books: z.union([
-    z.array(bookSchema),
-    z.array(bookWithRatingsSchema),
-    z.array(bookWithCategoriesSchema),
-    z.array(bookWithRatingsAndCategoriesSchema),
-  ]),
+export const booksResponseSchema = z.object({
+  books: bookWithRatingsAndCategoriesSchema.array(),
 })
 
-export const categoryResponseSchema = z.object({
+export const categoriesResponseSchema = z.object({
   categories: z.array(categorySchema),
 })
 
-export const ratingResponseSchema = z.object({
+export const singleRatingResponseSchema = z.object({
   rating: ratingSchema,
 })
 
@@ -160,12 +153,12 @@ export const categoriesOnBookResponseSchema = z.object({
     ),
 })
 
-export const readingsResponseSchema = z.object({
-  readings: z.union([readingSchema.array(), readingWithBookSchema.array()]),
+export const singleReadingResponseSchema = z.object({
+  reading: readingSchema,
 })
 
-export const readingResponseSchema = z.object({
-  reading: readingSchema,
+export const readingsResponseSchema = z.object({
+  readings: readingWithBookSchema.array(),
 })
 
 export const userRatingsResponseSchema = z.object({

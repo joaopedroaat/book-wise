@@ -1,18 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import {
-  bookSchema,
-  bookWithCategoriesSchema,
   bookWithRatingsAndCategoriesSchema,
-  bookWithRatingsSchema,
   categorySchema,
 } from '@/services/BookWiseService/schemas'
-import {
-  Book,
-  BookResponse,
-  BookWithCategories,
-  BookWithRatings,
-  BookWithRatingsAndCategories,
-} from '@/services/BookWiseService/types'
+import { BooksResponse } from '@/services/BookWiseService/types'
 import { z } from 'zod'
 
 const searchParamsSchema = z.object({
@@ -34,14 +25,6 @@ const searchParamsSchema = z.object({
         .includes(val.toLowerCase()),
     )
     .nullable(),
-  includeRatings: z
-    .enum(['true', 'false'])
-    .nullable()
-    .transform((val) => val === 'true'),
-  includeCategories: z
-    .enum(['true', 'false'])
-    .nullable()
-    .transform((val) => val === 'true'),
   orderBy: z.enum(['popular']).nullable(),
 })
 
@@ -64,14 +47,7 @@ export async function GET(request: Request) {
         { status: 400 },
       )
 
-    const {
-      page,
-      category,
-      includeRatings,
-      includeCategories,
-      orderBy,
-      perPage,
-    } = validatedSearchParams.data
+    const { page, category, orderBy, perPage } = validatedSearchParams.data
 
     const books = await prisma.book.findMany({
       skip: (page - 1) * perPage,
@@ -88,16 +64,14 @@ export async function GET(request: Request) {
           }
         : undefined,
       include: {
-        ratings: includeRatings
-          ? {
-              include: {
-                user: true,
-              },
-            }
-          : undefined,
+        ratings: {
+          include: {
+            user: true,
+          },
+        },
         categories: {
           include: {
-            category: includeCategories,
+            category: true,
           },
         },
       },
@@ -110,21 +84,9 @@ export async function GET(request: Request) {
         : undefined,
     })
 
-    let parsedBooks:
-      | Book[]
-      | BookWithRatings[]
-      | BookWithCategories[]
-      | BookWithRatingsAndCategories[] = []
+    const parsedBooks = bookWithRatingsAndCategoriesSchema.array().parse(books)
 
-    if (includeRatings && includeCategories)
-      parsedBooks = bookWithRatingsAndCategoriesSchema.array().parse(books)
-    else if (includeRatings)
-      parsedBooks = bookWithRatingsSchema.array().parse(books)
-    else if (includeCategories)
-      parsedBooks = bookWithCategoriesSchema.array().parse(books)
-    else parsedBooks = bookSchema.array().parse(books)
-
-    return Response.json({ books: parsedBooks } as BookResponse)
+    return Response.json({ books: parsedBooks } as BooksResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
