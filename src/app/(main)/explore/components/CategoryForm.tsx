@@ -15,34 +15,28 @@ export function CategoryForm({
   const [{ data: categories }] = useCategories()
 
   function handleCategoryChange(category: Genre | null) {
-    onCategoryChange(category)
+    onCategoryChange(currentCategory !== category ? category : null)
   }
 
   return (
     <ul className="flex items-center gap-3" {...props}>
       {categories &&
-        categories.map((category) => {
-          if (!category || category.name === currentCategory)
-            return (
-              <li
-                className="py-1 px-4 flex items-center justify-center border border-purple-200 bg-purple-200 rounded-full hover:bg-purple-100 hover:border-purple-100 hover:text-gray-100 cursor-pointer"
-                key={category.id}
-                onClick={() => handleCategoryChange(category.name || null)}
+        [null, ...categories.map((category) => category.name)].map(
+          (category) => (
+            <li key={category}>
+              <button
+                className={`px-4 py-1 border rounded-full ${
+                  currentCategory === category
+                    ? 'text-gray-100 border-transparent bg-purple-200'
+                    : 'text-purple-100 border-purple-100'
+                }`}
+                onClick={() => handleCategoryChange(category)}
               >
-                {category.name || 'Todos'}
-              </li>
-            )
-
-          return (
-            <li
-              className={`py-1 px-4 flex items-center justify-center text-purple-100 border border-purple-100 rounded-full hover:bg-purple-200 hover:border-purple-200 hover:text-gray-100 cursor-pointer`}
-              key={category.id}
-              onClick={() => handleCategoryChange(category.name)}
-            >
-              {category.name}
+                {category || 'Todos'}
+              </button>
             </li>
-          )
-        })}
+          ),
+        )}
     </ul>
   )
 }
