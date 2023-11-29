@@ -42,7 +42,7 @@ CREATE TABLE `users` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `recent_readings` (
+CREATE TABLE `readings` (
     `id` VARCHAR(191) NOT NULL,
     `user_id` VARCHAR(191) NOT NULL,
     `book_id` VARCHAR(191) NOT NULL,
@@ -100,10 +100,10 @@ ALTER TABLE `accounts` ADD CONSTRAINT `accounts_user_id_fkey` FOREIGN KEY (`user
 ALTER TABLE `sessions` ADD CONSTRAINT `sessions_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `recent_readings` ADD CONSTRAINT `recent_readings_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `readings` ADD CONSTRAINT `readings_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `recent_readings` ADD CONSTRAINT `recent_readings_book_id_fkey` FOREIGN KEY (`book_id`) REFERENCES `books`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `readings` ADD CONSTRAINT `readings_book_id_fkey` FOREIGN KEY (`book_id`) REFERENCES `books`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `CategoriesOnBooks` ADD CONSTRAINT `CategoriesOnBooks_book_id_fkey` FOREIGN KEY (`book_id`) REFERENCES `books`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

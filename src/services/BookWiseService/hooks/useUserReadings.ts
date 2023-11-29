@@ -4,7 +4,6 @@ import { BookWiseService } from '..'
 
 export function useUserReadings() {
   const session = useSession()
-
   const user = session && session.data?.user
 
   const query = useQuery(['readings', user], async () => {
@@ -13,5 +12,5 @@ export function useUserReadings() {
     return await BookWiseService.getUserReadings(user.id)
   })
 
-  return [query]
+  return query
 }

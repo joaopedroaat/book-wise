@@ -1,11 +1,9 @@
 'use client'
 
-import { BookWiseService } from '@/services/BookWiseService'
+import { useUserReadingsMutation } from '@/services/BookWiseService/hooks/useUserReadingsMutation'
 import { Book } from '@/services/BookWiseService/types'
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useSession } from 'next-auth/react'
-import { useMutation } from 'react-query'
 import { BookCover } from './components/BookCover'
 import { BookInfo } from './components/BookInfo'
 import { RatingFeed } from './components/RatingFeed'
@@ -17,23 +15,10 @@ type BookOverlayProps = {
 }
 
 export function BookOverlay({ book, width, height }: BookOverlayProps) {
-  const { mutateAsync: readingMutation } = useMutation(
-    async ({ bookId, userId }: { bookId: string; userId: string }) => {
-      BookWiseService.postReading(bookId, userId)
-    },
-  )
-
-  const session = useSession()
-
-  const user = session.status === 'authenticated' && session.data.user
+  const { mutateAsync: userReadingsMutation } = useUserReadingsMutation()
 
   async function handleUserReading() {
-    if (!user) return
-
-    readingMutation({
-      userId: user.id,
-      bookId: book.id,
-    })
+    userReadingsMutation(book.id)
   }
 
   return (

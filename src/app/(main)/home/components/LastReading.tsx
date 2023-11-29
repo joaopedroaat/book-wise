@@ -8,7 +8,7 @@ import { CaretRight } from '@phosphor-icons/react'
 import Link from 'next/link'
 
 export function LastReading() {
-  const [{ data: readings }] = useUserReadings()
+  const { data: readings } = useUserReadings()
 
   const lastReading = readings && readings[0]
 
