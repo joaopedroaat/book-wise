@@ -1,6 +1,7 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRating } from '@/components/StarRating'
 import { useRatingsOnBook } from '@/services/BookWiseService/hooks/useRatingsOnBook'
+import { useRatingsOnBookMutation } from '@/services/BookWiseService/hooks/useRatingsOnBookMutation'
 import { Book } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CircleNotch } from '@phosphor-icons/react'
@@ -18,7 +19,8 @@ export function RatingList({
   isRatingFormVisible,
   onAbort,
 }: RatingListProps) {
-  const [{ data: ratings, isLoading }, { mutateAsync }] = useRatingsOnBook(book)
+  const { data: ratings, isLoading } = useRatingsOnBook(book)
+  const { mutateAsync: ratingsOnBookMutation } = useRatingsOnBookMutation()
 
   const user = useSession().data?.user
 
@@ -35,7 +37,7 @@ export function RatingList({
         <RatingForm
           user={user}
           book={book}
-          mutation={mutateAsync}
+          mutation={ratingsOnBookMutation}
           onAbort={onAbort}
         />
       )}

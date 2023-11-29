@@ -1,6 +1,7 @@
 import { localApi } from '@/lib/axios'
 import {
   AverageRatingResponse,
+  BookRatingsResponse,
   BooksResponse,
   CategoriesOnBookResponse,
   CategoriesResponse,
@@ -57,7 +58,7 @@ export class BookWiseService {
     bookId: string,
     params: { page: number } = { page: 1 },
   ) {
-    const { data } = await this.bookwiseApi.get<RatingsResponse>(
+    const { data } = await this.bookwiseApi.get<BookRatingsResponse>(
       `books/${bookId}/ratings`,
       {
         params,
