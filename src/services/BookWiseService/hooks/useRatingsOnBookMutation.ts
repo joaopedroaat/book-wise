@@ -10,8 +10,10 @@ export function useRatingsOnBookMutation() {
       BookWiseService.postRating(rating)
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['ratings_on_book', 'ratings'])
+      onSettled: async () => {
+        await queryClient.invalidateQueries('ratings_on_book')
+        await queryClient.invalidateQueries('recent_ratings')
+        await queryClient.invalidateQueries('popular_books')
       },
     },
   )

@@ -6,7 +6,7 @@ export function useUserReadings() {
   const session = useSession()
   const user = session && session.data?.user
 
-  const query = useQuery(['readings', user], async () => {
+  const query = useQuery(['user_readings', user], async () => {
     if (!user) return
 
     return await BookWiseService.getUserReadings(user.id)
