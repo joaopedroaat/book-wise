@@ -125,7 +125,13 @@ export class BookWiseService {
 
   // POST - Reading
 
-  static async postReading(userId: string, bookId: string) {
+  static async postReading({
+    userId,
+    bookId,
+  }: {
+    userId: string
+    bookId: string
+  }) {
     const { data } = await this.bookwiseApi.post<SingleReadingResponse>(
       `/users/${userId}/readings`,
       { bookId } as PostReading,

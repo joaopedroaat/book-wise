@@ -1,16 +1,12 @@
-import { useSession } from 'next-auth/react'
+import { BookWiseService } from '@/services/BookWiseService'
 import { useMutation } from 'react-query'
-import { BookWiseService } from '..'
 
 export function useUserReadingsMutation() {
-  const session = useSession()
-  const user = session.status === 'authenticated' && session.data.user
-
-  const mutation = useMutation(async (bookId: string) => {
-    if (!user) return
-
-    BookWiseService.postReading(bookId, user.id)
-  })
+  const mutation = useMutation(
+    async ({ bookId, userId }: { bookId: string; userId: string }) => {
+      BookWiseService.postReading({ userId, bookId })
+    },
+  )
 
   return mutation
 }
