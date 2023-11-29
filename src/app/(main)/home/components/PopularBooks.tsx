@@ -8,7 +8,7 @@ import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import Link from 'next/link'
 
 export function PopularBooks() {
-  const [{ data: books }] = usePopularBooks()
+  const { data: books } = usePopularBooks()
 
   return (
     <section className="w-full">

@@ -12,5 +12,5 @@ export function usePopularBooks() {
     return books as BookWithRatingsAndCategories[]
   })
 
-  return [query]
+  return query
 }
