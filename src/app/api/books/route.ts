@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import {
+  Genre,
   bookWithRatingsAndCategoriesSchema,
-  categorySchema,
 } from '@/services/BookWiseService/schemas'
 import { BooksResponse } from '@/services/BookWiseService/types'
 import { z } from 'zod'
@@ -20,7 +20,7 @@ const searchParamsSchema = z.object({
   category: z
     .string()
     .refine((val) =>
-      Object.values(categorySchema.shape.name.enum)
+      Object.values(Genre)
         .map((categoryName) => categoryName.toLowerCase())
         .includes(val.toLowerCase()),
     )
