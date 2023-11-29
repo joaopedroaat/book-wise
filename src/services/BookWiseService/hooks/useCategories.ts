@@ -6,5 +6,5 @@ export function useCategories() {
     return await BookWiseService.getCategories()
   })
 
-  return [query]
+  return query
 }

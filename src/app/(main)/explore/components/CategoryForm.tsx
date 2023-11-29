@@ -12,7 +12,7 @@ export function CategoryForm({
   onCategoryChange,
   ...props
 }: CategoryFormProps) {
-  const [{ data: categories }] = useCategories()
+  const { data: categories } = useCategories()
 
   function handleCategoryChange(category: Genre | null) {
     onCategoryChange(currentCategory !== category ? category : null)
