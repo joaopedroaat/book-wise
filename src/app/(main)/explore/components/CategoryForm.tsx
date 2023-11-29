@@ -23,7 +23,7 @@ export function CategoryForm({
       {categories &&
         [null, ...categories.map((category) => category.name)].map(
           (category) => (
-            <li key={category}>
+            <li key={category || 'todos'}>
               <button
                 className={`px-4 py-1 border rounded-full ${
                   currentCategory === category
