@@ -1,11 +1,11 @@
-import { UserStats } from '@/services/BookWiseService/types'
+import { UserProfile } from '@/services/BookWiseService/types'
 import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 import { Books } from '@phosphor-icons/react/dist/ssr/Books'
 import { UserList } from '@phosphor-icons/react/dist/ssr/UserList'
 import { HTMLProps, ReactNode } from 'react'
 
 type StatsListProps = {
-  stats: UserStats
+  stats: UserProfile['stats']
 } & HTMLProps<HTMLUListElement>
 
 export function StatsList({ stats, ...props }: StatsListProps) {

@@ -56,13 +56,16 @@ export const readingSchema = z.object({
   createdAt: z.date().transform((date) => date.toISOString()),
 })
 
-export const userStatsSchema = z.object({
-  totalBooksReviewed: z.number(),
-  totalAuthorsReviewed: z.number(),
-  mostReviewedCategories: z.array(categorySchema.shape.name),
-})
-
 // Extensions
+
+export const userProfileSchema = z.object({
+  user: userSchema,
+  stats: z.object({
+    totalBooksReviewed: z.number(),
+    totalAuthorsReviewed: z.number(),
+    mostReviewedCategories: z.array(categorySchema.shape.name),
+  }),
+})
 
 export const ratingWithUserSchema = ratingSchema.omit({ userId: true }).extend({
   user: userSchema,
@@ -178,8 +181,8 @@ export const userRatingsResponseSchema = z.object({
     ),
 })
 
-export const userStatsResponseSchema = z.object({
-  stats: userStatsSchema,
+export const userProfileResponseSchema = z.object({
+  profile: userProfileSchema,
 })
 
 export const averageRatingResponseSchema = z.object({

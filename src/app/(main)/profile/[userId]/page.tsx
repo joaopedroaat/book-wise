@@ -15,8 +15,7 @@ type ProfileProps = {
 
 export default async function Profile({ params: { userId } }: ProfileProps) {
   const session = await getServerSession(authOptions)
-  const user = await BookWiseService.getUser(userId)
-  const stats = await BookWiseService.getUserStats(userId)
+  const userProfile = await BookWiseService.getUserProfile(userId)
   const userRatings = await BookWiseService.getUserRatings(userId)
 
   const isUserProfile = !!session && session.user.id === userId
@@ -32,8 +31,8 @@ export default async function Profile({ params: { userId } }: ProfileProps) {
         <ProfileRatingList ratings={userRatings} />
       </section>
       <aside className="flex flex-col items-center gap-16 basis-80 lg:border-l border-gray-700 px-14">
-        <ProfileAvatar user={user} />
-        <StatsList stats={stats} />
+        <ProfileAvatar user={userProfile.user} />
+        <StatsList stats={userProfile.stats} />
       </aside>
     </div>
   )
