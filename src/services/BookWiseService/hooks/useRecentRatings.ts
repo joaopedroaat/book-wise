@@ -9,5 +9,5 @@ export function useRecentRatings() {
     })) as RatingWithBookAndUser[]
   })
 
-  return [query]
+  return query
 }

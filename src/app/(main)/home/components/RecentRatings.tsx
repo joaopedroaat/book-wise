@@ -9,7 +9,7 @@ import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import Link from 'next/link'
 
 export function RecentRatings() {
-  const [{ data: ratings }] = useRecentRatings()
+  const { data: ratings } = useRecentRatings()
 
   return (
     <section className="flex flex-col gap-4">
