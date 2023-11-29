@@ -10,7 +10,7 @@ import { CategoryForm } from './components/CategoryForm'
 export default function Explore() {
   const [category, setCategory] = useState<Genre | undefined>(undefined)
 
-  const [{ data: books, isLoading }] = useBooks(category)
+  const { data: books, isLoading } = useBooks(category)
 
   function handleCategoryChange(newCategory: Genre | null) {
     setCategory(newCategory || undefined)
