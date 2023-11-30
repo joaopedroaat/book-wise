@@ -1,11 +1,11 @@
 import { localApi } from '@/lib/axios'
+import { Genre } from './schemas'
 import {
   AverageRatingResponse,
   BookRatingsResponse,
   BooksResponse,
   CategoriesOnBookResponse,
   CategoriesResponse,
-  Category,
   PostRating,
   PostReading,
   RatingsResponse,
@@ -100,7 +100,7 @@ export class BookWiseService {
     params: {
       page?: number
       perPage?: number
-      category?: Category['name']
+      category?: Genre
       orderBy?: 'popular'
     } = {},
   ) {

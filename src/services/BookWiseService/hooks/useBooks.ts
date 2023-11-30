@@ -1,11 +1,29 @@
-import { useQuery } from 'react-query'
+import { useInfiniteQuery } from 'react-query'
 import { BookWiseService } from '..'
 import { Genre } from '../schemas'
 
-export function useBooks(category?: Genre) {
-  const query = useQuery(['books', category], async () => {
-    return await BookWiseService.getBooks({ category })
-  })
+export function useBooks(
+  options: {
+    category?: Genre
+    page?: number
+    perPage?: number
+    orderBy?: 'popular'
+  } = {
+    page: 1,
+    perPage: 10,
+  },
+) {
+  const query = useInfiniteQuery(
+    ['books', options],
+    async () => {
+      return await BookWiseService.getBooks(options)
+    },
+    {
+      getNextPageParam: (lastPage, pages) => {
+        return lastPage.length === options.perPage ? ++pages.length : undefined
+      },
+    },
+  )
 
   return query
 }

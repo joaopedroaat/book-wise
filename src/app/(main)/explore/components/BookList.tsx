@@ -1,19 +1,28 @@
 import { BookOverlay } from '@/components/BookOverlay'
+import { InfiniteScroll } from '@/components/InfiniteScroll'
 import { StarRating } from '@/components/StarRating'
+import { useBooks } from '@/services/BookWiseService/hooks/useBooks'
+import { Genre } from '@/services/BookWiseService/schemas'
 import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
 
 type BookListProps = {
-  books: BookWithRatingsAndCategories[]
+  category?: Genre
 }
 
-export function BookList({ books }: BookListProps) {
+export function BookList({ category }: BookListProps) {
+  const { data, fetchNextPage, hasNextPage } = useBooks({
+    category,
+  })
+
+  const books = data?.pages.flatMap((page) => page)
+
   return (
     <>
-      <ul className="flex flex-wrap gap-5 justify-center">
-        {books.map((book) => (
-          <BookItem key={book.id} book={book} />
-        ))}
-      </ul>
+      <InfiniteScroll fetchMore={fetchNextPage} hasMore={!!hasNextPage}>
+        <ul className="flex flex-wrap gap-5 justify-center">
+          {books?.map((book) => <BookItem key={book.id} book={book} />)}
+        </ul>
+      </InfiniteScroll>
     </>
   )
 }
