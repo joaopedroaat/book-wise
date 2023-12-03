@@ -49,12 +49,8 @@ export async function GET(
 
     const profile = {
       user: {
-        id: user.id,
-        name: user.name,
-        avatarUrl: user.avatarUrl,
-        createdAt: user.createdAt.toISOString(),
-        email: user.email,
-        emailVerified: user.emailVerified,
+        ...user,
+        createdAt: user.createdAt.toDateString(),
       },
 
       stats: {
