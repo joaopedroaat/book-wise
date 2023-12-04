@@ -7,13 +7,13 @@ export function useRatingsOnBookMutation() {
 
   const mutation = useMutation(
     async (rating: PostRating['rating']) => {
-      BookWiseService.postRating(rating)
+      await BookWiseService.postRating(rating)
     },
     {
-      onSettled: async () => {
-        await queryClient.invalidateQueries('ratings_on_book')
-        await queryClient.invalidateQueries('recent_ratings')
-        await queryClient.invalidateQueries('popular_books')
+      onSuccess: () => {
+        queryClient.invalidateQueries('ratings_on_book')
+        queryClient.invalidateQueries('recent_ratings')
+        queryClient.invalidateQueries('popular_books')
       },
     },
   )

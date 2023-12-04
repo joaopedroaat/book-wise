@@ -6,11 +6,11 @@ export function useUserReadingsMutation() {
 
   const mutation = useMutation(
     async ({ bookId, userId }: { bookId: string; userId: string }) => {
-      BookWiseService.postReading({ userId, bookId })
+      await BookWiseService.postReading({ userId, bookId })
     },
     {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries('user_readings')
+      onSuccess: () => {
+        queryClient.invalidateQueries('user_readings')
       },
     },
   )
