@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: . # If your Dockerfile is not at the same level change the path here (./docker)
+      dockerfile: Dockerfile
+      target: dev
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - 3000:3000
+  mysql-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: book-wise
+    ports:
+      - 3306-3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+volumes:
+  mysql-data:
