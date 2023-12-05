@@ -29,7 +29,6 @@ export default async function Profile({ params: { userId } }: ProfileProps) {
           </Link>
         )}
         <ProfileRatingList ratings={userRatings} />
-        {!userRatings.length && <p>Nenhuma avaliação</p>}
       </section>
       <aside className="flex flex-col items-center gap-16 basis-80 lg:border-l border-gray-700 px-14">
         <ProfileAvatar user={userProfile.user} />
