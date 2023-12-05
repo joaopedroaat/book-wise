@@ -4,17 +4,15 @@ import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { RatingWithBook } from '@/services/BookWiseService/types'
 
-type ProfileRatingListProps = {
+type RatingList = {
   ratings: RatingWithBook[]
 }
 
-export function ProfileRatingList({ ratings }: ProfileRatingListProps) {
+export function RatingList({ ratings }: RatingList) {
   return (
     <section>
-      <h2>Avaliações</h2>
+      <h2 className="mb-4">Avaliações</h2>
       <ul className="flex flex-col gap-6">
-        {!ratings.length && <p>Você não fez nenhuma avaliação</p>}
-
         {ratings.map((rating) => (
           <li
             key={rating.id}
