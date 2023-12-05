@@ -14,10 +14,10 @@ type ProfileProps = {
 }
 
 export default async function Profile({ params: { userId } }: ProfileProps) {
-  const session = await getServerSession(authOptions)
   const userProfile = await BookWiseService.getUserProfile(userId)
   const userRatings = await BookWiseService.getUserRatings(userId)
 
+  const session = await getServerSession(authOptions)
   const isUserProfile = !!session && session.user.id === userId
 
   return (
