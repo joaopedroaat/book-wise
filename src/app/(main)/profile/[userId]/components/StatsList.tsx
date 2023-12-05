@@ -22,21 +22,21 @@ export function StatsList({ stats, ...props }: StatsListProps) {
       <Stat>
         <Books size="2rem" />
         <div>
-          <strong>{stats.totalBooksReviewed || '-'}</strong>
+          <strong>{stats.totalBooksReviewed}</strong>
           <small>Livros avaliados</small>
         </div>
       </Stat>
       <Stat>
         <UserList size="2rem" />
         <div>
-          <strong>{stats.totalAuthorsReviewed || '-'}</strong>
+          <strong>{stats.totalAuthorsReviewed}</strong>
           <small>Autores avaliados</small>
         </div>
       </Stat>
       <Stat>
         <BookmarkSimple className="shrink-0" size="2rem" />
         <div>
-          <strong>{stats.mostReviewedCategories[0] || '-'}</strong>
+          <strong>{stats.mostReviewedCategories[0] || 'Nenhuma'}</strong>
           <small>Categoria mais lida</small>
         </div>
       </Stat>
