@@ -13,6 +13,9 @@ export function RatingList({ ratings }: RatingList) {
     <section>
       <h2 className="mb-4">Avaliações</h2>
       <ul className="flex flex-col gap-6">
+        {!ratings.length && (
+          <p className="text-gray-400">Você ainda não fez nenhuma avaliação</p>
+        )}
         {ratings.map((rating) => (
           <li
             key={rating.id}
