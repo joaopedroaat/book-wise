@@ -3,7 +3,7 @@ import { categoriesOnBookResponseSchema } from '@/services/BookWiseService/schem
 import { Category } from '@/services/BookWiseService/types'
 
 export async function GET(
-  request: Response,
+  request: Request,
   { params }: { params: { id: string } },
 ) {
   try {
