@@ -15,14 +15,15 @@ services:
       - /app/.next
     ports:
       - 3000:3000
-  mysql-db:
-    image: mysql:8
+  postgres-db:
+    image: postgres:16
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: book-wise
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: bw
     ports:
-      - 3306:3306
+      - 5432:5432
     volumes:
-      - mysql-data:/var/lib/mysql
+      - postgres-data:/var/lib/postgresql/data
 volumes:
-  mysql-data:
+  postgres-data:
