@@ -5,6 +5,6 @@ import axios from 'axios'
 export const localApi = axios.create({
   baseURL: new URL(
     '/api',
-    process.env.BASE_URL || 'http://localhost:3000',
+    process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
   ).toString(),
 })
