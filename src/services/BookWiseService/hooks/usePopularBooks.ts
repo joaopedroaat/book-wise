@@ -4,7 +4,7 @@ import { BookWithRatingsAndCategories } from '../types'
 
 export function usePopularBooks() {
   const query = useQuery('popular_books', async () => {
-    const books = await BookWiseService.getBooks({
+    const books = await new BookWiseService().getBooks({
       perPage: 4,
       orderBy: 'popular',
     })

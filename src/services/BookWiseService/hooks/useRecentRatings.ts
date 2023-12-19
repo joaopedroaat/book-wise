@@ -6,7 +6,7 @@ export function useRecentRatings() {
   const query = useInfiniteQuery(
     ['recent_ratings'],
     async ({ pageParam = 1 }) => {
-      return (await BookWiseService.getRatings({
+      return (await new BookWiseService().getRatings({
         page: pageParam,
       })) as RatingWithBookAndUser[]
     },

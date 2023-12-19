@@ -4,7 +4,7 @@ import { Book } from '../types'
 
 export function useRatingsOnBook(book: Book) {
   const query = useQuery(['ratings_on_book', book], async () => {
-    return await BookWiseService.getBookRatings(book.id)
+    return await new BookWiseService().getBookRatings(book.id)
   })
 
   return query

@@ -3,7 +3,7 @@ import { BookWiseService } from '..'
 
 export function useCategories() {
   const query = useQuery('categories', async () => {
-    return await BookWiseService.getCategories()
+    return await new BookWiseService().getCategories()
   })
 
   return query

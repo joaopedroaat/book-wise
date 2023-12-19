@@ -16,7 +16,7 @@ export function useBooks(
   const query = useInfiniteQuery(
     ['books', options],
     async () => {
-      return await BookWiseService.getBooks(options)
+      return await new BookWiseService().getBooks(options)
     },
     {
       getNextPageParam: (lastPage, pages) => {

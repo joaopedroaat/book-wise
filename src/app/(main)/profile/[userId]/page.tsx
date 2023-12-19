@@ -10,8 +10,9 @@ type ProfileProps = {
 }
 
 export default async function Profile({ params: { userId } }: ProfileProps) {
-  const userProfile = await BookWiseService.getUserProfile(userId)
-  const userRatings = await BookWiseService.getUserRatings(userId)
+  const bookWiseService = new BookWiseService()
+  const userProfile = await bookWiseService.getUserProfile(userId)
+  const userRatings = await bookWiseService.getUserRatings(userId)
 
   return (
     <div className="flex flex-col-reverse justify-between lg:flex-row gap-16">

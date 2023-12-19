@@ -14,7 +14,7 @@ type StarRatingProps = {
 export function StarRating({ rate, size = 20 }: StarRatingProps) {
   const { data: averageRating } = useQuery(['ratings', rate], async () => {
     if (typeof rate === 'object') {
-      return await BookWiseService.getAverageRating(rate.id)
+      return await new BookWiseService().getAverageRating(rate.id)
     }
 
     return rate

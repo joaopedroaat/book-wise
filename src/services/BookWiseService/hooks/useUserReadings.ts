@@ -9,7 +9,7 @@ export function useUserReadings() {
   const query = useQuery(['user_readings', user], async () => {
     if (!user) return
 
-    return await BookWiseService.getUserReadings(user.id)
+    return await new BookWiseService().getUserReadings(user.id)
   })
 
   return query

@@ -8,8 +8,8 @@ services:
       dockerfile: Dockerfile
       target: dev
     command: npm run dev
-    environment:
-      - NODE_ENV=development
+    env_file:
+      - .env.development
     volumes:
       - .:/app
       - /app/node_modules
@@ -18,12 +18,10 @@ services:
       - 3000:3000
   postgres-db:
     image: postgres:16
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: bw
     ports:
       - 5432:5432
+    env_file:
+      - .env.development
     volumes:
       - postgres-data:/var/lib/postgresql/data
 volumes:

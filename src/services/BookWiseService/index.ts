@@ -1,4 +1,4 @@
-import { localApi } from '@/lib/axios'
+import axios, { AxiosInstance } from 'axios'
 import { Genre } from './schemas'
 import {
   AverageRatingResponse,
@@ -18,27 +18,32 @@ import {
 } from './types'
 
 export class BookWiseService {
-  private static bookwiseApi = localApi
+  private http: AxiosInstance
+  private baseUrl = new URL('api', process.env.NEXT_PUBLIC_BASE_URL).toString()
+
+  constructor() {
+    this.http = axios.create({
+      baseURL: this.baseUrl,
+    })
+  }
 
   // GET - User
-  static async getUser(userId: string) {
-    const { data } = await this.bookwiseApi.get<SingleUserResponse>(
-      `/users/${userId}`,
-    )
+  async getUser(userId: string) {
+    const { data } = await this.http.get<SingleUserResponse>(`/users/${userId}`)
 
     return data.user
   }
 
-  static async getUserProfile(userId: string) {
-    const { data } = await this.bookwiseApi.get<UserProfileResponse>(
+  async getUserProfile(userId: string) {
+    const { data } = await this.http.get<UserProfileResponse>(
       `/users/${userId}/profile`,
     )
 
     return data.profile
   }
 
-  static async getUserReadings(userId: string) {
-    const { data } = await this.bookwiseApi.get<ReadingsResponse>(
+  async getUserReadings(userId: string) {
+    const { data } = await this.http.get<ReadingsResponse>(
       `/users/${userId}/readings`,
     )
 
@@ -46,19 +51,16 @@ export class BookWiseService {
   }
 
   // GET - Ratings
-  static async getRatings(params: { page?: number } = { page: 1 }) {
-    const { data } = await this.bookwiseApi.get<RatingsResponse>('ratings', {
+  async getRatings(params: { page?: number } = { page: 1 }) {
+    const { data } = await this.http.get<RatingsResponse>('ratings', {
       params,
     })
 
     return data.ratings
   }
 
-  static async getBookRatings(
-    bookId: string,
-    params: { page: number } = { page: 1 },
-  ) {
-    const { data } = await this.bookwiseApi.get<BookRatingsResponse>(
+  async getBookRatings(bookId: string, params: { page: number } = { page: 1 }) {
+    const { data } = await this.http.get<BookRatingsResponse>(
       `books/${bookId}/ratings`,
       {
         params,
@@ -68,16 +70,16 @@ export class BookWiseService {
     return data.ratings
   }
 
-  static async getUserRatings(id: string) {
-    const { data } = await this.bookwiseApi.get<UserRatingsResponse>(
+  async getUserRatings(id: string) {
+    const { data } = await this.http.get<UserRatingsResponse>(
       `users/${id}/ratings`,
     )
 
     return data.ratings
   }
 
-  static async getAverageRating(bookId: string) {
-    const { data } = await this.bookwiseApi.get<AverageRatingResponse>(
+  async getAverageRating(bookId: string) {
+    const { data } = await this.http.get<AverageRatingResponse>(
       `books/${bookId}/ratings/average`,
     )
 
@@ -85,18 +87,18 @@ export class BookWiseService {
   }
 
   // GET - Categories
-  static async getCategories(bookId?: string) {
+  async getCategories(bookId?: string) {
     const { data } = bookId
-      ? await this.bookwiseApi.get<CategoriesOnBookResponse>(
+      ? await this.http.get<CategoriesOnBookResponse>(
           `/books/${bookId}/categories`,
         )
-      : await this.bookwiseApi.get<CategoriesResponse>('categories')
+      : await this.http.get<CategoriesResponse>('categories')
 
     return data.categories
   }
 
   // GET - Books
-  static async getBooks(
+  async getBooks(
     params: {
       page?: number
       perPage?: number
@@ -104,7 +106,7 @@ export class BookWiseService {
       orderBy?: 'popular'
     } = {},
   ) {
-    const { data } = await this.bookwiseApi.get<BooksResponse>('books', {
+    const { data } = await this.http.get<BooksResponse>('books', {
       params,
     })
 
@@ -112,28 +114,17 @@ export class BookWiseService {
   }
 
   // POST - Rating
-
-  static async postRating(rating: PostRating['rating']) {
-    const { data } = await this.bookwiseApi.post<SingleRatingResponse>(
-      'ratings',
-      {
-        rating,
-      } as PostRating,
-    )
+  async postRating(rating: PostRating['rating']) {
+    const { data } = await this.http.post<SingleRatingResponse>('ratings', {
+      rating,
+    } as PostRating)
 
     return data.rating
   }
 
   // POST - Reading
-
-  static async postReading({
-    userId,
-    bookId,
-  }: {
-    userId: string
-    bookId: string
-  }) {
-    const { data } = await this.bookwiseApi.post<SingleReadingResponse>(
+  async postReading({ userId, bookId }: { userId: string; bookId: string }) {
+    const { data } = await this.http.post<SingleReadingResponse>(
       `/users/${userId}/readings`,
       { bookId } as PostReading,
     )

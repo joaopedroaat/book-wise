@@ -6,7 +6,7 @@ export function useUserReadingsMutation() {
 
   const mutation = useMutation(
     async ({ bookId, userId }: { bookId: string; userId: string }) => {
-      await BookWiseService.postReading({ userId, bookId })
+      await new BookWiseService().postReading({ userId, bookId })
     },
     {
       onSuccess: () => {

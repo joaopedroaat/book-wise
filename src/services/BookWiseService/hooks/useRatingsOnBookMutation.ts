@@ -7,7 +7,7 @@ export function useRatingsOnBookMutation() {
 
   const mutation = useMutation(
     async (rating: PostRating['rating']) => {
-      await BookWiseService.postRating(rating)
+      await new BookWiseService().postRating(rating)
     },
     {
       onSuccess: () => {
