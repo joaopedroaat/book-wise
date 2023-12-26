@@ -25,7 +25,7 @@ export function BookInfo({ book }: BookInfoProps) {
             <small className="text-gray-300 text-xs">{book.author}</small>
           </div>
           <div>
-            <StarRating rate={book} size={16} />
+            <StarRating type="book" book={book} size={16} />
             <small className="text-gray-400">3 avaliações</small>
           </div>
         </div>

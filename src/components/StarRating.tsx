@@ -6,18 +6,25 @@ import { Star } from '@phosphor-icons/react/dist/ssr/Star'
 import { useQuery } from 'react-query'
 import { v4 as uuidv4 } from 'uuid'
 
-type StarRatingProps = {
-  rate: number | Book
+type BookRating = {
+  type: 'book'
+  book: Book
+}
+
+type ValueRating = {
+  type: 'value'
+  rate: number
+}
+
+type StarRatingProps = (BookRating | ValueRating) & {
   size?: number | string
 }
 
-export function StarRating({ rate, size = 20 }: StarRatingProps) {
-  const { data: averageRating } = useQuery(['ratings', rate], async () => {
-    if (typeof rate === 'object') {
-      return await new BookWiseService().getAverageRating(rate.id)
-    }
-
-    return rate
+export function StarRating({ size = 20, ...rating }: StarRatingProps) {
+  const { data: averageRating } = useQuery(['ratings', rating], async () => {
+    return rating.type === 'book'
+      ? await new BookWiseService().getAverageRating(rating.book.id)
+      : rating.rate
   })
 
   return (

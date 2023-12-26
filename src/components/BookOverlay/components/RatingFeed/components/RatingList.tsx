@@ -57,7 +57,7 @@ export function RatingList({
                   </small>
                 </div>
               </div>
-              <StarRating rate={rating.rate} size={14} />
+              <StarRating type="value" rate={rating.rate} size={14} />
             </div>
             <p>{rating.description}</p>
           </li>

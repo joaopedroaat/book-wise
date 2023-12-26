@@ -51,7 +51,7 @@ function RatingItem({
             </small>
           </div>
         </div>
-        <StarRating rate={rate} size={16} />
+        <StarRating type="book" book={book} size={16} />
       </header>
       <main className="flex flex-col items-center gap-3 lg:flex-row lg:gap-5 lg:items-start">
         <BookOverlay book={book} />

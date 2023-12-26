@@ -20,7 +20,7 @@ export function ReadingList({ readings }: ReadingListProps) {
           >
             <BookOverlay book={reading.book} />
             <strong className="text-center">{reading.book.name}</strong>
-            <StarRating rate={reading.book} size={16} />
+            <StarRating type="book" book={reading.book} size={16} />
           </li>
         ))}
       </ul>

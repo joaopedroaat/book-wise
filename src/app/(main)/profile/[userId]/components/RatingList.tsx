@@ -27,7 +27,7 @@ export function RatingList({ ratings }: RatingList) {
                 <strong>{rating.book.name}</strong>
                 <small className="text-gray-400">{rating.book.author}</small>
                 <div className="mt-1">
-                  <StarRating rate={rating.book} size="1rem" />
+                  <StarRating type="book" book={rating.book} size="1rem" />
                 </div>
               </div>
             </div>

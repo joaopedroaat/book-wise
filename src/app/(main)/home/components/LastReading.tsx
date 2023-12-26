@@ -32,7 +32,7 @@ export function LastReading() {
                 <span className="text-gray-300">
                   {calculateDateDistance(new Date(lastReading.createdAt))}
                 </span>
-                <StarRating rate={lastReading.book} size={16} />
+                <StarRating type="book" book={lastReading.book} size={16} />
               </div>
               <div className="flex flex-col text-center lg:text-start mt-3">
                 <h1 className="font-bold text-lg text-gray-100">
