@@ -32,7 +32,7 @@ type RatingItemProps = {
 }
 
 function RatingItem({
-  rating: { user, book, rate, description, createdAt },
+  rating: { user, book, description, createdAt },
 }: RatingItemProps) {
   return (
     <li className="bg-gray-700 p-6 rounded-lg flex flex-col gap-8">

@@ -1,7 +1,7 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
 import { useRatingsOnBookMutation } from '@/services/BookWiseService/hooks/useRatingsOnBookMutation'
-import { Book, PostRating } from '@/services/BookWiseService/types'
+import { Book } from '@/services/BookWiseService/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
 import { User } from 'next-auth'

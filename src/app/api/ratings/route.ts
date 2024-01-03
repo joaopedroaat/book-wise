@@ -3,7 +3,6 @@ import {
   postRatingSchema,
   ratingSchema,
   ratingWithBookAndUserSchema,
-  singleRatingResponseSchema,
 } from '@/services/BookWiseService/schemas'
 import {
   RatingsResponse,
