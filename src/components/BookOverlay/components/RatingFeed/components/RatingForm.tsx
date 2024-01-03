@@ -1,5 +1,6 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
+import { useRatingsOnBookMutation } from '@/services/BookWiseService/hooks/useRatingsOnBookMutation'
 import { Book, PostRating } from '@/services/BookWiseService/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
@@ -10,7 +11,6 @@ import { z } from 'zod'
 type RatingFormProps = {
   book: Book
   user: User
-  mutation: (ratings: PostRating['rating']) => Promise<void>
   onAbort: () => void
 }
 
@@ -21,7 +21,7 @@ const ratingFormSchema = z.object({
 
 export type RatingFormSchema = z.infer<typeof ratingFormSchema>
 
-export function RatingForm({ book, user, mutation, onAbort }: RatingFormProps) {
+export function RatingForm({ book, user, onAbort }: RatingFormProps) {
   const {
     register,
     handleSubmit,
@@ -32,8 +32,10 @@ export function RatingForm({ book, user, mutation, onAbort }: RatingFormProps) {
     resolver: zodResolver(ratingFormSchema),
   })
 
+  const { postMutation } = useRatingsOnBookMutation()
+
   async function handleFormSubmit(data: RatingFormSchema) {
-    mutation({ ...data, bookId: book.id, userId: user.id })
+    postMutation.mutate({ ...data, bookId: book.id, userId: user.id })
     handleAbort()
   }
 

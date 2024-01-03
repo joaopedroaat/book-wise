@@ -1,13 +1,12 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRating } from '@/components/StarRating'
 import { useRatingsOnBook } from '@/services/BookWiseService/hooks/useRatingsOnBook'
-import { useRatingsOnBookMutation } from '@/services/BookWiseService/hooks/useRatingsOnBookMutation'
 import { Book } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
-import { CircleNotch, Trash, X } from '@phosphor-icons/react'
+import { CircleNotch } from '@phosphor-icons/react'
 import { useSession } from 'next-auth/react'
-import { RatingForm } from '../../RatingForm'
 import { DeleteButton } from './DeleteButton'
+import { RatingForm } from './RatingForm'
 
 type RatingListProps = {
   book: Book
@@ -21,9 +20,6 @@ export function RatingList({
   onAbort,
 }: RatingListProps) {
   const { data: ratings, isLoading } = useRatingsOnBook(book)
-  const {
-    postMutation: { mutateAsync: ratingsOnBookPostMutation },
-  } = useRatingsOnBookMutation()
 
   const user = useSession().data?.user
 
@@ -37,12 +33,7 @@ export function RatingList({
   return (
     <ul className="flex flex-col gap-3">
       {user && isRatingFormVisible && (
-        <RatingForm
-          user={user}
-          book={book}
-          mutation={ratingsOnBookPostMutation}
-          onAbort={onAbort}
-        />
+        <RatingForm user={user} book={book} onAbort={onAbort} />
       )}
       {ratings &&
         ratings.map((rating) => (
