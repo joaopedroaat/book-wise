@@ -7,18 +7,6 @@
 
 ### 🏠 [Homepage](https://book-wise-joaopedroaat.vercel.app/)
 
-## Install
-
-```sh
-npm install
-```
-
-## Usage
-
-```sh
-npm run start
-```
-
 ## Author
 
 👤 **João Pedro Tenório**
