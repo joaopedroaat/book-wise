@@ -7,6 +7,7 @@ import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CircleNotch, Trash, X } from '@phosphor-icons/react'
 import { useSession } from 'next-auth/react'
 import { RatingForm } from '../../RatingForm'
+import { DeleteButton } from './DeleteButton'
 
 type RatingListProps = {
   book: Book
@@ -22,7 +23,6 @@ export function RatingList({
   const { data: ratings, isLoading } = useRatingsOnBook(book)
   const {
     postMutation: { mutateAsync: ratingsOnBookPostMutation },
-    deleteMutation: { mutateAsync: ratingsOnBookDeleteMutation },
   } = useRatingsOnBookMutation()
 
   const user = useSession().data?.user
@@ -64,11 +64,7 @@ export function RatingList({
               <div className="flex gap-4">
                 <StarRating type="value" rate={rating.rate} size={14} />
                 {user && user.id === rating.user.id && (
-                  <Trash
-                    className="text-red-100 cursor-pointer"
-                    weight="bold"
-                    onClick={() => ratingsOnBookDeleteMutation(rating.id)}
-                  />
+                  <DeleteButton ratingId={rating.id} />
                 )}
               </div>
             </div>
