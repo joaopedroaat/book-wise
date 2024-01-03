@@ -11,7 +11,7 @@ export function DeleteButton({ ratingId }: DeleteButtonProps) {
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger asChild>
-        <button className="text-red-100 cursor-pointer">
+        <button className="text-purple-200 cursor-pointer">
           <Trash weight="bold" />
         </button>
       </AlertDialog.Trigger>
