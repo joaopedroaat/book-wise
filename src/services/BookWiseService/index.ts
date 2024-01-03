@@ -131,4 +131,13 @@ export class BookWiseService {
 
     return data.reading
   }
+
+  // DELETE - Rating
+  async deleteRating({ ratingId }: { ratingId: string }) {
+    const { data } = await this.http.delete<SingleRatingResponse>(
+      `/ratings/${ratingId}`,
+    )
+
+    return data.rating
+  }
 }

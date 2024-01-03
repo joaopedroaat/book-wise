@@ -4,7 +4,7 @@ import { useRatingsOnBook } from '@/services/BookWiseService/hooks/useRatingsOnB
 import { useRatingsOnBookMutation } from '@/services/BookWiseService/hooks/useRatingsOnBookMutation'
 import { Book } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
-import { CircleNotch } from '@phosphor-icons/react'
+import { CircleNotch, Trash, X } from '@phosphor-icons/react'
 import { useSession } from 'next-auth/react'
 import { RatingForm } from '../../RatingForm'
 
@@ -20,7 +20,10 @@ export function RatingList({
   onAbort,
 }: RatingListProps) {
   const { data: ratings, isLoading } = useRatingsOnBook(book)
-  const { mutateAsync: ratingsOnBookMutation } = useRatingsOnBookMutation()
+  const {
+    postMutation: { mutateAsync: ratingsOnBookPostMutation },
+    deleteMutation: { mutateAsync: ratingsOnBookDeleteMutation },
+  } = useRatingsOnBookMutation()
 
   const user = useSession().data?.user
 
@@ -37,7 +40,7 @@ export function RatingList({
         <RatingForm
           user={user}
           book={book}
-          mutation={ratingsOnBookMutation}
+          mutation={ratingsOnBookPostMutation}
           onAbort={onAbort}
         />
       )}
@@ -57,7 +60,17 @@ export function RatingList({
                   </small>
                 </div>
               </div>
-              <StarRating type="value" rate={rating.rate} size={14} />
+
+              <div className="flex gap-4">
+                <StarRating type="value" rate={rating.rate} size={14} />
+                {user && user.id === rating.user.id && (
+                  <Trash
+                    className="text-red-100 cursor-pointer"
+                    weight="bold"
+                    onClick={() => ratingsOnBookDeleteMutation(rating.id)}
+                  />
+                )}
+              </div>
             </div>
             <p>{rating.description}</p>
           </li>
