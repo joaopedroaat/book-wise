@@ -1,8 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import {
-  UserProfile,
-  UserProfileResponse,
-} from '@/services/BookWiseService/types'
+import { UserProfile, UserProfileResponse } from './profile.schema'
 
 export async function GET(
   request: Request,
@@ -50,7 +47,7 @@ export async function GET(
     const profile = {
       user: {
         ...user,
-        createdAt: user.createdAt.toDateString(),
+        createdAt: user.createdAt.toISOString(),
       },
 
       stats: {
