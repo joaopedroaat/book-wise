@@ -8,6 +8,7 @@ export const readingSchema = z.object({
 })
 
 export const postReadingRequestBodySchema = z.object({
+  userId: z.string(),
   bookId: z.string(),
 })
 
