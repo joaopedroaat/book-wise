@@ -1,36 +1,32 @@
 import { prisma } from '@/lib/prisma'
 import {
-  postReadingSchema,
+  ReadingResponse,
+  postReadingRequestBodySchema,
   readingSchema,
-  readingWithBookSchema,
-} from '@/services/BookWiseService/schemas'
-import {
-  ReadingsResponse,
-  SingleReadingResponse,
-} from '@/services/BookWiseService/types'
+} from './reading.schema'
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } },
 ) {
   try {
-    const id = params.id
+    const userId = params.id
 
-    const recentReadings = await prisma.reading.findMany({
-      where: {
-        userId: id,
-      },
-      include: {
-        book: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+    const readings = readingSchema.array().parse(
+      await prisma.reading.findMany({
+        where: {
+          userId,
+        },
+        // include: {
+        //   book: true,
+        // },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      }),
+    )
 
-    const readings = readingWithBookSchema.array().parse(recentReadings)
-
-    return Response.json({ readings } as ReadingsResponse)
+    return Response.json({ readings } as ReadingResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
@@ -42,7 +38,9 @@ export async function POST(
 ) {
   const userId = params.id
 
-  const parsedRequestBody = postReadingSchema.safeParse(await request.json())
+  const parsedRequestBody = postReadingRequestBodySchema.safeParse(
+    await request.json(),
+  )
 
   if (!parsedRequestBody.success)
     return Response.json({ error: parsedRequestBody.error }, { status: 400 })
