@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { ratingSchema } from '@/services/BookWiseService/schemas'
-import { SingleRatingResponse } from '@/services/BookWiseService/types'
+import { RatingResponse, ratingSchema } from '../rating.schema'
 
 export async function DELETE(
   request: Request,
@@ -14,15 +13,16 @@ export async function DELETE(
         { status: 400 },
       )
 
-    const rating = await prisma.rating.findUnique({ where: { id } })
+    const ratingData = await prisma.rating.delete({ where: { id } })
 
-    if (!rating)
-      return Response.json({ error: `Rating with id "${id}" does not exist.` })
+    if (!ratingData)
+      return Response.json(
+        { error: `Rating with id "${id}" does not exist.` },
+        { status: 404 },
+      )
 
-    const deletedRating = await prisma.rating.delete({ where: { id } })
-    const parsedRating = ratingSchema.parse(deletedRating)
-
-    return Response.json({ rating: parsedRating } as SingleRatingResponse)
+    const rating = ratingSchema.parse(ratingData)
+    return Response.json({ rating } as RatingResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
