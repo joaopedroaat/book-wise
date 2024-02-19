@@ -1,13 +1,13 @@
 import { prisma } from '@/lib/prisma'
-import { categorySchema } from '@/services/BookWiseService/schemas'
-import { CategoriesResponse } from '@/services/BookWiseService/types'
+import { CategoryResponse, categorySchema } from './category.schema'
 
 export async function GET() {
   try {
-    const categories = await prisma.category.findMany()
-    const parsedCategories = categorySchema.array().parse(categories)
+    const categories = categorySchema
+      .array()
+      .parse(await prisma.category.findMany())
 
-    return Response.json({ categories: parsedCategories } as CategoriesResponse)
+    return Response.json({ categories } as CategoryResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
