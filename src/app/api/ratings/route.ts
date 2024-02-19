@@ -17,32 +17,29 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const parsedBody = ratingPostRequestBody.safeParse(await request.json())
+    const { rating: newRating } = ratingPostRequestBody.parse(
+      await request.json(),
+    )
 
-    if (!parsedBody.success)
-      return Response.json({ error: parsedBody.error }, { status: 400 })
-
-    let { rating } = parsedBody.data
-
-    const existingRate = await prisma.rating.findFirst({
+    let ratingData = await prisma.rating.findFirst({
       where: {
-        bookId: rating.bookId,
-        userId: rating.userId,
+        bookId: newRating.bookId,
+        userId: newRating.userId,
       },
     })
 
-    rating = existingRate
+    ratingData = ratingData
       ? await prisma.rating.update({
-          data: rating,
+          data: newRating,
           where: {
-            id: existingRate.id,
+            id: ratingData.id,
           },
         })
       : await prisma.rating.create({
-          data: rating,
+          data: newRating,
         })
 
-    rating = ratingSchema.parse(rating)
+    const rating = ratingSchema.parse(ratingData)
 
     return Response.json({ rating } as RatingResponse)
   } catch (error) {

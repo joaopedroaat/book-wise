@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 
   let readingData = await prisma.reading.findFirst({
     where: {
+      userId,
       bookId,
     },
   })
