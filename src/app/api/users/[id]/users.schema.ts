@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { categorySchema } from '../../categories/category.schema'
 
 export const userSchema = z.object({
   id: z.string(),
