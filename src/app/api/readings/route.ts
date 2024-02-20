@@ -4,12 +4,31 @@ import {
   postReadingRequestBodySchema,
   readingSchema,
 } from './reading.schema'
+import { z } from 'zod'
 
-export async function GET() {
+const searchParamsSchema = z.object({
+  book: z.preprocess((val) => val === 'true', z.boolean()),
+})
+
+export async function GET(request: Request) {
   try {
-    const readings = readingSchema
-      .array()
-      .parse(await prisma.reading.findMany())
+    const { book: includeBook } = searchParamsSchema.parse(
+      Object.fromEntries(new URL(request.url).searchParams),
+    )
+
+    const a = await prisma.reading.findMany({
+      include: {
+        book: includeBook,
+      },
+    })
+
+    const readings = readingSchema.array().parse(
+      await prisma.reading.findMany({
+        include: {
+          book: includeBook,
+        },
+      }),
+    )
 
     return Response.json({ readings } as ReadingResponse)
   } catch (error) {

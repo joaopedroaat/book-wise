@@ -1,9 +1,11 @@
 import { z } from 'zod'
+import { bookSchema } from '../books/book.schema'
 
 export const readingSchema = z.object({
   id: z.string(),
   userId: z.string(),
   bookId: z.string(),
+  book: z.lazy(() => bookSchema.optional()),
   createdAt: z.date().transform((date) => date.toISOString()),
 })
 
