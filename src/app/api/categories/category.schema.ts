@@ -19,9 +19,9 @@ export const categorySchema = z.object({
   id: z.string(),
   name: z.nativeEnum(Genre),
 })
+export type Category = z.infer<typeof categorySchema>
 
 const categoryResponseSchema = z.object({
   categories: categorySchema.array(),
 })
-
 export type CategoryResponse = z.infer<typeof categoryResponseSchema>
