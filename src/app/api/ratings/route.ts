@@ -11,11 +11,12 @@ const searchParamsSchema = z.object({
   perPage: z.coerce.number().positive().default(30),
   orderBy: z.literal('date').optional(),
   bookId: z.string().optional(),
+  userId: z.string().optional(),
 })
 
 export async function GET(request: Request) {
   try {
-    const { page, perPage, orderBy, bookId } = searchParamsSchema.parse(
+    const { page, perPage, orderBy, bookId, userId } = searchParamsSchema.parse(
       Object.fromEntries(new URL(request.url).searchParams),
     )
 
@@ -23,6 +24,7 @@ export async function GET(request: Request) {
       await prisma.rating.findMany({
         where: {
           bookId,
+          userId,
         },
         skip: page * perPage - perPage,
         take: perPage,
