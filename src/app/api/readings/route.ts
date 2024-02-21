@@ -16,12 +16,6 @@ export async function GET(request: Request) {
       Object.fromEntries(new URL(request.url).searchParams),
     )
 
-    const a = await prisma.reading.findMany({
-      include: {
-        book: includeBook,
-      },
-    })
-
     const readings = readingSchema.array().parse(
       await prisma.reading.findMany({
         include: {
