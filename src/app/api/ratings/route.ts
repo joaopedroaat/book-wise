@@ -4,12 +4,29 @@ import {
   ratingPostRequestBody,
   ratingSchema,
 } from './rating.schema'
+import { z } from 'zod'
 
-export async function GET() {
+const searchParamsSchema = z.object({
+  page: z.coerce.number().positive().default(1),
+  perPage: z.coerce.number().positive().default(30),
+  orderBy: z.literal('date').nullish(),
+})
+
+export async function GET(request: Request) {
   try {
-    const ratings = ratingSchema.array().parse(await prisma.rating.findMany())
+    const { page, perPage, orderBy } = searchParamsSchema.parse(
+      Object.fromEntries(new URL(request.url).searchParams),
+    )
 
-    return Response.json({ ratings } as RatingResponse)
+    const ratings = ratingSchema.array().parse(
+      await prisma.rating.findMany({
+        skip: page * perPage - perPage,
+        take: perPage,
+        orderBy: orderBy === 'date' ? { createdAt: 'desc' } : undefined,
+      }),
+    )
+
+    return Response.json({ page, perPage, ratings } as RatingResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

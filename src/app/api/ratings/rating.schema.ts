@@ -16,22 +16,11 @@ export const ratingPostRequestBody = z.object({
 })
 
 // Rating Response
-const ratingResponseSchema = z
-  .object({
-    ratings: ratingSchema.array().optional(),
-    rating: ratingSchema.optional(),
-  })
-  .transform((response) => ({
-    ...response,
-    rating: response.rating || undefined,
-    ratings: response.ratings || undefined,
-  }))
-  // Checks if rating and ratings don't exist simultaneously, and if there's at
-  // least one of them present
-  .refine(
-    (response) =>
-      !(response.rating && response.ratings) &&
-      (response.rating || response.ratings),
-  )
+const ratingResponseSchema = z.object({
+  page: z.number().positive().optional(),
+  perPage: z.number().positive().optional(),
+  ratings: ratingSchema.array().optional(),
+  rating: ratingSchema.optional(),
+})
 
 export type RatingResponse = z.infer<typeof ratingResponseSchema>
