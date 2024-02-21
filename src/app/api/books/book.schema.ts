@@ -11,6 +11,8 @@ export const bookSchema = z.object({
 })
 
 const bookResponseSchema = z.object({
+  page: z.number().positive(),
+  perPage: z.number().positive(),
   books: bookSchema.array(),
 })
 
