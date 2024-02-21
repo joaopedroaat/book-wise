@@ -1,11 +1,28 @@
 import { prisma } from '@/lib/prisma'
 import { CategoryResponse, categorySchema } from './category.schema'
+import { z } from 'zod'
 
-export async function GET() {
+const searchParamsSchema = z.object({
+  bookId: z.string().optional(),
+})
+
+export async function GET(request: Request) {
   try {
-    const categories = categorySchema
-      .array()
-      .parse(await prisma.category.findMany())
+    const { bookId } = searchParamsSchema.parse(
+      Object.fromEntries(new URL(request.url).searchParams),
+    )
+
+    const categories = categorySchema.array().parse(
+      await prisma.category.findMany({
+        where: {
+          books: {
+            every: {
+              bookId,
+            },
+          },
+        },
+      }),
+    )
 
     return Response.json({ categories } as CategoryResponse)
   } catch (error) {
