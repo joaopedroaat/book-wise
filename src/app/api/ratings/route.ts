@@ -9,17 +9,21 @@ import { z } from 'zod'
 const searchParamsSchema = z.object({
   page: z.coerce.number().positive().default(1),
   perPage: z.coerce.number().positive().default(30),
-  orderBy: z.literal('date').nullish(),
+  orderBy: z.literal('date').optional(),
+  bookId: z.string().optional(),
 })
 
 export async function GET(request: Request) {
   try {
-    const { page, perPage, orderBy } = searchParamsSchema.parse(
+    const { page, perPage, orderBy, bookId } = searchParamsSchema.parse(
       Object.fromEntries(new URL(request.url).searchParams),
     )
 
     const ratings = ratingSchema.array().parse(
       await prisma.rating.findMany({
+        where: {
+          bookId,
+        },
         skip: page * perPage - perPage,
         take: perPage,
         orderBy: orderBy === 'date' ? { createdAt: 'desc' } : undefined,
