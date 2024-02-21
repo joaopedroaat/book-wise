@@ -7,17 +7,24 @@ import {
 import { z } from 'zod'
 
 const searchParamsSchema = z.object({
+  userId: z
+    .string()
+    .nullish()
+    .transform((val) => val || undefined),
   book: z.preprocess((val) => val === 'true', z.boolean()),
 })
 
 export async function GET(request: Request) {
   try {
-    const { book: includeBook } = searchParamsSchema.parse(
+    const { userId, book: includeBook } = searchParamsSchema.parse(
       Object.fromEntries(new URL(request.url).searchParams),
     )
 
     const readings = readingSchema.array().parse(
       await prisma.reading.findMany({
+        where: {
+          userId,
+        },
         include: {
           book: includeBook,
         },
