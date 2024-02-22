@@ -1,38 +1,45 @@
+import { UserResponse } from '@/app/api/users/[id]/types'
 import { ProfileAvatar } from './components/ProfileAvatar'
 import { RatingList } from './components/RatingList'
 import { StatsList } from './components/StatsList'
-import axios from 'axios'
-import { User, UserResponse } from '@/app/api/users/[id]/users.schema'
-import { Rating } from '@/app/api/ratings/rating.schema'
+import { Book, Rating, User } from '@prisma/client'
+import { appApi } from '@/lib/axios'
 
-type ProfileProps = {
-  params: {
-    userId: string
+async function fetchUserData(userId: string) {
+  const { status, data } = await appApi.get<UserResponse>(`/users/${userId}`, {
+    params: {
+      ratings: true,
+      stats: true,
+    },
+  })
+
+  if (status !== 200) return
+
+  return data as {
+    user: User & { ratings: (Rating & { book: Book })[] }
+    stats: NonNullable<UserResponse['stats']>
   }
 }
 
-async function fetchUserData(userId: string) {
-  const { data } = await axios.get<UserResponse>(`/users/${userId}`)
+export default async function Profile({
+  params: { userId },
+}: {
+  params: { userId: string }
+}) {
+  const userData = await fetchUserData(userId)
 
-  const user = data.user as User & { stats: NonNullable<User['stats']> }
-  const ratings = data.ratings as (Rating & {
-    book: NonNullable<Rating['book']>
-  })[]
+  if (!userData) return <p>Failed to fetch user data</p>
 
-  return { user, ratings }
-}
-
-export default async function Profile({ params: { userId } }: ProfileProps) {
-  const { user, ratings } = await fetchUserData(userId)
+  const { user, stats } = userData
 
   return (
     <div className="flex flex-col-reverse justify-between lg:flex-row gap-16">
       <section className="flex flex-col gap-6 flex-grow">
-        <RatingList ratings={ratings} />
+        <RatingList ratings={user.ratings} />
       </section>
       <aside className="flex flex-col items-center gap-16 basis-80 lg:border-l border-gray-700 px-14">
         <ProfileAvatar user={user} />
-        <StatsList stats={user.stats} />
+        <StatsList stats={stats} />
       </aside>
     </div>
   )

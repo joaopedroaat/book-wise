@@ -1,5 +1,5 @@
-import { User } from '@/services/BookWiseService/types'
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User'
+import { User } from '@prisma/client'
 import { User as NextAuthUser } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'

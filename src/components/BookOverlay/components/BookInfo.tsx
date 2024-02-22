@@ -1,8 +1,8 @@
 import { BookCover } from '@/components/BookOverlay/components/BookCover'
 import { StarRating } from '@/components/StarRating'
 import { BookWiseService } from '@/services/BookWiseService'
-import { Book } from '@/services/BookWiseService/types'
 import { BookmarkSimple } from '@phosphor-icons/react'
+import { Book } from '@prisma/client'
 import { useQuery } from 'react-query'
 
 type BookInfoProps = {

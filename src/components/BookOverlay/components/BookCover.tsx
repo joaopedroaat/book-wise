@@ -1,4 +1,4 @@
-import { Book } from '@/services/BookWiseService/types'
+import { Book } from '@prisma/client'
 import Image from 'next/image'
 
 type BookCoverProps = {

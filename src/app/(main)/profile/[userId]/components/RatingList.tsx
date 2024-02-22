@@ -1,13 +1,13 @@
 'use client'
 
-import { Rating } from '@/app/api/ratings/rating.schema'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
+import { Book, Rating } from '@prisma/client'
 
 export function RatingList({
   ratings,
 }: {
-  ratings: (Rating & { book: NonNullable<Rating['book']> })[]
+  ratings: (Rating & { book: Book })[]
 }) {
   return (
     <section>

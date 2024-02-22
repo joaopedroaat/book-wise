@@ -1,12 +1,12 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRating } from '@/components/StarRating'
 import { useRatingsOnBook } from '@/services/BookWiseService/hooks/useRatingsOnBook'
-import { Book } from '@/services/BookWiseService/types'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CircleNotch } from '@phosphor-icons/react'
 import { useSession } from 'next-auth/react'
 import { DeleteButton } from './DeleteButton'
 import { RatingForm } from './RatingForm'
+import { Book } from '@prisma/client'
 
 type RatingListProps = {
   book: Book

@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import { UserStats, UserResponse, userSchema } from './users.schema'
 import { z } from 'zod'
-import { ratingSchema } from '../../ratings/rating.schema'
+import { UserResponse } from './types'
 
 const searchParamsSchema = z.object({
   ratings: z.preprocess((val) => val === 'true', z.boolean()).optional(),
@@ -15,14 +14,12 @@ export async function GET(
   try {
     const id = params.id
 
-    console.log(new URL(request.url).searchParams)
-
     const { stats: includeStats, ratings: includeRatings } =
       searchParamsSchema.parse(
         Object.fromEntries(new URL(request.url).searchParams),
       )
 
-    const data = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id },
       include: {
         ratings: includeRatings ? { include: { book: true } } : undefined,
@@ -75,16 +72,10 @@ export async function GET(
           0,
         ),
         mostReviewedCategory: mostRepeatedCategory,
-      } as UserStats
+      } as UserResponse['stats']
     }
 
-    const user = userSchema.parse(data)
-    const ratings = data?.ratings
-      ? ratingSchema.array().parse(data.ratings)
-      : undefined
-    user.stats = stats
-
-    return Response.json({ user, ratings } as UserResponse)
+    return Response.json({ user, stats } as UserResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

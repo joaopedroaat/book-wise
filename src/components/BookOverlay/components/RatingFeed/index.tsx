@@ -1,7 +1,7 @@
-import { Book } from '@/services/BookWiseService/types'
 import { useState } from 'react'
 import { Header } from './components/Header'
 import { RatingList } from './components/RatingList'
+import { Book } from '@prisma/client'
 
 type RatingFeed = {
   book: Book

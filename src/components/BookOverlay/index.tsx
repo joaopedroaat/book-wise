@@ -1,13 +1,13 @@
 'use client'
 
 import { useUserReadingsMutation } from '@/services/BookWiseService/hooks/useUserReadingsMutation'
-import { Book } from '@/services/BookWiseService/types'
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useSession } from 'next-auth/react'
 import { BookCover } from './components/BookCover'
 import { BookInfo } from './components/BookInfo'
 import { RatingFeed } from './components/RatingFeed'
+import { Book } from '@prisma/client'
 
 type BookOverlayProps = {
   book: Book

@@ -1,8 +1,8 @@
 'use_client'
 
 import { BookWiseService } from '@/services/BookWiseService'
-import { Book } from '@/services/BookWiseService/types'
 import { Star } from '@phosphor-icons/react/dist/ssr/Star'
+import { Book } from '@prisma/client'
 import { useQuery } from 'react-query'
 import { v4 as uuidv4 } from 'uuid'
 

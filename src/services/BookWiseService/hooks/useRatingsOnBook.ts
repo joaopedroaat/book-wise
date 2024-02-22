@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import { BookWiseService } from '..'
-import { Book } from '../types'
+import { Book } from '@prisma/client'
 
 export function useRatingsOnBook(book: Book) {
   const query = useQuery(['ratings_on_book', book], async () => {
