@@ -1,11 +1,7 @@
+import { User } from '@/app/api/users/[id]/users.schema'
 import { Avatar } from '@/components/Avatar'
-import { User } from '@/services/BookWiseService/types'
 
-type ProfileAvatarProps = {
-  user: User
-}
-
-export function ProfileAvatar({ user }: ProfileAvatarProps) {
+export function ProfileAvatar({ user }: { user: User }) {
   return (
     <div className="flex flex-col items-center">
       <Avatar user={user} size={72} border />

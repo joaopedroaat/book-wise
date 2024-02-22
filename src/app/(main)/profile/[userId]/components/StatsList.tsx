@@ -1,14 +1,12 @@
-import { UserProfile } from '@/services/BookWiseService/types'
+import { User } from '@/app/api/users/[id]/users.schema'
 import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 import { Books } from '@phosphor-icons/react/dist/ssr/Books'
 import { UserList } from '@phosphor-icons/react/dist/ssr/UserList'
-import { HTMLProps, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
-type StatsListProps = {
-  stats: UserProfile['stats']
-} & HTMLProps<HTMLUListElement>
+type Stats = NonNullable<User['stats']>
 
-export function StatsList({ stats, ...props }: StatsListProps) {
+export function StatsList({ stats }: { stats: Stats }) {
   const Stat = ({ children }: { children: ReactNode }) => {
     return (
       <li className="flex gap-5 items-center [&>svg]:text-green-100 [&>div]:flex [&>div]:flex-col [&>div>strong]:text-gray-200 [&>div>small]:text-gray-400">
@@ -18,25 +16,25 @@ export function StatsList({ stats, ...props }: StatsListProps) {
   }
 
   return (
-    <ul className={`${props.className} flex flex-col gap-10`} {...props}>
+    <ul className={'flex flex-col gap-10'}>
       <Stat>
         <Books size="2rem" />
         <div>
-          <strong>{stats.totalBooksReviewed}</strong>
+          <strong>{stats?.totalReviewedBooks}</strong>
           <small>Livros avaliados</small>
         </div>
       </Stat>
       <Stat>
         <UserList size="2rem" />
         <div>
-          <strong>{stats.totalAuthorsReviewed}</strong>
+          <strong>{stats?.totalReviewedAuthors}</strong>
           <small>Autores avaliados</small>
         </div>
       </Stat>
       <Stat>
         <BookmarkSimple className="shrink-0" size="2rem" />
         <div>
-          <strong>{stats.mostReviewedCategories[0] || 'Nenhuma'}</strong>
+          <strong>{stats?.mostReviewedCategory || 'Nenhuma'}</strong>
           <small>Categoria mais lida</small>
         </div>
       </Stat>

@@ -1,14 +1,14 @@
 'use client'
 
+import { Rating } from '@/app/api/ratings/rating.schema'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { RatingWithBook } from '@/services/BookWiseService/types'
 
-type RatingList = {
-  ratings: RatingWithBook[]
-}
-
-export function RatingList({ ratings }: RatingList) {
+export function RatingList({
+  ratings,
+}: {
+  ratings: (Rating & { book: NonNullable<Rating['book']> })[]
+}) {
   return (
     <section>
       <h2 className="mb-4">Avaliações</h2>

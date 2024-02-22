@@ -1,9 +1,11 @@
 import { prisma } from '@/lib/prisma'
 import { UserStats, UserResponse, userSchema } from './users.schema'
 import { z } from 'zod'
+import { ratingSchema } from '../../ratings/rating.schema'
 
 const searchParamsSchema = z.object({
-  stats: z.preprocess((val) => val === 'true', z.boolean()),
+  ratings: z.preprocess((val) => val === 'true', z.boolean()).optional(),
+  stats: z.preprocess((val) => val === 'true', z.boolean()).optional(),
 })
 
 export async function GET(
@@ -13,13 +15,19 @@ export async function GET(
   try {
     const id = params.id
 
-    const { stats: includeStats } = searchParamsSchema.parse(
-      Object.fromEntries(new URL(request.url).searchParams),
-    )
+    console.log(new URL(request.url).searchParams)
 
-    const user = userSchema.parse(
-      await prisma.user.findUnique({ where: { id } }),
-    )
+    const { stats: includeStats, ratings: includeRatings } =
+      searchParamsSchema.parse(
+        Object.fromEntries(new URL(request.url).searchParams),
+      )
+
+    const data = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        ratings: includeRatings ? { include: { book: true } } : undefined,
+      },
+    })
 
     let stats
     if (includeStats) {
@@ -70,9 +78,13 @@ export async function GET(
       } as UserStats
     }
 
+    const user = userSchema.parse(data)
+    const ratings = data?.ratings
+      ? ratingSchema.array().parse(data.ratings)
+      : undefined
     user.stats = stats
 
-    return Response.json({ user } as UserResponse)
+    return Response.json({ user, ratings } as UserResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

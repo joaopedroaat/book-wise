@@ -20,5 +20,6 @@ export const bookRateResponseSchema = z.object({
   rate: z.number(),
 })
 
+export type Book = z.infer<typeof bookSchema>
 export type BookResponse = z.infer<typeof bookResponseSchema>
 export type BookRateResponse = z.infer<typeof bookRateResponseSchema>

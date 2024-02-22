@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { ratingSchema } from '../../ratings/rating.schema'
 
 export const userSchema = z.object({
   id: z.string(),
@@ -18,6 +19,7 @@ export const userSchema = z.object({
 
 const userResponseSchema = z.object({
   user: userSchema,
+  ratings: z.lazy(() => ratingSchema.array().optional()),
 })
 
 export type User = z.infer<typeof userSchema>

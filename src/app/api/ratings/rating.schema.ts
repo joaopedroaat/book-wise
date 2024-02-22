@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { bookSchema } from '../books/book.schema'
 
 // Rating
 export const ratingSchema = z.object({
@@ -6,6 +7,7 @@ export const ratingSchema = z.object({
   rate: z.number(),
   description: z.string(),
   bookId: z.string(),
+  book: z.lazy(() => bookSchema.optional()),
   userId: z.string(),
   createdAt: z.date().transform((date) => date.toISOString()),
 })
@@ -23,4 +25,5 @@ const ratingResponseSchema = z.object({
   rating: ratingSchema.optional(),
 })
 
+export type Rating = z.infer<typeof ratingSchema>
 export type RatingResponse = z.infer<typeof ratingResponseSchema>
