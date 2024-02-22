@@ -1,9 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import {
-  ReadingResponse,
-  postReadingRequestBodySchema,
-  readingSchema,
-} from './reading.schema'
+import { ReadingResponse, readingSchema } from './reading.schema'
 import { z } from 'zod'
 
 const searchParamsSchema = z.object({
@@ -37,10 +33,13 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
-  const requestBody = postReadingRequestBodySchema.parse(await request.json())
+const requestBodySchema = z.object({
+  userId: z.string(),
+  bookId: z.string(),
+})
 
-  const { userId, bookId } = requestBody
+export async function POST(request: Request) {
+  const { userId, bookId } = requestBodySchema.parse(await request.json())
 
   let readingData = await prisma.reading.findFirst({
     where: {

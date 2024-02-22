@@ -9,11 +9,6 @@ export const readingSchema = z.object({
   createdAt: z.date().transform((date) => date.toISOString()),
 })
 
-export const postReadingRequestBodySchema = z.object({
-  userId: z.string(),
-  bookId: z.string(),
-})
-
 const readingResponseSchema = z
   .object({
     reading: readingSchema.optional(),
