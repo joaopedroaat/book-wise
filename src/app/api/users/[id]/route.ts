@@ -1,11 +1,15 @@
 import { prisma } from '@/lib/prisma'
+import { Category, Rating, User } from '@prisma/client'
 import { z } from 'zod'
-import { UserResponse } from './types'
 
-const searchParamsSchema = z.object({
-  ratings: z.preprocess((val) => val === 'true', z.boolean()).optional(),
-  stats: z.preprocess((val) => val === 'true', z.boolean()).optional(),
-})
+export type GetUserResponse = {
+  user: User & { ratings?: Rating[] }
+  stats: {
+    totalReviewedBooks: number
+    totalReviewedAuthors: number
+    mostReviewedCategory: Category['name']
+  }
+}
 
 export async function GET(
   request: Request,
@@ -14,10 +18,12 @@ export async function GET(
   try {
     const id = params.id
 
-    const { stats: includeStats, ratings: includeRatings } =
-      searchParamsSchema.parse(
-        Object.fromEntries(new URL(request.url).searchParams),
-      )
+    const { stats: includeStats, ratings: includeRatings } = z
+      .object({
+        ratings: z.preprocess((val) => val === 'true', z.boolean()).optional(),
+        stats: z.preprocess((val) => val === 'true', z.boolean()).optional(),
+      })
+      .parse(Object.fromEntries(new URL(request.url).searchParams))
 
     const user = await prisma.user.findUnique({
       where: { id },
@@ -72,10 +78,10 @@ export async function GET(
           0,
         ),
         mostReviewedCategory: mostRepeatedCategory,
-      } as UserResponse['stats']
+      } as GetUserResponse['stats']
     }
 
-    return Response.json({ user, stats } as UserResponse)
+    return Response.json({ user, stats } as GetUserResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

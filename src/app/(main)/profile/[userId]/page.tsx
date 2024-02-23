@@ -1,23 +1,26 @@
-import { UserResponse } from '@/app/api/users/[id]/types'
 import { ProfileAvatar } from './components/ProfileAvatar'
 import { RatingList } from './components/RatingList'
 import { StatsList } from './components/StatsList'
 import { Book, Rating, User } from '@prisma/client'
 import { appApi } from '@/lib/axios'
+import { GetUserResponse } from '@/app/api/users/[id]/route'
 
 async function fetchUserData(userId: string) {
-  const { status, data } = await appApi.get<UserResponse>(`/users/${userId}`, {
-    params: {
-      ratings: true,
-      stats: true,
+  const { status, data } = await appApi.get<GetUserResponse>(
+    `/users/${userId}`,
+    {
+      params: {
+        ratings: true,
+        stats: true,
+      },
     },
-  })
+  )
 
   if (status !== 200) return
 
   return data as {
     user: User & { ratings: (Rating & { book: Book })[] }
-    stats: NonNullable<UserResponse['stats']>
+    stats: NonNullable<GetUserResponse['stats']>
   }
 }
 
