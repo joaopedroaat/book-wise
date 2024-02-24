@@ -1,14 +1,30 @@
-'use client'
-
+import { GetBooksResponse } from '@/app/api/books/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { usePopularBooks } from '@/services/BookWiseService/hooks/usePopularBooks'
-import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
+import { appApi } from '@/lib/axios'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
+import { Book, Category, Rating } from '@prisma/client'
 import Link from 'next/link'
 
-export function PopularBooks() {
-  const { data: books } = usePopularBooks()
+async function fetchPopularBooks() {
+  const { status, data } = await appApi.get<GetBooksResponse>('/books', {
+    params: {
+      perPage: 4,
+      orderBy: 'popular',
+      ratings: true,
+      categories: true,
+    },
+  })
+
+  if (status !== 200) return
+
+  return data.books as (Book & { ratings: Rating[]; categories: Category[] })[]
+}
+
+export async function PopularBooks() {
+  const popularBooks = await fetchPopularBooks()
+
+  if (!popularBooks) return <p>Failed to fetch popular books</p>
 
   return (
     <section className="w-full">
@@ -24,18 +40,20 @@ export function PopularBooks() {
       </header>
       <main>
         <ul className="flex flex-col gap-3">
-          {books && books.map((book) => <BookItem key={book.id} book={book} />)}
+          {popularBooks.map((book) => (
+            <BookItem key={book.id} book={book} />
+          ))}
         </ul>
       </main>
     </section>
   )
 }
 
-type BookItemProps = {
-  book: BookWithRatingsAndCategories
-}
-
-export function BookItem({ book }: BookItemProps) {
+export function BookItem({
+  book,
+}: {
+  book: Book & { ratings: Rating[]; categories: Category[] }
+}) {
   return (
     <li className="flex gap-4 bg-gray-700 p-5 rounded-lg">
       <BookOverlay book={book} width={64} height={94} />
