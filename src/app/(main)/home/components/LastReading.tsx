@@ -23,8 +23,8 @@ async function fetchLastReading() {
 
   if (status !== 200) return
 
-  return data.lastReading as NonNullable<
-    GetReadingResponse['lastReading'] & { book: Book }
+  return data.latestReading as NonNullable<
+    GetReadingResponse['latestReading'] & { book: Book }
   >
 }
 
