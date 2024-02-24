@@ -1,16 +1,35 @@
-'use client'
-
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { GetReadingResponse } from '@/app/api/readings/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { useUserReadings } from '@/services/BookWiseService/hooks/useUserReadings'
+import { appApi } from '@/lib/axios'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
-import { CaretRight } from '@phosphor-icons/react'
+import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
+import { Book } from '@prisma/client'
+import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 
-export function LastReading() {
-  const { data: readings } = useUserReadings()
+async function fetchLastReading() {
+  const session = await getServerSession(authOptions)
 
-  const lastReading = readings && readings[0]
+  if (!session?.user) return
+
+  const { data, status } = await appApi.get<GetReadingResponse>('/readings', {
+    params: {
+      userId: session.user.id,
+      book: true,
+    },
+  })
+
+  if (status !== 200) return
+
+  return data.lastReading as NonNullable<
+    GetReadingResponse['lastReading'] & { book: Book }
+  >
+}
+
+export async function LastReading() {
+  const lastReading = await fetchLastReading()
 
   return (
     lastReading && (
