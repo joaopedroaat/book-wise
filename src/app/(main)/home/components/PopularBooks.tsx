@@ -62,7 +62,7 @@ export function BookItem({
           <h1 className="font-bold text-gray-100">{book.name}</h1>
           <small className="text-gray-400">{book.author}</small>
         </div>
-        <StarRating type="book" book={book} size={14} />
+        <StarRating type="book" bookId={book.id} size={14} />
       </main>
     </li>
   )

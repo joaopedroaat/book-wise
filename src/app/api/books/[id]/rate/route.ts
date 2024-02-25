@@ -1,5 +1,8 @@
 import { prisma } from '@/lib/prisma'
-import { BookRateResponse } from '../../book.schema'
+
+export type BookRateResponse = {
+  rate: number
+}
 
 export async function GET(
   _request: Request,
@@ -7,18 +10,18 @@ export async function GET(
 ) {
   try {
     const bookId = params.id
-    const ratings = await prisma.rating.findMany({
+    const aggregation = await prisma.rating.aggregate({
       where: {
         bookId,
       },
+      _avg: {
+        rate: true,
+      },
     })
 
-    // If book was never rated returns -1
-    const rate = ratings.length
-      ? ratings.reduce((acc, rating) => rating.rate + acc, 0) / ratings.length
-      : -1
-
-    return Response.json({ rate } as BookRateResponse)
+    return Response.json({
+      rate: aggregation._avg.rate || 0,
+    } as BookRateResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
