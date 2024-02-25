@@ -1,12 +1,19 @@
 import NextAuth, { AuthOptions } from 'next-auth'
-
 import { prisma } from '@/lib/prisma'
-
 import { BookWiseAdapter } from '@/lib/next-auth/bookWiseAdapter'
-
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
-import { environment } from '@/utils/environment'
+import { z } from 'zod'
+
+const environment = z
+  .object({
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+    GITHUB_CLIENT_ID: z.string(),
+    GITHUB_CLIENT_SECRET: z.string(),
+    NEXTAUTH_SECRET: z.string(),
+  })
+  .parse(process.env)
 
 export const authOptions: AuthOptions = {
   adapter: BookWiseAdapter(prisma),

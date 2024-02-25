@@ -1,4 +1,4 @@
-'use_client'
+'use client'
 
 import { BookWiseService } from '@/services/BookWiseService'
 import { Star } from '@phosphor-icons/react/dist/ssr/Star'

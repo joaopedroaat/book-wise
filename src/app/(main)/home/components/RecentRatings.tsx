@@ -4,14 +4,14 @@ import { Avatar } from '@/components/Avatar'
 import { BookOverlay } from '@/components/BookOverlay'
 import { InfiniteScroll } from '@/components/InfiniteScroll'
 import { StarRating } from '@/components/StarRating'
-import { useRecentRatings } from '@/services/BookWiseService/hooks/useRecentRatings'
-import { RatingWithBookAndUser } from '@/services/BookWiseService/types'
+import { useRecentRatings } from '@/hooks/useRecentRatings'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
+import { Book, Rating, User } from '@prisma/client'
 import Link from 'next/link'
 
 export function RecentRatings() {
   const { data, fetchNextPage, hasNextPage } = useRecentRatings()
-  const ratings = data?.pages.flatMap((page) => page)
+  const ratings = data?.pages.flatMap((page) => page.data.ratings)
 
   return (
     <section className="flex flex-col gap-4">
@@ -27,13 +27,11 @@ export function RecentRatings() {
   )
 }
 
-type RatingItemProps = {
-  rating: RatingWithBookAndUser
-}
-
 function RatingItem({
   rating: { user, book, description, createdAt },
-}: RatingItemProps) {
+}: {
+  rating: Rating & { book: Book; user: User }
+}) {
   return (
     <li className="bg-gray-700 p-6 rounded-lg flex flex-col gap-8">
       <header className="flex flex-col items-center gap-3 md:flex-row md:justify-between md:items-start">

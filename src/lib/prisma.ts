@@ -1,10 +1,16 @@
-import { environment } from '@/utils/environment'
 import { PrismaClient } from '@prisma/client'
+import { z } from 'zod'
 
 declare global {
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined
 }
+
+const environment = z
+  .object({
+    NODE_ENV: z.string(),
+  })
+  .parse(process.env)
 
 let prisma: PrismaClient
 
