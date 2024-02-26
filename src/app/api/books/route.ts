@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { Book } from '@prisma/client'
 import { z } from 'zod'
+import { Genre } from '../categories/category.schema'
 
 export type GetBooksResponse = {
   page: number
@@ -14,12 +15,14 @@ export async function GET(request: Request) {
       page,
       perPage,
       orderBy,
+      category,
       ratings: includeRatings,
       categories: includeCategories,
     } = z
       .object({
         page: z.coerce.number().positive().default(1),
         perPage: z.coerce.number().positive().default(30),
+        category: z.nativeEnum(Genre).optional(),
         orderBy: z.literal('popular').optional(),
         ratings: z.preprocess((val) => val === 'true', z.boolean()).optional(),
         categories: z
@@ -31,6 +34,16 @@ export async function GET(request: Request) {
     const books = await prisma.book.findMany({
       skip: page * perPage - perPage,
       take: perPage,
+
+      where: {
+        categories: {
+          some: {
+            category: {
+              name: category,
+            },
+          },
+        },
+      },
       include: {
         ratings: includeRatings,
         categories: includeCategories,

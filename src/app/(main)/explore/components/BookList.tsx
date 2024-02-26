@@ -1,47 +1,42 @@
+import { GetBooksResponse } from '@/app/api/books/route'
 import { BookOverlay } from '@/components/BookOverlay'
-import { InfiniteScroll } from '@/components/InfiniteScroll'
 import { StarRating } from '@/components/StarRating'
-import { useBooks } from '@/services/BookWiseService/hooks/useBooks'
+import { appApi } from '@/lib/axios'
 import { Genre } from '@/services/BookWiseService/schemas'
-import { BookWithRatingsAndCategories } from '@/services/BookWiseService/types'
+import { useQuery } from 'react-query'
 
-type BookListProps = {
-  category?: Genre
-}
+export function BookList({ category }: { category?: Genre }) {
+  const { data: books } = useQuery(['books', category], async () => {
+    const { status, data } = await appApi.get<GetBooksResponse>('/books', {
+      params: {
+        category,
+      },
+    })
 
-export function BookList({ category }: BookListProps) {
-  const { data, fetchNextPage, hasNextPage } = useBooks({
-    category,
+    if (status !== 200) return
+
+    return data.books
   })
 
-  const books = data?.pages.flatMap((page) => page)
+  if (!books) return <p>Failed to fetch books.</p>
 
   return (
-    <>
-      <InfiniteScroll fetchMore={fetchNextPage} hasMore={!!hasNextPage}>
-        <ul className="flex flex-wrap gap-5 justify-center">
-          {books?.map((book) => <BookItem key={book.id} book={book} />)}
-        </ul>
-      </InfiniteScroll>
-    </>
-  )
-}
-
-type BookItemProps = {
-  book: BookWithRatingsAndCategories
-}
-
-export function BookItem({ book }: BookItemProps) {
-  return (
-    <div className="bg-gray-700 px-5 py-4 w-36 flex flex-col items-center sm:items-end gap-2 sm:flex sm:flex-row sm:gap-5 sm:w-80 rounded-lg">
-      <BookOverlay book={book} />
-      <div className="flex flex-col items-center gap-2 sm:items-start sm:justify-between h-full">
-        <div className="flex flex-col gap-0 text-center sm:text-left">
-          <h1 className="font-bold text-gray-100">{book.name}</h1>
-          <small className="text-gray-400">{book.author}</small>
+    <ul className="flex flex-wrap gap-5 justify-center">
+      {books?.map((book) => (
+        <div
+          key={book.id}
+          className="bg-gray-700 px-5 py-4 w-36 flex flex-col items-center sm:items-end gap-2 sm:flex sm:flex-row sm:gap-5 sm:w-80 rounded-lg"
+        >
+          <BookOverlay book={book} />
+          <div className="flex flex-col items-center gap-2 sm:items-start sm:justify-between h-full">
+            <div className="flex flex-col gap-0 text-center sm:text-left">
+              <h1 className="font-bold text-gray-100">{book.name}</h1>
+              <small className="text-gray-400">{book.author}</small>
+            </div>
+            <StarRating type="book" bookId={book.id} size={16} />
+          </div>
         </div>
-        <StarRating type="book" book={book} size={16} />
-      </div>
-    </div>
+      ))}
+    </ul>
   )
 }
