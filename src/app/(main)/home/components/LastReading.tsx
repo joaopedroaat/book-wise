@@ -1,12 +1,10 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { GetReadingResponse } from '@/app/api/readings/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { appApi } from '@/lib/axios'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
-import { Book } from '@prisma/client'
 import { getServerSession } from 'next-auth'
+import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 
 async function fetchLastReading() {
@@ -14,19 +12,19 @@ async function fetchLastReading() {
 
   if (!session?.user) return
 
-  const { data, status } = await appApi.get<GetReadingResponse>('/readings', {
-    params: {
+  const lastReading = await prisma.reading.findFirst({
+    where: {
       userId: session.user.id,
-      latest: true,
+    },
+    include: {
       book: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
   })
 
-  if (status !== 200) return
-
-  return data.latestReading as NonNullable<
-    GetReadingResponse['latestReading'] & { book: Book }
-  >
+  return lastReading
 }
 
 export async function LastReading() {
