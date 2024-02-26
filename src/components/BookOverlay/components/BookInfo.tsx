@@ -1,19 +1,29 @@
 import { BookCover } from '@/components/BookOverlay/components/BookCover'
 import { StarRating } from '@/components/StarRating'
-import { BookWiseService } from '@/services/BookWiseService'
-import { BookmarkSimple } from '@phosphor-icons/react'
 import { Book } from '@prisma/client'
+import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 import { useQuery } from 'react-query'
+import { prisma } from '@/lib/prisma'
 
-type BookInfoProps = {
-  book: Book
-}
+export function BookInfo({ book }: { book: Book }) {
+  const { data: categories } = useQuery(['book_categories', book], async () => {
+    const categoriesOnBookRelations = await prisma.categoriesOnBooks.findMany({
+      where: {
+        bookId: book.id,
+      },
+      select: {
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
 
-export function BookInfo({ book }: BookInfoProps) {
-  const { data: categories } = useQuery(
-    ['categories_on_book', book],
-    async () => await new BookWiseService().getCategories(book.id),
-  )
+    return categoriesOnBookRelations.map((relation) => relation.category.name)
+  })
+
+  if (!categories) return <p>Failed to load categories</p>
 
   return (
     <section className="bg-gray-700 rounded-lg w-full px-8 py-6">
@@ -25,7 +35,7 @@ export function BookInfo({ book }: BookInfoProps) {
             <small className="text-gray-300 text-xs">{book.author}</small>
           </div>
           <div>
-            <StarRating type="book" book={book} size={16} />
+            <StarRating type="book" bookId={book.id} size={16} />
             <small className="text-gray-400">3 avaliações</small>
           </div>
         </div>
@@ -36,13 +46,10 @@ export function BookInfo({ book }: BookInfoProps) {
           <div className="flex flex-col">
             <small className="text-gray-300">Categoria</small>
             <span className="text-sm font-bold">
-              {categories &&
-                categories.map(
-                  (category, index) =>
-                    `${category.name}${
-                      index !== categories.length - 1 ? ', ' : ''
-                    }`,
-                )}
+              {categories.map(
+                (category, index) =>
+                  `${category}${index !== categories.length - 1 ? ', ' : ''}`,
+              )}
             </span>
           </div>
         </div>

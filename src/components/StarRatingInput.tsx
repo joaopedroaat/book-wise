@@ -1,5 +1,3 @@
-'use client'
-
 import { Star } from '@phosphor-icons/react'
 
 type StarRatingInputProps = {

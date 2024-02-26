@@ -1,15 +1,14 @@
 import { Avatar } from '@/components/Avatar'
 import { StarRatingInput } from '@/components/StarRatingInput'
-import { useRatingsOnBookMutation } from '@/services/BookWiseService/hooks/useRatingsOnBookMutation'
+import { useRatingMutation } from '@/hooks/useRatingMutation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
-import { Book } from '@prisma/client'
 import { User } from 'next-auth'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 type RatingFormProps = {
-  book: Book
+  bookId: string
   user: User
   onAbort: () => void
 }
@@ -21,7 +20,7 @@ const ratingFormSchema = z.object({
 
 export type RatingFormSchema = z.infer<typeof ratingFormSchema>
 
-export function RatingForm({ book, user, onAbort }: RatingFormProps) {
+export function RatingForm({ bookId, user, onAbort }: RatingFormProps) {
   const {
     register,
     handleSubmit,
@@ -32,10 +31,10 @@ export function RatingForm({ book, user, onAbort }: RatingFormProps) {
     resolver: zodResolver(ratingFormSchema),
   })
 
-  const { postMutation } = useRatingsOnBookMutation()
+  const { postMutation } = useRatingMutation()
 
   async function handleFormSubmit(data: RatingFormSchema) {
-    postMutation.mutate({ ...data, bookId: book.id, userId: user.id })
+    postMutation.mutate({ ...data, bookId, userId: user.id })
     handleAbort()
   }
 

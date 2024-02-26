@@ -1,4 +1,4 @@
-import { useRatingsOnBookMutation } from '@/services/BookWiseService/hooks/useRatingsOnBookMutation'
+import { useRatingMutation } from '@/hooks/useRatingMutation'
 import { Check, Trash, X } from '@phosphor-icons/react'
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 
@@ -7,7 +7,7 @@ type DeleteButtonProps = {
 }
 
 export function DeleteButton({ ratingId }: DeleteButtonProps) {
-  const { deleteMutation } = useRatingsOnBookMutation()
+  const { deleteMutation } = useRatingMutation()
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger asChild>

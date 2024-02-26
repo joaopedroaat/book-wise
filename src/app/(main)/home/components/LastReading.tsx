@@ -10,7 +10,7 @@ import Link from 'next/link'
 async function fetchLastReading() {
   const session = await getServerSession(authOptions)
 
-  if (!session?.user) return
+  if (!session) return
 
   const lastReading = await prisma.reading.findFirst({
     where: {
@@ -37,7 +37,7 @@ export async function LastReading() {
       <header className="flex justify-between">
         <h2>Sua última leitura</h2>
         <Link
-          href="profile"
+          href="profike"
           className="flex items-center gap-2 text-purple-100 font-bold"
         >
           Ver todas <CaretRight size={16} weight="bold" />

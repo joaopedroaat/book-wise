@@ -8,7 +8,7 @@ declare global {
 
 const environment = z
   .object({
-    NODE_ENV: z.string(),
+    NODE_ENV: z.string().optional(),
   })
   .parse(process.env)
 

@@ -1,5 +1,9 @@
 import { prisma } from '@/lib/prisma'
-import { RatingResponse, ratingSchema } from '../rating.schema'
+import { Rating } from '@prisma/client'
+
+export type DeleteRatingResponse = {
+  rating: Rating
+}
 
 export async function DELETE(
   request: Request,
@@ -7,17 +11,9 @@ export async function DELETE(
 ) {
   try {
     const { id } = params
-    const ratingData = await prisma.rating.delete({ where: { id } })
+    const rating = await prisma.rating.delete({ where: { id } })
 
-    if (!ratingData)
-      return Response.json(
-        { error: `Rating ${id} not found.` },
-        { status: 404 },
-      )
-
-    const rating = ratingSchema.parse(ratingData)
-
-    return Response.json({ rating } as RatingResponse)
+    return Response.json({ rating } as DeleteRatingResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }

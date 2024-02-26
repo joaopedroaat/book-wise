@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { Header } from './components/Header'
 import { RatingList } from './components/RatingList'
-import { Book } from '@prisma/client'
 
-type RatingFeed = {
-  book: Book
+type RatingFeedProps = {
+  bookId: string
 }
 
-export function RatingFeed({ book }: RatingFeed) {
+export function RatingFeed({ bookId }: RatingFeedProps) {
   const [isRatingFormVisible, setIsRatingFormVisible] = useState(false)
 
   return (
@@ -15,7 +14,7 @@ export function RatingFeed({ book }: RatingFeed) {
       <Header onRateClick={() => setIsRatingFormVisible(true)} />
 
       <RatingList
-        book={book}
+        bookId={bookId}
         isRatingFormVisible={isRatingFormVisible}
         onAbort={() => setIsRatingFormVisible(false)}
       />

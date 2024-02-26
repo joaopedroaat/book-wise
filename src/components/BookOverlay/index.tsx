@@ -1,13 +1,12 @@
 'use client'
 
-import { useUserReadingsMutation } from '@/services/BookWiseService/hooks/useUserReadingsMutation'
-import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useSession } from 'next-auth/react'
 import { BookCover } from './components/BookCover'
 import { BookInfo } from './components/BookInfo'
-import { RatingFeed } from './components/RatingFeed'
 import { Book } from '@prisma/client'
+import { X } from '@phosphor-icons/react'
+import { upsertReading } from '@/actions/upsertReading'
+import { RatingFeed } from './components/RatingFeed'
 
 type BookOverlayProps = {
   book: Book
@@ -16,22 +15,10 @@ type BookOverlayProps = {
 }
 
 export function BookOverlay({ book, width, height }: BookOverlayProps) {
-  const { mutateAsync: userReadingsMutation } = useUserReadingsMutation()
-  const user = useSession().data?.user
-
-  async function handleUserReading() {
-    if (!user) return
-
-    const bookId = book.id
-    const userId = user.id
-
-    userReadingsMutation({ bookId, userId })
-  }
-
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button className="shrink-0" onClick={handleUserReading}>
+        <button className="shrink-0" onClick={() => upsertReading(book.id)}>
           <BookCover book={book} width={width} height={height} />
         </button>
       </Dialog.Trigger>
@@ -42,7 +29,7 @@ export function BookOverlay({ book, width, height }: BookOverlayProps) {
             <X size={24} />
           </Dialog.Close>
           <BookInfo book={book} />
-          <RatingFeed book={book} />
+          <RatingFeed bookId={book.id} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

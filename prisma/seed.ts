@@ -8,6 +8,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   await prisma.rating.deleteMany()
+  await prisma.reading.deleteMany()
   await prisma.user.deleteMany()
   await prisma.categoriesOnBooks.deleteMany()
   await prisma.category.deleteMany()
