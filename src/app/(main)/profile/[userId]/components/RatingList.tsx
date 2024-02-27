@@ -1,14 +1,23 @@
-'use client'
-
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
-import { Book, Rating } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 
-export function RatingList({
-  ratings,
-}: {
-  ratings: (Rating & { book: Book })[]
-}) {
+async function fetchUserRatings(userId: string) {
+  const ratings = await prisma.rating.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      book: true,
+    },
+  })
+
+  return ratings
+}
+
+export async function RatingList({ userId }: { userId: string }) {
+  const ratings = await fetchUserRatings(userId)
+
   return (
     <section>
       <h2 className="mb-4">Avaliações</h2>

@@ -12,23 +12,11 @@ async function fetchUserData(userId: string) {
     include: {
       ratings: {
         include: {
-          book: true,
-        },
-      },
-    },
-  })
-
-  const ratings = await prisma.rating.findMany({
-    where: { userId },
-    select: {
-      book: {
-        select: {
-          author: true,
-          categories: {
-            select: {
-              category: {
-                select: {
-                  name: true,
+          book: {
+            include: {
+              categories: {
+                include: {
+                  category: true,
                 },
               },
             },
@@ -38,26 +26,23 @@ async function fetchUserData(userId: string) {
     },
   })
 
-  const categoriesName = ratings.flatMap((rating) =>
-    rating.book.categories.map((categories) => categories.category.name),
+  const categories = user.ratings.flatMap((r) =>
+    r.book.categories.map((c) => c.category.name),
   )
 
   const mostRepeatedCategory = Object.entries(
-    categoriesName.reduce(
-      (acc: { [key: string]: number }, category: string) => {
-        acc[category] = (acc[category] || 0) + 1
-        return acc
-      },
-      {},
-    ),
+    categories.reduce((acc: { [key: string]: number }, category: string) => {
+      acc[category] = (acc[category] || 0) + 1
+      return acc
+    }, {}),
   ).reduce(
     (max, [category, count]) => (count > max[1] ? [category, count] : max),
     ['', 0],
   )[0]
 
   const stats = {
-    totalReviewedBooks: ratings.length,
-    totalReviewedAuthors: ratings.reduce(
+    totalReviewedBooks: user.ratings.length,
+    totalReviewedAuthors: user.ratings.reduce(
       (total, rating) => (rating.book.author ? total + 1 : total),
       0,
     ),
@@ -81,7 +66,7 @@ export default async function Profile({
   return (
     <div className="flex flex-col-reverse justify-between lg:flex-row gap-16">
       <section className="flex flex-col gap-6 flex-grow">
-        <RatingList ratings={user.ratings} />
+        <RatingList userId={userId} />
       </section>
       <aside className="flex flex-col items-center gap-16 basis-80 lg:border-l border-gray-700 px-14">
         <ProfileAvatar user={user} />
