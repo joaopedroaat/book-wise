@@ -30,7 +30,7 @@ async function fetchLastReading() {
 export async function LastReading() {
   const lastReading = await fetchLastReading()
 
-  if (!lastReading) return <p>Failed to fetch last reading</p>
+  if (!lastReading) return
 
   return (
     <section className="flex flex-col gap-4">
