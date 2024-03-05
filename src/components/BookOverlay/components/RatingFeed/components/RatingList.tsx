@@ -6,7 +6,9 @@ import { useSession } from 'next-auth/react'
 import { DeleteButton } from './DeleteButton'
 import { RatingForm } from './RatingForm'
 import { useQuery } from 'react-query'
-import { prisma } from '@/lib/prisma'
+import { appApi } from '@/lib/axios'
+import { Rating, User } from '@prisma/client'
+import { GetRatingsResponse } from '@/app/api/ratings/route'
 
 type RatingListProps = {
   bookId: string
@@ -19,16 +21,16 @@ export function RatingList({
   isRatingFormVisible,
   onAbort,
 }: RatingListProps) {
-  const { data: ratings, isLoading } = useQuery(
-    [bookId],
-    async () =>
-      await prisma.rating.findMany({
-        where: {
-          bookId,
-        },
-        include: { user: true },
-      }),
-  )
+  const { data: ratings, isLoading } = useQuery([bookId], async () => {
+    const { data } = await appApi.get<GetRatingsResponse>('/ratings', {
+      params: {
+        bookId,
+        user: true,
+      },
+    })
+
+    return data.ratings as (Rating & { user: User })[]
+  })
 
   const user = useSession().data?.user
 
@@ -55,7 +57,7 @@ export function RatingList({
             <div className="flex gap-4">
               <Avatar user={rating.user} />
               <div>
-                <p className="font-bold text-sm">{rating.rate}</p>
+                <p className="font-bold text-sm">{rating.user.name}</p>
                 <small className="text-gray-400">
                   {calculateDateDistance(new Date(rating.createdAt))}
                 </small>
