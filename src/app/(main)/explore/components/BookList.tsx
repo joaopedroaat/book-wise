@@ -2,10 +2,9 @@ import { GetBooksResponse } from '@/app/api/books/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { appApi } from '@/lib/axios'
-import { Genre } from '@/services/BookWiseService/schemas'
 import { useQuery } from 'react-query'
 
-export function BookList({ category }: { category?: Genre }) {
+export function BookList({ category }: { category?: string }) {
   const { data: books } = useQuery(['books', category], async () => {
     const { status, data } = await appApi.get<GetBooksResponse>('/books', {
       params: {

@@ -1,10 +1,11 @@
-import { useCategories } from '@/services/BookWiseService/hooks/useCategories'
-import { Genre } from '@/services/BookWiseService/schemas'
+import { GetCategoriesResponse } from '@/app/api/categories/route'
+import { appApi } from '@/lib/axios'
 import { HTMLProps } from 'react'
+import { useQuery } from 'react-query'
 
 type CategoryFormProps = HTMLProps<HTMLUListElement> & {
-  currentCategory: Genre | null
-  onCategoryChange: (category: Genre | null) => void
+  currentCategory: string | null
+  onCategoryChange: (category: string | null) => void
 }
 
 export function CategoryForm({
@@ -12,9 +13,12 @@ export function CategoryForm({
   onCategoryChange,
   ...props
 }: CategoryFormProps) {
-  const { data: categories } = useCategories()
+  const { data: categories } = useQuery('categories', async () => {
+    const { data } = await appApi.get<GetCategoriesResponse>('/categories')
+    return data.categories
+  })
 
-  function handleCategoryChange(category: Genre | null) {
+  function handleCategoryChange(category: string | null) {
     onCategoryChange(currentCategory !== category ? category : null)
   }
 

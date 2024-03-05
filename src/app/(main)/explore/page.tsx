@@ -1,14 +1,13 @@
 'use client'
 
-import { Genre } from '@/services/BookWiseService/schemas'
 import { useState } from 'react'
 import { BookList } from './components/BookList'
 import { CategoryForm } from './components/CategoryForm'
 
 export default function Explore() {
-  const [category, setCategory] = useState<Genre | undefined>(undefined)
+  const [category, setCategory] = useState<string | undefined>(undefined)
 
-  function handleCategoryChange(newCategory: Genre | null) {
+  function handleCategoryChange(newCategory: string | null) {
     setCategory(newCategory || undefined)
   }
 

@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { Book } from '@prisma/client'
 import { z } from 'zod'
-import { Genre } from '../categories/category.schema'
 
 export type GetBooksResponse = {
   page: number
@@ -22,7 +21,22 @@ export async function GET(request: Request) {
       .object({
         page: z.coerce.number().positive().default(1),
         perPage: z.coerce.number().positive().default(30),
-        category: z.nativeEnum(Genre).optional(),
+        category: z
+          .enum([
+            'Geek',
+            'Romance',
+            'Suspense',
+            'Ficção',
+            'Fábula',
+            'Terror',
+            'Alegoria',
+            'Arquitetura',
+            'Autoajuda',
+            'Programação',
+            'Aventura',
+            'Educação',
+          ])
+          .optional(),
         orderBy: z.literal('popular').optional(),
         ratings: z.preprocess((val) => val === 'true', z.boolean()).optional(),
         categories: z
