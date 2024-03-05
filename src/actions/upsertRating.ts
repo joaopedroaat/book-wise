@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma'
 import { Rating } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
 
 export async function upsertRating(rating: Omit<Rating, 'id' | 'createdAt'>) {
   const existingRating = await prisma.rating.findFirst({
@@ -23,6 +24,8 @@ export async function upsertRating(rating: Omit<Rating, 'id' | 'createdAt'>) {
       data: rating,
     })
   }
+
+  revalidatePath('/ratings')
 
   return newRating
 }

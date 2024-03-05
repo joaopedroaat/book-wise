@@ -21,17 +21,20 @@ export function RatingList({
   isRatingFormVisible,
   onAbort,
 }: RatingListProps) {
-  const { data: ratings, isLoading } = useQuery([bookId], async () => {
-    const { data } = await appApi.get<GetRatingsResponse>('/ratings', {
-      params: {
-        bookId,
-        user: true,
-        orderBy: 'date',
-      },
-    })
+  const { data: ratings, isLoading } = useQuery(
+    ['book_ratings', bookId],
+    async () => {
+      const { data } = await appApi.get<GetRatingsResponse>('/ratings', {
+        params: {
+          bookId,
+          user: true,
+          orderBy: 'date',
+        },
+      })
 
-    return data.ratings as (Rating & { user: User })[]
-  })
+      return data.ratings as (Rating & { user: User })[]
+    },
+  )
 
   const user = useSession().data?.user
 
