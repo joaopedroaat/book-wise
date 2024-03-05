@@ -26,6 +26,7 @@ export function RatingList({
       params: {
         bookId,
         user: true,
+        orderBy: 'date',
       },
     })
 
