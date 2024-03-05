@@ -3,24 +3,20 @@ import { StarRating } from '@/components/StarRating'
 import { Book } from '@prisma/client'
 import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 import { useQuery } from 'react-query'
-import { prisma } from '@/lib/prisma'
+import { appApi } from '@/lib/axios'
+import { GetCategoriesResponse } from '@/app/api/categories/route'
 
 export function BookInfo({ book }: { book: Book }) {
   const { data: categories } = useQuery(['book_categories', book], async () => {
-    const categoriesOnBookRelations = await prisma.categoriesOnBooks.findMany({
-      where: {
+    const { data } = await appApi.get<GetCategoriesResponse>('/categories', {
+      params: {
         bookId: book.id,
-      },
-      select: {
-        category: {
-          select: {
-            name: true,
-          },
-        },
       },
     })
 
-    return categoriesOnBookRelations.map((relation) => relation.category.name)
+    const categories = data.categories.map((category) => category.name)
+
+    return categories
   })
 
   if (!categories) return <p>Failed to load categories</p>
