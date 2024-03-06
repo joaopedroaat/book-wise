@@ -3,8 +3,6 @@ import { Rating } from '@prisma/client'
 import { z } from 'zod'
 
 export type GetRatingsResponse = {
-  page: number
-  perPage: number
   ratings: Rating[]
 }
 
