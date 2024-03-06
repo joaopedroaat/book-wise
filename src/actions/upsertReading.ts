@@ -3,7 +3,6 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
-import { revalidatePath } from 'next/cache'
 
 export async function upsertReading(bookId: string) {
   const session = await getServerSession(authOptions)
@@ -31,6 +30,4 @@ export async function upsertReading(bookId: string) {
         bookId,
       },
     })
-
-  revalidatePath('/readings')
 }
