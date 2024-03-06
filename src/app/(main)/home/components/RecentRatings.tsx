@@ -23,7 +23,13 @@ export function RecentRatings() {
 
   async function fetchRatings() {
     const response = await fetch(
-      `${appUrl}/ratings?page=${page}&perPage=${10}&book=true&user=true`,
+      `${appUrl}/ratings?${new URLSearchParams({
+        page: String(page),
+        perPage: '10',
+        user: 'true',
+        book: 'true',
+        orderBy: 'date',
+      })}`,
       {
         next: { tags: ['ratings'] },
       },
