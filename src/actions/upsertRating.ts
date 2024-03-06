@@ -2,12 +2,13 @@
 
 import { prisma } from '@/lib/prisma'
 import { Rating } from '@prisma/client'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 
 export async function upsertRating(rating: Omit<Rating, 'id' | 'createdAt'>) {
   const existingRating = await prisma.rating.findFirst({
     where: {
       userId: rating.userId,
+      bookId: rating.bookId,
     },
   })
 
@@ -25,7 +26,7 @@ export async function upsertRating(rating: Omit<Rating, 'id' | 'createdAt'>) {
     })
   }
 
-  revalidatePath('/ratings')
+  revalidateTag('ratings')
 
   return newRating
 }

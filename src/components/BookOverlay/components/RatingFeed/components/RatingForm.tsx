@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, X } from '@phosphor-icons/react'
 import { User } from 'next-auth'
 import { Controller, useForm } from 'react-hook-form'
-import { useMutation, useQueryClient } from 'react-query'
 import { z } from 'zod'
 
 type RatingFormProps = {
@@ -32,18 +31,8 @@ export function RatingForm({ bookId, user, onAbort }: RatingFormProps) {
     resolver: zodResolver(ratingFormSchema),
   })
 
-  const queryClient = useQueryClient()
-  const { mutateAsync: ratingMutation } = useMutation({
-    mutationFn: upsertRating,
-    onSuccess: () => {
-      console.log('Invalidated')
-      queryClient.invalidateQueries('book_ratings')
-      queryClient.invalidateQueries('recent_ratings')
-    },
-  })
-
   async function handleFormSubmit(data: RatingFormSchema) {
-    ratingMutation({ ...data, bookId, userId: user.id })
+    upsertRating({ ...data, bookId, userId: user.id })
     handleAbort()
   }
 
