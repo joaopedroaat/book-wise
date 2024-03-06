@@ -8,7 +8,6 @@ async function fetchUserData(userId: string) {
   const response = await fetch(`${appUrl}/users/${userId}`)
 
   if (!response.ok) {
-    console.log(response)
     throw new Error('Failed to fetch data user data.')
   }
 
