@@ -1,7 +1,6 @@
 import { ProfileAvatar } from './components/ProfileAvatar'
 import { RatingList } from './components/RatingList'
 import { StatsList } from './components/StatsList'
-import { GetUserResponse } from '@/app/api/users/[id]/route'
 import { prisma } from '@/lib/prisma'
 
 async function fetchUserData(userId: string) {
@@ -47,7 +46,7 @@ async function fetchUserData(userId: string) {
       0,
     ),
     mostReviewedCategory: mostRepeatedCategory,
-  } as GetUserResponse['stats']
+  }
 
   return { user, stats }
 }
