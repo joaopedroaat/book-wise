@@ -1,12 +1,21 @@
 import { deleteRating } from '@/actions/deleteRating'
 import { Check, Trash, X } from '@phosphor-icons/react'
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
+import { useMutation, useQueryClient } from 'react-query'
 
 type DeleteButtonProps = {
   ratingId: string
 }
 
 export function DeleteButton({ ratingId }: DeleteButtonProps) {
+  const queryClient = useQueryClient()
+  const { mutate: ratingMutation } = useMutation({
+    mutationFn: deleteRating,
+    onSuccess: () => {
+      queryClient.invalidateQueries('ratings')
+    },
+  })
+
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger asChild>
@@ -29,7 +38,7 @@ export function DeleteButton({ ratingId }: DeleteButtonProps) {
                 <Check
                   className="text-green-100"
                   size={24}
-                  onClick={() => deleteRating(ratingId)}
+                  onClick={() => ratingMutation(ratingId)}
                 />
               </button>
             </AlertDialog.Action>
