@@ -1,13 +1,14 @@
-import { appAPi } from '@/api/appApi'
+import { appUrl } from '@/api/appApi'
 import { ProfileAvatar } from './components/ProfileAvatar'
 import { RatingList } from './components/RatingList'
 import { StatsList } from './components/StatsList'
 import { GetUserResponse } from '@/app/api/users/[id]/route'
 
 async function fetchUserData(userId: string) {
-  const response = await fetch(`${appAPi}/users/${userId}`)
+  const response = await fetch(`${appUrl}/users/${userId}`)
 
   if (!response.ok) {
+    console.log(response)
     throw new Error('Failed to fetch data user data.')
   }
 

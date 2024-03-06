@@ -1,10 +1,11 @@
+import { appUrl } from '@/api/appApi'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { GetReadingResponse } from '@/app/api/readings/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import { getServerSession } from 'next-auth'
-import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 
 async function fetchLastReading() {
@@ -12,25 +13,23 @@ async function fetchLastReading() {
 
   if (!session) return
 
-  const lastReading = await prisma.reading.findFirst({
-    where: {
-      userId: session.user.id,
-    },
-    include: {
-      book: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
+  const response = await fetch(`${appUrl}/readings?userId=${session.user.id}`, {
+    next: { tags: ['reading'] },
   })
 
-  return lastReading
+  if (!response.ok) {
+    throw new Error('Failed to fetch latest reading.')
+  }
+
+  return (await response.json()) as GetReadingResponse
 }
 
 export async function LastReading() {
-  const lastReading = await fetchLastReading()
+  const data = await fetchLastReading()
 
-  if (!lastReading) return
+  if (!data) return
+
+  const { reading } = data
 
   return (
     <section className="flex flex-col gap-4">
@@ -45,22 +44,22 @@ export async function LastReading() {
       </header>
       <main>
         <div className="bg-gray-600 rounded-lg py-5 px-6 flex flex-col lg:flex-row items-center lg:items-start gap-6">
-          <BookOverlay book={lastReading.book} />
+          <BookOverlay book={reading.book} />
           <div className="flex flex-col">
             <div className="flex flex-col lg:flex-row lg:justify-between items-center">
               <span className="text-gray-300">
-                {calculateDateDistance(new Date(lastReading.createdAt))}
+                {calculateDateDistance(new Date(reading.createdAt))}
               </span>
-              <StarRating type="book" bookId={lastReading.bookId} size={16} />
+              <StarRating type="book" bookId={reading.bookId} size={16} />
             </div>
             <div className="flex flex-col text-center lg:text-start mt-3">
               <h1 className="font-bold text-lg text-gray-100">
-                {lastReading.book.name}
+                {reading.book.name}
               </h1>
-              <small className="text-gray-400">{lastReading.book.author}</small>
+              <small className="text-gray-400">{reading.book.author}</small>
             </div>
             <p className="mt-4 text-gray-300 text-center lg:text-start">
-              {lastReading.book.summary}
+              {reading.book.summary}
             </p>
           </div>
         </div>
