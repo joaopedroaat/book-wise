@@ -30,7 +30,7 @@ async function fetchLastReading() {
 export async function LastReading() {
   const data = await fetchLastReading()
 
-  if (!data) return
+  if (!data || !data.reading) return
 
   const { reading } = data
 
