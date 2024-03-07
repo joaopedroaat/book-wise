@@ -5,9 +5,10 @@ import { BookmarkSimple } from '@phosphor-icons/react/dist/ssr/BookmarkSimple'
 import { useQuery } from 'react-query'
 import { appApi } from '@/lib/axios'
 import { GetCategoriesResponse } from '@/app/api/categories/route'
+import { BookInfoSkeleton } from '@/components/skeletons/BookInfoSkeleton'
 
 export function BookInfo({ book }: { book: Book }) {
-  const { data: categories } = useQuery({
+  const { data: categories, isLoading } = useQuery({
     queryKey: [book],
     queryFn: async () => {
       const response = await appApi.get<GetCategoriesResponse>('/categories', {
@@ -23,6 +24,8 @@ export function BookInfo({ book }: { book: Book }) {
       return categories
     },
   })
+
+  if (isLoading) return <BookInfoSkeleton />
 
   return (
     <section className="bg-gray-700 rounded-lg w-full px-8 py-6">
