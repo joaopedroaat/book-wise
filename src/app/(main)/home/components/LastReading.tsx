@@ -1,4 +1,4 @@
-import { appUrl } from '@/api/appApi'
+import { endpoints } from '@/api/endpoints'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { GetReadingResponse } from '@/app/api/readings/route'
 import { BookOverlay } from '@/components/BookOverlay'
@@ -13,9 +13,12 @@ async function fetchLastReading() {
 
   if (!session) return
 
-  const response = await fetch(`${appUrl}/readings?userId=${session.user.id}`, {
-    next: { tags: ['reading'] },
-  })
+  const response = await fetch(
+    `${endpoints.bw}/readings?userId=${session.user.id}`,
+    {
+      next: { tags: ['reading'] },
+    },
+  )
 
   if (!response.ok) {
     throw new Error('Failed to fetch latest reading.')
