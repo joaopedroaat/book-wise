@@ -10,6 +10,7 @@ import { Rating, User } from '@prisma/client'
 import { GetRatingsResponse } from '@/app/api/ratings/route'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { RatingFeedSkeleton } from '@/components/skeletons/RatingFeedSkeleton'
 
 type RatingListProps = {
   bookId: string
@@ -28,6 +29,7 @@ export function RatingList({
     data: ratings,
     hasNextPage,
     fetchNextPage,
+    isLoading,
   } = useInfiniteQuery({
     queryKey: ['ratings', bookId],
     queryFn: async ({ pageParam = 1 }) => {
@@ -58,7 +60,9 @@ export function RatingList({
 
   const user = useSession().data?.user
 
-  if (!ratings) return <p>No ratings</p>
+  if (isLoading) return <RatingFeedSkeleton />
+
+  if (!ratings) return
 
   return (
     <ul className="flex flex-col gap-3">
