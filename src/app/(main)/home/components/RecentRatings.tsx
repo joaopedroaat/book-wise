@@ -4,6 +4,7 @@ import { GetRatingsResponse } from '@/app/api/ratings/route'
 import { Avatar } from '@/components/Avatar'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
+import { RecentRatingsSkeleton } from '@/components/skeletons/RecentRatingsSkeleton'
 import { appApi } from '@/lib/axios'
 import { calculateDateDistance } from '@/utils/calculateDateDistance'
 import { Book, Rating, User } from '@prisma/client'
@@ -18,7 +19,7 @@ type RatingWithBookAndUser = Rating & {
 }
 
 export function RecentRatings() {
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['ratings'],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await appApi.get<GetRatingsResponse>('/ratings', {
@@ -45,6 +46,10 @@ export function RecentRatings() {
       fetchNextPage()
     }
   })
+
+  if (isLoading) {
+    return <RecentRatingsSkeleton />
+  }
 
   return (
     <section className="flex flex-col gap-4">
