@@ -3,8 +3,6 @@ import { Book } from '@prisma/client'
 import { z } from 'zod'
 
 export type GetBooksResponse = {
-  page: number
-  perPage: number
   books: Book[]
 }
 
@@ -66,7 +64,7 @@ export async function GET(request: Request) {
         orderBy === 'popular' ? { ratings: { _count: 'desc' } } : undefined,
     })
 
-    return Response.json({ page, perPage, books } as GetBooksResponse)
+    return Response.json({ books } as GetBooksResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
