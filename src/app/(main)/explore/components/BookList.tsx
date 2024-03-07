@@ -1,6 +1,7 @@
 import { GetBooksResponse } from '@/app/api/books/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
+import { ExploreSkeleton } from '@/components/skeletons/ExploreSkeleton'
 import { appApi } from '@/lib/axios'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -11,6 +12,7 @@ export function BookList({ category }: { category?: string }) {
     data: books,
     hasNextPage,
     fetchNextPage,
+    isLoading,
   } = useInfiniteQuery({
     queryKey: ['books', category],
     queryFn: async ({ pageParam = 1 }) => {
@@ -34,6 +36,8 @@ export function BookList({ category }: { category?: string }) {
       fetchNextPage()
     }
   })
+
+  if (isLoading) return <ExploreSkeleton />
 
   if (!books) return
 
