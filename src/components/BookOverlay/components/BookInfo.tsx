@@ -7,19 +7,22 @@ import { appApi } from '@/lib/axios'
 import { GetCategoriesResponse } from '@/app/api/categories/route'
 
 export function BookInfo({ book }: { book: Book }) {
-  const { data: categories } = useQuery(['book_categories', book], async () => {
-    const { data } = await appApi.get<GetCategoriesResponse>('/categories', {
-      params: {
-        bookId: book.id,
-      },
-    })
+  const { data: categories } = useQuery({
+    queryKey: [book],
+    queryFn: async () => {
+      const response = await appApi.get<GetCategoriesResponse>('/categories', {
+        params: {
+          bookId: book.id,
+        },
+      })
 
-    const categories = data.categories.map((category) => category.name)
+      const categories = response.data.categories.map(
+        (category) => category.name,
+      )
 
-    return categories
+      return categories
+    },
   })
-
-  if (!categories) return <p>Failed to load categories</p>
 
   return (
     <section className="bg-gray-700 rounded-lg w-full px-8 py-6">
@@ -42,10 +45,14 @@ export function BookInfo({ book }: { book: Book }) {
           <div className="flex flex-col">
             <small className="text-gray-300">Categoria</small>
             <span className="text-sm font-bold">
-              {categories.map(
-                (category, index) =>
-                  `${category}${index !== categories.length - 1 ? ', ' : ''}`,
-              )}
+              {categories && categories.length
+                ? categories?.map(
+                    (category, index) =>
+                      `${category}${
+                        index !== categories.length - 1 ? ', ' : ''
+                      }`,
+                  )
+                : '-'}
             </span>
           </div>
         </div>
