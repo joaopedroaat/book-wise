@@ -31,10 +31,14 @@ export function LoginForm() {
   const LoginProvider = ({ provider }: { provider: Providers }) => (
     <li
       className={`bg-gray-600 flex items-center gap-5 py-5 px-6 rounded-lg cursor-pointer font-bold hover:bg-gray-500 ${
-        provider === selectedProvider && 'animate-pulse'
+        selectedProvider === provider && 'bg-gray-500'
       }`}
       onClick={() => handleSignIn(provider)}
     >
+      {selectedProvider === provider && (
+        <span className="p-3 rounded-full border-purple-100 border-t-transparent border-2 animate-spin" />
+      )}
+
       {provider === Providers.GITHUB && (
         <>
           <GithubIcon width={24} height={20} />
