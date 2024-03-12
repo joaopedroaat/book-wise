@@ -1,13 +1,13 @@
 'use client'
 
-import { SessionProvider } from 'next-auth/react'
 import { ReactNode } from 'react'
 import { TanstackProvider } from './TanstackProvider'
+import { NextAuthProvider } from './NextAuthProvider'
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <SessionProvider>
+    <NextAuthProvider>
       <TanstackProvider>{children}</TanstackProvider>
-    </SessionProvider>
+    </NextAuthProvider>
   )
 }
