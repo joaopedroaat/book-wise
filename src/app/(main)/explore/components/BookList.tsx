@@ -2,23 +2,26 @@ import { GetBooksResponse } from '@/app/api/books/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { ExploreSkeleton } from '@/components/skeletons/ExploreSkeleton'
+import { ExploreContext } from '@/contexts/ExploreContext'
 import { appApi } from '@/lib/axios'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from 'react-query'
 
 export function BookList({ category }: { category?: string }) {
+  const { query } = useContext(ExploreContext)
   const {
     data: books,
     hasNextPage,
     fetchNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ['books', category],
+    queryKey: [category, query],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await appApi.get<GetBooksResponse>('/books', {
         params: {
           page: pageParam,
+          query,
           category,
         },
       })

@@ -1,5 +1,7 @@
+import { ExploreContext } from '@/contexts/ExploreContext'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MagnifyingGlass } from '@phosphor-icons/react'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -10,12 +12,17 @@ const querySchema = z.object({
 type QueryForm = z.infer<typeof querySchema>
 
 export function SearchInput() {
+  const { query, setQuery } = useContext(ExploreContext)
+
   const { register, handleSubmit } = useForm<QueryForm>({
     resolver: zodResolver(querySchema),
+    defaultValues: {
+      query,
+    },
   })
 
   const onSubmit = (data: QueryForm) => {
-    console.log(data.query)
+    setQuery(data.query)
   }
 
   return (
