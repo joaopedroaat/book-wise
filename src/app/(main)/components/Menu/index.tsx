@@ -1,4 +1,3 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { BookWiseIcon } from '@/components/BookWiseIcon'
 import { Binoculars } from '@phosphor-icons/react/dist/ssr/Binoculars'
 import { ChartLineUp } from '@phosphor-icons/react/dist/ssr/ChartLineUp'
@@ -7,6 +6,7 @@ import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { MenuLink } from './components/MenuLink'
 import { SessionForm } from './components/SessionForm'
+import { authOptions } from '@/lib/next-auth/authOptions'
 
 export async function Menu() {
   const session = await getServerSession(authOptions)
