@@ -2,23 +2,65 @@
 
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import { GithubIcon } from '../../../components/GithubIcon'
 import { GoogleIcon } from '../../../components/GoogleIcon'
 import { GuestIcon } from '../../../components/GuestIcon'
+import { useState } from 'react'
+
+enum Providers {
+  GITHUB = 'github',
+  GOOGLE = 'google',
+  GUEST = 'guest',
+}
 
 export function LoginForm() {
-  const [provider, setProvider] = useState<'google' | 'github' | null>(null)
+  const [selectedProvider, setSelectedProvider] = useState<Providers | null>(
+    null,
+  )
 
   const router = useRouter()
 
-  function handleSignIn(account?: 'google' | 'github') {
-    setProvider(account || null)
+  function handleSignIn(account: Providers) {
+    setSelectedProvider(account)
 
-    if (account) signIn(account, { callbackUrl: '/home' })
+    if (account !== Providers.GUEST) signIn(account, { callbackUrl: '/home' })
 
     router.push('/home')
   }
+
+  const LoginProvider = ({ provider }: { provider: Providers }) => (
+    <li
+      className={`bg-gray-600 flex items-center gap-5 py-5 px-6 rounded-lg cursor-pointer font-bold hover:bg-gray-500 ${
+        selectedProvider === provider && 'bg-gray-500'
+      }`}
+      onClick={() => handleSignIn(provider)}
+    >
+      {selectedProvider === provider && (
+        <span className="p-3 rounded-full border-purple-100 border-t-transparent border-2 animate-spin" />
+      )}
+
+      {provider === Providers.GITHUB && (
+        <>
+          <GithubIcon width={24} height={20} />
+          Entrar com GitHub
+        </>
+      )}
+
+      {provider === Providers.GOOGLE && (
+        <>
+          <GoogleIcon width={24} height={20} />
+          Entrar com Google
+        </>
+      )}
+
+      {provider === Providers.GUEST && (
+        <>
+          <GuestIcon width={24} height={20} />
+          Acessar como visitante
+        </>
+      )}
+    </li>
+  )
 
   return (
     <div className="w-96">
@@ -28,24 +70,9 @@ export function LoginForm() {
       </header>
       <main>
         <ul className="list-none flex flex-col gap-5 p-0 [&>li]:bg-gray-600 [&>li]:flex [&>li]:items-center [&>li]:gap-5 [&>li]:py-5 [&>li]:px-6 [&>li]:rounded-lg [&>li]:cursor-pointer hover:[&>li]:bg-gray-500 [&>li]:font-bold">
-          <li
-            className={`${provider === 'google' && 'animate-pulse'}`}
-            onClick={() => handleSignIn('google')}
-          >
-            <GoogleIcon width={24} height={20} />
-            Entrar com Google
-          </li>
-          <li
-            className={`${provider === 'github' && 'animate-pulse'}`}
-            onClick={() => handleSignIn('github')}
-          >
-            <GithubIcon width={24} height={20} />
-            Entrar com GitHub
-          </li>
-          <li onClick={() => handleSignIn()}>
-            <GuestIcon width={24} height={20} />
-            Acessar como visitante
-          </li>
+          <LoginProvider provider={Providers.GOOGLE} />
+          <LoginProvider provider={Providers.GITHUB} />
+          <LoginProvider provider={Providers.GUEST} />
         </ul>
       </main>
     </div>

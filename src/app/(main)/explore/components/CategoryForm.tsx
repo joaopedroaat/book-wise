@@ -4,8 +4,8 @@ import { HTMLProps } from 'react'
 import { useQuery } from 'react-query'
 
 type CategoryFormProps = HTMLProps<HTMLUListElement> & {
-  currentCategory: string | null
-  onCategoryChange: (category: string | null) => void
+  currentCategory: string
+  onCategoryChange: (category: string) => void
 }
 
 export function CategoryForm({
@@ -18,29 +18,32 @@ export function CategoryForm({
     return data.categories
   })
 
-  function handleCategoryChange(category: string | null) {
-    onCategoryChange(currentCategory !== category ? category : null)
+  function handleCategoryChange(category: string) {
+    onCategoryChange(category)
   }
+
+  const Category = ({ name }: { name: string }) => (
+    <li
+      className={`px-4 py-1 border rounded-full cursor-pointer ${
+        currentCategory === name
+          ? 'text-gray-100 border-transparent bg-purple-200'
+          : 'text-purple-100 border-purple-100'
+      }`}
+      onClick={() => handleCategoryChange(name)}
+    >
+      {name}
+    </li>
+  )
 
   return (
     <ul className="flex items-center gap-3" {...props}>
       {categories &&
-        [null, ...categories.map((category) => category.name)].map(
-          (category) => (
-            <li key={category || 'todos'}>
-              <button
-                className={`px-4 py-1 border rounded-full ${
-                  currentCategory === category
-                    ? 'text-gray-100 border-transparent bg-purple-200'
-                    : 'text-purple-100 border-purple-100'
-                }`}
-                onClick={() => handleCategoryChange(category)}
-              >
-                {category || 'Todos'}
-              </button>
-            </li>
-          ),
-        )}
+        categories.map((category, index) => (
+          <>
+            {index === 0 && <Category key="Todos" name="Todos" />}
+            <Category key={category} name={category} />
+          </>
+        ))}
     </ul>
   )
 }

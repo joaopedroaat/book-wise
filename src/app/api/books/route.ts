@@ -13,6 +13,7 @@ export async function GET(request: Request) {
       perPage,
       orderBy,
       category,
+      query,
       ratings: includeRatings,
       categories: includeCategories,
     } = z
@@ -35,6 +36,7 @@ export async function GET(request: Request) {
             'Educação',
           ])
           .optional(),
+        query: z.string().optional(),
         orderBy: z.literal('popular').optional(),
         ratings: z.preprocess((val) => val === 'true', z.boolean()).optional(),
         categories: z
@@ -55,11 +57,17 @@ export async function GET(request: Request) {
             },
           },
         },
+        OR: [
+          { name: { contains: query, mode: 'insensitive' } },
+          { author: { contains: query, mode: 'insensitive' } },
+        ],
       },
+
       include: {
         ratings: includeRatings,
         categories: includeCategories,
       },
+
       orderBy:
         orderBy === 'popular' ? { ratings: { _count: 'desc' } } : undefined,
     })

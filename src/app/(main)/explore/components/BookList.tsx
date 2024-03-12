@@ -2,24 +2,27 @@ import { GetBooksResponse } from '@/app/api/books/route'
 import { BookOverlay } from '@/components/BookOverlay'
 import { StarRating } from '@/components/StarRating'
 import { ExploreSkeleton } from '@/components/skeletons/ExploreSkeleton'
+import { ExploreContext } from '@/contexts/ExploreContext'
 import { appApi } from '@/lib/axios'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from 'react-query'
 
-export function BookList({ category }: { category?: string }) {
+export function BookList({ category }: { category: string | null }) {
+  const { query } = useContext(ExploreContext)
   const {
     data: books,
     hasNextPage,
     fetchNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ['books', category],
+    queryKey: [category, query],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await appApi.get<GetBooksResponse>('/books', {
         params: {
           page: pageParam,
-          category,
+          query,
+          category: category === 'Todos' ? null : category,
         },
       })
 
@@ -39,7 +42,12 @@ export function BookList({ category }: { category?: string }) {
 
   if (isLoading) return <ExploreSkeleton />
 
-  if (!books) return
+  if (!books?.pages[0].books.length)
+    return (
+      <p className="text-gray-400 text-lg text-center font-thin">
+        Não encontramos nenhum livro
+      </p>
+    )
 
   return (
     <ul className="flex flex-wrap gap-5 justify-center">
