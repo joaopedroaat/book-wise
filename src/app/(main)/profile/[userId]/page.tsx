@@ -5,7 +5,9 @@ import { StatsList } from './components/StatsList'
 import { GetUserResponse } from '@/app/api/users/[id]/route'
 
 async function fetchUserData(userId: string) {
-  const response = await fetch(`${endpoints.bw}/users/${userId}`)
+  const response = await fetch(`${endpoints.bw}/users/${userId}`, {
+    next: { tags: ['ratings'] },
+  })
 
   if (!response.ok) {
     throw new Error('Failed to fetch data user data.')
