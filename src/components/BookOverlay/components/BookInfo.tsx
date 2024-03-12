@@ -17,11 +17,7 @@ export function BookInfo({ book }: { book: Book }) {
         },
       })
 
-      const categories = response.data.categories.map(
-        (category) => category.name,
-      )
-
-      return categories
+      return response.data.categories
     },
   })
 

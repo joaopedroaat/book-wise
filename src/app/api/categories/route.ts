@@ -1,9 +1,8 @@
 import { prisma } from '@/lib/prisma'
-import { Category } from '@prisma/client'
 import { z } from 'zod'
 
 export type GetCategoriesResponse = {
-  categories: Category[]
+  categories: string[]
 }
 
 export async function GET(request: Request) {
@@ -14,17 +13,20 @@ export async function GET(request: Request) {
       })
       .parse(Object.fromEntries(new URL(request.url).searchParams))
 
-    const categories = await prisma.category.findMany({
+    const categoryOnBook = await prisma.categoriesOnBooks.findMany({
       where: {
-        books: {
-          every: {
-            bookId,
-          },
-        },
+        bookId,
+      },
+      include: {
+        category: true,
       },
     })
 
-    return Response.json({ categories } as GetCategoriesResponse)
+    const categories = categoryOnBook.map((c) => c.category.name)
+
+    return Response.json({
+      categories,
+    } as GetCategoriesResponse)
   } catch (error) {
     return Response.json({ error }, { status: 500 })
   }
