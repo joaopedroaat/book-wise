@@ -13,16 +13,22 @@ export async function GET(request: Request) {
       })
       .parse(Object.fromEntries(new URL(request.url).searchParams))
 
-    const categoryOnBook = await prisma.categoriesOnBooks.findMany({
-      where: {
-        bookId,
-      },
-      include: {
-        category: true,
-      },
-    })
+    let categories, data
 
-    const categories = categoryOnBook.map((c) => c.category.name)
+    if (bookId) {
+      data = await prisma.categoriesOnBooks.findMany({
+        where: {
+          bookId,
+        },
+        include: {
+          category: true,
+        },
+      })
+      categories = data.map((c) => c.category.name)
+    } else {
+      data = await prisma.category.findMany()
+      categories = data.map((c) => c.name)
+    }
 
     return Response.json({
       categories,

@@ -4,12 +4,11 @@ import { StarRating } from '@/components/StarRating'
 import { ExploreSkeleton } from '@/components/skeletons/ExploreSkeleton'
 import { ExploreContext } from '@/contexts/ExploreContext'
 import { appApi } from '@/lib/axios'
-import { Books } from '@phosphor-icons/react'
 import { useContext, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from 'react-query'
 
-export function BookList({ category }: { category?: string }) {
+export function BookList({ category }: { category: string | null }) {
   const { query } = useContext(ExploreContext)
   const {
     data: books,
@@ -23,7 +22,7 @@ export function BookList({ category }: { category?: string }) {
         params: {
           page: pageParam,
           query,
-          category,
+          category: category === 'Todos' ? null : category,
         },
       })
 
