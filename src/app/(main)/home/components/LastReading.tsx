@@ -36,15 +36,7 @@ export async function LastReading() {
 
   return (
     <section className="flex flex-col gap-4">
-      <header className="flex justify-between">
-        <h2>Sua última leitura</h2>
-        <Link
-          href="profike"
-          className="flex items-center gap-2 text-purple-100 font-bold"
-        >
-          Ver todas <CaretRight size={16} weight="bold" />
-        </Link>
-      </header>
+      <h2>Sua última leitura</h2>
       <main>
         <div className="bg-gray-600 rounded-lg py-5 px-6 flex flex-col lg:flex-row items-center lg:items-start gap-6">
           <BookOverlay book={reading.book} />
