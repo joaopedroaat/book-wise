@@ -24,7 +24,7 @@ export function PageTitle() {
         </Title>
       )}
       {path.includes('explore') && (
-        <div className="flex items-center justify-between ">
+        <div className="flex flex-col gap-4 md:flex-row items-center justify-between">
           <Title>
             <Binoculars size={iconSize} /> Explorar
           </Title>
