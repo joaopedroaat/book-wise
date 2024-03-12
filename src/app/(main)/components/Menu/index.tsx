@@ -14,11 +14,14 @@ export async function Menu() {
   const isAuthenticated = !!session?.user
 
   return (
-    <div className="flex justify-between items-center md:flex-col h-full gap-5">
-      <Link href="/home" className="md:mb-16">
+    <div className="relative flex flex-wrap justify-between items-center md:flex-col h-full gap-5">
+      <Link
+        href="/home"
+        className="w-full flex justify-center md:flex-none md:mb-16"
+      >
         <BookWiseIcon />
       </Link>
-      <nav className="flex text-sm md:text-lg gap-4 md:gap-10 items-center md:items-start md:flex-col md:mb-auto ">
+      <nav className="flex w-full justify-center md:w-auto text-sm md:text-lg gap-4 md:gap-10 items-center md:items-start md:flex-col md:mb-auto ">
         <MenuLink href="/home">
           <ChartLineUp size="1.5em" />
           Início
@@ -36,7 +39,9 @@ export async function Menu() {
           </MenuLink>
         )}
       </nav>
-      <SessionForm />
+      <div className="absolute top-0 right-0 md:static">
+        <SessionForm />
+      </div>
     </div>
   )
 }
